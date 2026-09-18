@@ -1,0 +1,10 @@
+{
+	"chatterbox.title": "ChatterBox",
+	"chatterbox.folder.all": "All",
+	"chatterbox.folder.chat": "Chat",
+	"chatterbox.folder.dm": "DMs",
+	"chatterbox.folder.server": "Server",
+	"chatterbox.folder.command": "Commands",
+	"chatterbox.folder.death": "Deaths",
+	"chatterbox.folder.pinned": "Pinned"
+}

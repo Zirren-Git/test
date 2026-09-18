@@ -1,0 +1,10 @@
+{
+	"required": true,
+	"package": "io.github.zirren.chatterbox.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"minVersion": "0.8",
+	"client": [],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
