@@ -1,0 +1,34 @@
+Compiled from "ChatListener.java"
+public class net.minecraft.client.multiplayer.chat.ChatListener {
+  private static final net.minecraft.network.chat.Component CHAT_VALIDATION_ERROR;
+  private final net.minecraft.client.Minecraft minecraft;
+  private final java.util.Deque<net.minecraft.client.multiplayer.chat.ChatListener$Message> delayedMessageQueue;
+  private long messageDelay;
+  private long previousMessageTime;
+  public net.minecraft.client.multiplayer.chat.ChatListener(net.minecraft.client.Minecraft);
+  public void tick();
+  public void setMessageDelay(double);
+  public void acceptNextDelayedMessage();
+  public long queueSize();
+  public void flushQueue();
+  public boolean removeFromDelayedMessageQueue(net.minecraft.network.chat.MessageSignature);
+  private boolean willDelayMessages();
+  private void handleMessage(net.minecraft.network.chat.MessageSignature, java.util.function.BooleanSupplier);
+  public void handlePlayerChatMessage(net.minecraft.network.chat.PlayerChatMessage, com.mojang.authlib.GameProfile, net.minecraft.network.chat.ChatType$Bound);
+  public void handleChatMessageError(java.util.UUID, net.minecraft.network.chat.MessageSignature, net.minecraft.network.chat.ChatType$Bound);
+  public void handleDisguisedChatMessage(net.minecraft.network.chat.Component, net.minecraft.network.chat.ChatType$Bound);
+  private boolean showMessageToPlayer(net.minecraft.network.chat.ChatType$Bound, net.minecraft.network.chat.PlayerChatMessage, net.minecraft.network.chat.Component, com.mojang.authlib.GameProfile, boolean, java.time.Instant);
+  private void narrateChatMessage(net.minecraft.network.chat.ChatType$Bound, net.minecraft.network.chat.Component);
+  private net.minecraft.client.multiplayer.chat.ChatTrustLevel evaluateTrustLevel(net.minecraft.network.chat.PlayerChatMessage, net.minecraft.network.chat.Component, java.time.Instant);
+  private void logPlayerMessage(net.minecraft.network.chat.PlayerChatMessage, com.mojang.authlib.GameProfile, net.minecraft.client.multiplayer.chat.ChatTrustLevel);
+  private void logSystemMessage(net.minecraft.network.chat.Component, java.time.Instant);
+  public void handleSystemMessage(net.minecraft.network.chat.Component, boolean);
+  public void handleOverlay(net.minecraft.network.chat.Component);
+  private java.util.UUID guessChatUUID(net.minecraft.network.chat.Component);
+  private boolean isSenderLocalPlayer(java.util.UUID);
+  private boolean lambda$handleDisguisedChatMessage$0(net.minecraft.network.chat.ChatType$Bound, net.minecraft.network.chat.Component, java.time.Instant);
+  private boolean lambda$handleChatMessageError$0(net.minecraft.network.chat.MessageSignature, java.util.UUID, net.minecraft.network.chat.ChatType$Bound);
+  private boolean lambda$handlePlayerChatMessage$0(net.minecraft.network.chat.ChatType$Bound, net.minecraft.network.chat.PlayerChatMessage, net.minecraft.network.chat.Component, com.mojang.authlib.GameProfile, boolean, java.time.Instant);
+  private static boolean lambda$removeFromDelayedMessageQueue$0(net.minecraft.network.chat.MessageSignature, net.minecraft.client.multiplayer.chat.ChatListener$Message);
+  static {};
+}
