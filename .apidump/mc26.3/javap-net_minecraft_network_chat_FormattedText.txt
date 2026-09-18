@@ -1,0 +1,14 @@
+Compiled from "FormattedText.java"
+public interface net.minecraft.network.chat.FormattedText {
+  public static final java.util.Optional<net.minecraft.util.Unit> STOP_ITERATION;
+  public static final net.minecraft.network.chat.FormattedText EMPTY;
+  public abstract <T> java.util.Optional<T> visit(net.minecraft.network.chat.FormattedText$ContentConsumer<T>);
+  public abstract <T> java.util.Optional<T> visit(net.minecraft.network.chat.FormattedText$StyledContentConsumer<T>, net.minecraft.network.chat.Style);
+  public static net.minecraft.network.chat.FormattedText of(java.lang.String);
+  public static net.minecraft.network.chat.FormattedText of(java.lang.String, net.minecraft.network.chat.Style);
+  public static net.minecraft.network.chat.FormattedText composite(net.minecraft.network.chat.FormattedText...);
+  public static net.minecraft.network.chat.FormattedText composite(java.util.List<? extends net.minecraft.network.chat.FormattedText>);
+  public default java.lang.String getString();
+  private static java.util.Optional lambda$getString$0(java.lang.StringBuilder, java.lang.String);
+  static {};
+}

@@ -1,0 +1,18 @@
+Compiled from "OptionsList.java"
+public class net.minecraft.client.gui.components.OptionsList extends net.minecraft.client.gui.components.ContainerObjectSelectionList<net.minecraft.client.gui.components.OptionsList$AbstractEntry> {
+  private static final int BIG_BUTTON_WIDTH;
+  private static final int DEFAULT_ITEM_HEIGHT;
+  private final net.minecraft.client.gui.screens.options.OptionsSubScreen screen;
+  public net.minecraft.client.gui.components.OptionsList(net.minecraft.client.Minecraft, int, net.minecraft.client.gui.screens.options.OptionsSubScreen);
+  public void addBig(net.minecraft.client.OptionInstance<?>);
+  public void addBig(net.minecraft.client.gui.components.AbstractWidget);
+  public void addSmall(net.minecraft.client.OptionInstance<?>...);
+  public void addSmall(java.util.List<net.minecraft.client.gui.components.AbstractWidget>);
+  public void addSmall(net.minecraft.client.gui.components.AbstractWidget, net.minecraft.client.gui.components.AbstractWidget);
+  public void addSmall(net.minecraft.client.gui.components.AbstractWidget, net.minecraft.client.OptionInstance<?>, net.minecraft.client.gui.components.AbstractWidget);
+  public void addHeader(net.minecraft.network.chat.Component);
+  public int getRowWidth();
+  public net.minecraft.client.gui.components.AbstractWidget findOption(net.minecraft.client.OptionInstance<?>);
+  public void applyUnsavedChanges();
+  public void resetOption(net.minecraft.client.OptionInstance<?>);
+}
