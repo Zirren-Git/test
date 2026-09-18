@@ -1,0 +1,13 @@
+Compiled from "CommandHistory.java"
+public class net.minecraft.client.CommandHistory {
+  private static final org.slf4j.Logger LOGGER;
+  private static final int MAX_PERSISTED_COMMAND_HISTORY;
+  private static final java.lang.String PERSISTED_COMMANDS_FILE_NAME;
+  private final java.nio.file.Path commandsPath;
+  private final net.minecraft.util.ArrayListDeque<java.lang.String> lastCommands;
+  public net.minecraft.client.CommandHistory(java.nio.file.Path);
+  public void addCommand(java.lang.String);
+  private void save();
+  public java.util.Collection<java.lang.String> history();
+  static {};
+}
