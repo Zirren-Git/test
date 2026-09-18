@@ -50,7 +50,8 @@ jobs:
       - name: Locate jars
         run: |
           set -x
-          JAR=""; SRCS=""
+          JAR=""
+          SRCS=""
           for j in $(find "$HOME/.gradle/caches" -name "*.jar" 2>/dev/null); do
             case "$j" in *sources*) continue;; esac
             if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.class"; then JAR="$j"; fi
@@ -63,17 +64,21 @@ jobs:
           echo "JAR=$JAR"
           echo "SRCS=$SRCS"
 
-      - name: Chat/screen class listing
+      - name: Dump
+        env:
+          OUT: .apidump/mc${{ matrix.mc }}
         run: |
-          echo "===== classes matching Chat ====="
-          unzip -l "$JAR" | grep -iE "chat" | awk '{print $4}' | grep "\.class" | grep -v '\$' | sort | head -80
-          echo "===== screens ====="
-          unzip -l "$JAR" | grep -E "net/minecraft/client/gui/screens/.*Screen.class" | awk '{print $4}' | grep -v '\$' | head -60
-          echo "===== input ====="
-          unzip -l "$JAR" | grep -E "net/minecraft/client/input/.*\.class" | awk '{print $4}' | grep -v '\$' | head -40
+          mkdir -p "$OUT"
 
-      - name: javap signatures
-        run: |
+          {
+            echo "===== classes matching Chat ====="
+            unzip -l "$JAR" | grep -iE "chat" | awk '{print $4}' | grep "\.class" | grep -v '\$' | sort | head -80
+            echo "===== screens ====="
+            unzip -l "$JAR" | grep -E "net/minecraft/client/gui/screens/.*Screen.class" | awk '{print $4}' | grep -v '\$' | head -60
+            echo "===== input ====="
+            unzip -l "$JAR" | grep -E "net/minecraft/client/input/.*\.class" | awk '{print $4}' | grep -v '\$' | head -40
+          } > "$OUT/classes.txt" 2>&1
+
           for c in \
             net.minecraft.client.Minecraft \
             net.minecraft.client.Gui \
@@ -116,12 +121,10 @@ jobs:
             net.minecraft.ChatFormatting \
             net.minecraft.world.level.biome.Biome \
             ; do
-            echo "===================== javap $c ====================="
-            javap -p -cp "$JAR" "$c" 2>&1 | head -120 || true
+            n=$(echo "$c" | tr '$' '_' | tr '.' '_')
+            javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true
           done
 
-      - name: Key sources
-        run: |
           for f in \
             net/minecraft/client/gui/components/ChatComponent.java \
             net/minecraft/client/gui/components/GuiMessage.java \
@@ -136,12 +139,10 @@ jobs:
             net/minecraft/client/gui/components/EditBox.java \
             net/minecraft/client/multiplayer/chat/ChatListener.java \
             ; do
-            echo "===================== SOURCE $f ====================="
-            unzip -p "$SRCS" "$f" 2>/dev/null | sed -n '1,700p' || echo "(not found)"
+            n=$(basename "$f" .java | tr '$' '_')
+            unzip -p "$SRCS" "$f" > "$OUT/src-$n.java" 2>/dev/null || echo "(not found)" > "$OUT/src-$n.java"
           done
 
-      - name: GuiGraphicsExtractor + screens signatures only
-        run: |
           for f in \
             net/minecraft/client/gui/GuiGraphicsExtractor.java \
             net/minecraft/client/gui/screens/Screen.java \
@@ -154,9 +155,23 @@ jobs:
             net/minecraft/client/gui/Font.java \
             net/minecraft/client/StringSplitter.java \
             ; do
-            echo "===================== SIGS $f ====================="
-            unzip -p "$SRCS" "$f" 2>/dev/null | grep -E "^\s*(public|protected|private).*\(" | head -150 || echo "(not found)"
+            n=$(basename "$f" .java | tr '$' '_')
+            unzip -p "$SRCS" "$f" 2>/dev/null | grep -E "^\s*(public|protected|private).*\(" > "$OUT/sigs-$n.txt" || echo "(not found)" > "$OUT/sigs-$n.txt"
           done
+
+          ls -la "$OUT"
+
+      - name: Commit dump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .apidump || true
+          if git diff --cached --quiet; then
+            echo "no dump changes"
+          else
+            git commit -m "apidump: MC ${{ matrix.mc }} [skip ci]"
+            git push
+          fi
 
   build:
     name: Build MC ${{ matrix.mc }} / loader ${{ matrix.loader }}
@@ -197,14 +212,11 @@ jobs:
             -Pmodmenu_version=$MODMENU \
             -Ploader_version=$LOADER
 
-      - name: Rename artifacts
+      - name: Collect artifacts
         run: |
           mkdir -p dist
           ls build/libs
-          for f in build/libs/*.jar; do
-            base=$(basename "$f" | sed "s/^chatterbox-//")
-            cp "$f" "dist/chatterbox-${base}"
-          done
+          cp build/libs/*.jar dist/
           ls dist
 
       - uses: actions/upload-artifact@v4
