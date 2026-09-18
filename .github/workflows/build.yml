@@ -205,12 +205,23 @@ jobs:
 
       - name: Build
         run: |
-          ./gradlew build --stacktrace \
-            -Pminecraft_version=$MC \
-            -Pminecraft_dep=$DEP \
-            -Pfabric_api_version=$API \
-            -Pmodmenu_version=$MODMENU \
-            -Ploader_version=$LOADER
+          set -o pipefail
+          if ! ./gradlew build --stacktrace \
+              -Pminecraft_version=$MC \
+              -Pminecraft_dep=$DEP \
+              -Pfabric_api_version=$API \
+              -Pmodmenu_version=$MODMENU \
+              -Ploader_version=$LOADER > build.log 2>&1; then
+            echo "BUILD FAILED - capturing errors"
+            mkdir -p .apidump
+            { echo "=== build errors: MC $MC loader $LOADER ==="; grep -E "error:|warning: \[|\.java:[0-9]+:[0-9]+" build.log | head -200; echo "=== tail ==="; tail -n 120 build.log; } > ".apidump/build-errors.txt"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .apidump/build-errors.txt || true
+            git commit -m "build errors: MC $MC loader $LOADER [skip ci]" || true
+            git push || true
+            exit 1
+          fi
 
       - name: Collect artifacts
         run: |
