@@ -1,1 +1,84 @@
-(not found)
+	private static final Identifier MENU_LIST_BACKGROUND = Identifier.withDefaultNamespace("textures/gui/menu_list_background.png");
+	public static final Identifier INWORLD_MENU_LIST_BACKGROUND = Identifier.withDefaultNamespace("textures/gui/inworld_menu_list_background.png");
+	private final List<E> children = new AbstractSelectionList.TrackedList();
+	public AbstractSelectionList(final Minecraft minecraft, final int width, final int height, final int y, final int defaultEntryHeight) {
+	public @Nullable E getSelected() {
+	public void setSelected(final @Nullable E selected) {
+	public @Nullable E getFocused() {
+	public final List<E> children() {
+	protected void sort(final Comparator<E> comparator) {
+	protected void swap(final int firstIndex, final int secondIndex) {
+	protected void clearEntries() {
+	protected void clearEntriesExcept(final E exception) {
+	public void replaceEntries(final Collection<E> newChildren) {
+	private int getFirstEntryY() {
+	public int getNextY() {
+	protected int addEntry(final E entry) {
+	protected int addEntry(final E entry, final int height) {
+	protected void addEntryToTop(final E entry) {
+	protected void addEntryToTop(final E entry, final int height) {
+	private void repositionEntries() {
+	protected void removeEntryFromTop(final E entry) {
+	protected int getItemCount() {
+	protected boolean entriesCanBeSelected() {
+	protected final @Nullable E getEntryAtPosition(final double posX, final double posY) {
+	public void updateSize(final int width, final HeaderAndFooterLayout layout) {
+	public void updateSizeAndPosition(final int width, final int height, final int y) {
+	public void updateSizeAndPosition(final int width, final int height, final int x, final int y) {
+	protected int contentHeight() {
+	public void extractWidgetRenderState(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+	protected void extractListSeparators(final GuiGraphicsExtractor graphics) {
+	protected void extractListBackground(final GuiGraphicsExtractor graphics) {
+	protected void enableScissor(final GuiGraphicsExtractor graphics) {
+	protected void scrollToEntry(final E entry) {
+	protected void centerScrollOn(final E entry) {
+	private void scroll(final int amount) {
+	public void setScrollAmount(final double scrollAmount) {
+	protected int scrollBarX() {
+	public Optional<GuiEventListener> getChildAt(final double x, final double y) {
+	public void setFocused(final @Nullable GuiEventListener focused) {
+	protected @Nullable E nextEntry(final ScreenDirection dir) {
+	protected @Nullable E nextEntry(final ScreenDirection dir, final Predicate<E> canSelect) {
+	protected @Nullable E nextEntry(final ScreenDirection dir, final Predicate<E> canSelect, final @Nullable E startEntry) {
+	protected void extractListItems(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+	protected void extractItem(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a, final E entry) {
+	protected void extractSelection(final GuiGraphicsExtractor graphics, final E entry, final int outlineColor) {
+	public int getRowLeft() {
+	public int getRowRight() {
+	public int getRowTop(final int row) {
+	public int getRowBottom(final int row) {
+	public int getRowWidth() {
+	public NarratableEntry.NarrationPriority narrationPriority() {
+	protected void removeEntries(final List<E> entries) {
+	protected void removeEntry(final E entry) {
+	protected @Nullable E getHovered() {
+	private void bindEntryToSelf(final AbstractSelectionList.Entry<E> entry) {
+	protected void narrateListElementPosition(final NarrationElementOutput output, final E element) {
+		public void setFocused(final boolean focused) {
+		public boolean isFocused() {
+		public abstract void extractContent(final GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a);
+		public boolean isMouseOver(final double mx, final double my) {
+		public void setX(final int x) {
+		public void setY(final int y) {
+		public void setWidth(final int width) {
+		public void setHeight(final int height) {
+		public int getContentX() {
+		public int getContentY() {
+		public int getContentHeight() {
+		public int getContentYMiddle() {
+		public int getContentBottom() {
+		public int getContentWidth() {
+		public int getContentXMiddle() {
+		public int getContentRight() {
+		public int getX() {
+		public int getY() {
+		public int getWidth() {
+		public int getHeight() {
+		public void visitWidgets(final Consumer<AbstractWidget> widgetVisitor) {
+		public ScreenRectangle getRectangle() {
+		private final List<E> delegate = Lists.newArrayList();
+		public E get(final int index) {
+		public int size() {
+		public E set(final int index, final E element) {
+		public void add(final int index, final E element) {
+		public E remove(final int index) {

@@ -1,0 +1,24 @@
++ echo 'loom cache dirs:'
+loom cache dirs:
++ find /home/runner/.gradle -maxdepth 5 -type d -iname '*loom*'
++ head -20
+/home/runner/.gradle/caches/modules-2/metadata-2.107/descriptors/net.fabricmc.fabric-loom
+/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc/fabric-loom-native
+/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc/fabric-loom
+/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc.fabric-loom
+/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc.fabric-loom/net.fabricmc.fabric-loom.gradle.plugin
+/home/runner/.gradle/caches/fabric-loom
++ echo 'gensources log tail:'
+gensources log tail:
++ tail -n 40 gensources.log
++ echo 'all source-ish jars:'
+all source-ish jars:
++ find /home/runner/.gradle /home/runner/work/test/test/.gradle /home/runner/.cache -name '*.jar'
++ grep -iE 'sources|decompil'
++ head -40
+/home/runner/.gradle/wrapper/dists/gradle-9.5.1-bin/iq79hdu3mqx29lgffhp8bfmx/gradle-9.5.1/lib/plugins/gradle-resources-s3-9.5.1.jar
+/home/runner/.gradle/wrapper/dists/gradle-9.5.1-bin/iq79hdu3mqx29lgffhp8bfmx/gradle-9.5.1/lib/plugins/gradle-resources-gcs-9.5.1.jar
+/home/runner/.gradle/wrapper/dists/gradle-9.5.1-bin/iq79hdu3mqx29lgffhp8bfmx/gradle-9.5.1/lib/plugins/gradle-resources-sftp-9.5.1.jar
+/home/runner/.gradle/wrapper/dists/gradle-9.5.1-bin/iq79hdu3mqx29lgffhp8bfmx/gradle-9.5.1/lib/gradle-resources-9.5.1.jar
+/home/runner/.gradle/wrapper/dists/gradle-9.5.1-bin/iq79hdu3mqx29lgffhp8bfmx/gradle-9.5.1/lib/gradle-resources-http-9.5.1.jar
+/home/runner/work/test/test/.gradle/loom-cache/minecraftMaven/net/minecraft/minecraft-merged-7e9a32a5b8/26.3/minecraft-merged-7e9a32a5b8-26.3-sources.jar

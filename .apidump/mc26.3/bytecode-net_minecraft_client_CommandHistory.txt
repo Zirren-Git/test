@@ -1,0 +1,170 @@
+Compiled from "CommandHistory.java"
+public class net.minecraft.client.CommandHistory {
+  private static final org.slf4j.Logger LOGGER;
+
+  private static final int MAX_PERSISTED_COMMAND_HISTORY;
+
+  private static final java.lang.String PERSISTED_COMMANDS_FILE_NAME;
+
+  private final java.nio.file.Path commandsPath;
+
+  private final net.minecraft.util.ArrayListDeque<java.lang.String> lastCommands;
+
+  public net.minecraft.client.CommandHistory(java.nio.file.Path);
+    Code:
+         0: aload_0
+         1: invokespecial #29                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #31                 // class net/minecraft/util/ArrayListDeque
+         8: dup
+         9: bipush        50
+        11: invokespecial #34                 // Method net/minecraft/util/ArrayListDeque."<init>":(I)V
+        14: putfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+        17: aload_0
+        18: aload_1
+        19: ldc           #14                 // String command_history.txt
+        21: invokeinterface #42,  2           // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+        26: putfield      #44                 // Field commandsPath:Ljava/nio/file/Path;
+        29: aload_0
+        30: getfield      #44                 // Field commandsPath:Ljava/nio/file/Path;
+        33: iconst_0
+        34: anewarray     #46                 // class java/nio/file/LinkOption
+        37: invokestatic  #52                 // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+        40: ifeq          121
+        43: aload_0
+        44: getfield      #44                 // Field commandsPath:Ljava/nio/file/Path;
+        47: getstatic     #58                 // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+        50: invokestatic  #62                 // Method java/nio/file/Files.newBufferedReader:(Ljava/nio/file/Path;Ljava/nio/charset/Charset;)Ljava/io/BufferedReader;
+        53: astore_2
+        54: aload_0
+        55: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+        58: aload_2
+        59: invokevirtual #68                 // Method java/io/BufferedReader.lines:()Ljava/util/stream/Stream;
+        62: invokeinterface #74,  1           // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+        67: invokevirtual #78                 // Method net/minecraft/util/ArrayListDeque.addAll:(Ljava/util/Collection;)Z
+        70: pop
+        71: aload_2
+        72: ifnull        104
+        75: aload_2
+        76: invokevirtual #81                 // Method java/io/BufferedReader.close:()V
+        79: goto          104
+        82: astore_3
+        83: aload_2
+        84: ifnull        102
+        87: aload_2
+        88: invokevirtual #81                 // Method java/io/BufferedReader.close:()V
+        91: goto          102
+        94: astore        4
+        96: aload_3
+        97: aload         4
+        99: invokevirtual #85                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+       102: aload_3
+       103: athrow
+       104: goto          121
+       107: astore_2
+       108: getstatic     #87                 // Field LOGGER:Lorg/slf4j/Logger;
+       111: ldc           #89                 // String Failed to read {}, command history will be missing
+       113: ldc           #14                 // String command_history.txt
+       115: aload_2
+       116: invokeinterface #95,  4           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+       121: return
+      Exception table:
+         from    to  target type
+            54    71    82   Class java/lang/Throwable
+            87    91    94   Class java/lang/Throwable
+            43   104   107   Class java/lang/Exception
+
+  public void addCommand(java.lang.String);
+    Code:
+         0: aload_1
+         1: aload_0
+         2: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+         5: invokevirtual #108                // Method net/minecraft/util/ArrayListDeque.peekLast:()Ljava/lang/Object;
+         8: invokevirtual #114                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        11: ifne          46
+        14: aload_0
+        15: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+        18: invokevirtual #118                // Method net/minecraft/util/ArrayListDeque.size:()I
+        21: bipush        50
+        23: if_icmplt     34
+        26: aload_0
+        27: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+        30: invokevirtual #121                // Method net/minecraft/util/ArrayListDeque.removeFirst:()Ljava/lang/Object;
+        33: pop
+        34: aload_0
+        35: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+        38: aload_1
+        39: invokevirtual #125                // Method net/minecraft/util/ArrayListDeque.addLast:(Ljava/lang/Object;)V
+        42: aload_0
+        43: invokevirtual #128                // Method save:()V
+        46: return
+
+  private void save();
+    Code:
+         0: aload_0
+         1: getfield      #44                 // Field commandsPath:Ljava/nio/file/Path;
+         4: getstatic     #58                 // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+         7: iconst_0
+         8: anewarray     #132                // class java/nio/file/OpenOption
+        11: invokestatic  #136                // Method java/nio/file/Files.newBufferedWriter:(Ljava/nio/file/Path;Ljava/nio/charset/Charset;[Ljava/nio/file/OpenOption;)Ljava/io/BufferedWriter;
+        14: astore_1
+        15: aload_0
+        16: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+        19: invokevirtual #140                // Method net/minecraft/util/ArrayListDeque.iterator:()Ljava/util/Iterator;
+        22: astore_2
+        23: aload_2
+        24: invokeinterface #148,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        29: ifeq          54
+        32: aload_2
+        33: invokeinterface #151,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        38: checkcast     #110                // class java/lang/String
+        41: astore_3
+        42: aload_1
+        43: aload_3
+        44: invokevirtual #154                // Method java/io/BufferedWriter.write:(Ljava/lang/String;)V
+        47: aload_1
+        48: invokevirtual #157                // Method java/io/BufferedWriter.newLine:()V
+        51: goto          23
+        54: aload_1
+        55: ifnull        85
+        58: aload_1
+        59: invokevirtual #158                // Method java/io/BufferedWriter.close:()V
+        62: goto          85
+        65: astore_2
+        66: aload_1
+        67: ifnull        83
+        70: aload_1
+        71: invokevirtual #158                // Method java/io/BufferedWriter.close:()V
+        74: goto          83
+        77: astore_3
+        78: aload_2
+        79: aload_3
+        80: invokevirtual #85                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+        83: aload_2
+        84: athrow
+        85: goto          102
+        88: astore_1
+        89: getstatic     #87                 // Field LOGGER:Lorg/slf4j/Logger;
+        92: ldc           #160                // String Failed to write {}, command history will be missing
+        94: ldc           #14                 // String command_history.txt
+        96: aload_1
+        97: invokeinterface #95,  4           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+       102: return
+      Exception table:
+         from    to  target type
+            15    54    65   Class java/lang/Throwable
+            70    74    77   Class java/lang/Throwable
+             0    85    88   Class java/io/IOException
+
+  public java.util.Collection<java.lang.String> history();
+    Code:
+         0: aload_0
+         1: getfield      #36                 // Field lastCommands:Lnet/minecraft/util/ArrayListDeque;
+         4: areturn
+
+  static {};
+    Code:
+         0: invokestatic  #173                // Method com/mojang/logging/LogUtils.getLogger:()Lorg/slf4j/Logger;
+         3: putstatic     #87                 // Field LOGGER:Lorg/slf4j/Logger;
+         6: return
+}

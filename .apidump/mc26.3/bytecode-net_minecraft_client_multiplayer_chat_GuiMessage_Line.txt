@@ -1,0 +1,84 @@
+Compiled from "GuiMessage.java"
+public final class net.minecraft.client.multiplayer.chat.GuiMessage$Line extends java.lang.Record {
+  private final net.minecraft.client.multiplayer.chat.GuiMessage parent;
+
+  private final net.minecraft.util.FormattedCharSequence content;
+
+  private final boolean endOfEntry;
+
+  public net.minecraft.client.multiplayer.chat.GuiMessage$Line(net.minecraft.client.multiplayer.chat.GuiMessage, net.minecraft.util.FormattedCharSequence, boolean);
+    Code:
+         0: aload_0
+         1: invokespecial #24                 // Method java/lang/Record."<init>":()V
+         4: aload_0
+         5: aload_1
+         6: putfield      #26                 // Field parent:Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+         9: aload_0
+        10: aload_2
+        11: putfield      #28                 // Field content:Lnet/minecraft/util/FormattedCharSequence;
+        14: aload_0
+        15: iload_3
+        16: putfield      #30                 // Field endOfEntry:Z
+        19: return
+
+  public int getTagIconLeft(net.minecraft.client.gui.Font);
+    Code:
+         0: aload_1
+         1: aload_0
+         2: getfield      #28                 // Field content:Lnet/minecraft/util/FormattedCharSequence;
+         5: invokevirtual #41                 // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/util/FormattedCharSequence;)I
+         8: iconst_4
+         9: iadd
+        10: ireturn
+
+  public net.minecraft.client.multiplayer.chat.GuiMessageTag tag();
+    Code:
+         0: aload_0
+         1: getfield      #26                 // Field parent:Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+         4: getfield      #48                 // Field net/minecraft/client/multiplayer/chat/GuiMessage.tag:Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;
+         7: areturn
+
+  public int addedTime();
+    Code:
+         0: aload_0
+         1: getfield      #26                 // Field parent:Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+         4: getfield      #53                 // Field net/minecraft/client/multiplayer/chat/GuiMessage.addedTime:I
+         7: ireturn
+
+  public final java.lang.String toString();
+    Code:
+         0: aload_0
+         1: invokedynamic #70,  0             // InvokeDynamic #0:toString:(Lnet/minecraft/client/multiplayer/chat/GuiMessage$Line;)Ljava/lang/String;
+         6: areturn
+
+  public final int hashCode();
+    Code:
+         0: aload_0
+         1: invokedynamic #74,  0             // InvokeDynamic #0:hashCode:(Lnet/minecraft/client/multiplayer/chat/GuiMessage$Line;)I
+         6: ireturn
+
+  public final boolean equals(java.lang.Object);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokedynamic #80,  0             // InvokeDynamic #0:equals:(Lnet/minecraft/client/multiplayer/chat/GuiMessage$Line;Ljava/lang/Object;)Z
+         7: ireturn
+
+  public net.minecraft.client.multiplayer.chat.GuiMessage parent();
+    Code:
+         0: aload_0
+         1: getfield      #26                 // Field parent:Lnet/minecraft/client/multiplayer/chat/GuiMessage;
+         4: areturn
+
+  public net.minecraft.util.FormattedCharSequence content();
+    Code:
+         0: aload_0
+         1: getfield      #28                 // Field content:Lnet/minecraft/util/FormattedCharSequence;
+         4: areturn
+
+  public boolean endOfEntry();
+    Code:
+         0: aload_0
+         1: getfield      #30                 // Field endOfEntry:Z
+         4: ireturn
+}

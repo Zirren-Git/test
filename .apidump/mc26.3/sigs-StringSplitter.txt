@@ -1,1 +1,34 @@
-(not found)
+	public StringSplitter(final StringSplitter.WidthProvider widthProvider) {
+	public float stringWidth(final @Nullable String str) {
+	public float stringWidth(final FormattedText text) {
+	public float stringWidth(final FormattedCharSequence text) {
+	public int plainIndexAtWidth(final String str, final int maxWidth, final Style style) {
+	public String plainHeadByWidth(final String str, final int maxWidth, final Style style) {
+	public String plainTailByWidth(final String str, final int maxWidth, final Style style) {
+	public FormattedText headByWidth(final FormattedText text, final int width, final Style initialStyle) {
+			private final ComponentCollector collector = new ComponentCollector();
+			public Optional<FormattedText> accept(final Style style, final String contents) {
+	public int findLineBreak(final String input, final int max, final Style initialStyle) {
+	public static int getWordPosition(final String text, final int dir, final int from, final boolean stripSpaces) {
+	public void splitLines(final String input, final int maxWidth, final Style initialStyle, final boolean includeAll, final StringSplitter.LinePosConsumer output) {
+	public List<FormattedText> splitLines(final String input, final int maxWidth, final Style initialStyle) {
+	public List<FormattedText> splitLines(final FormattedText input, final int maxWidth, final Style initialStyle) {
+	public void splitLines(final FormattedText input, final int maxWidth, final Style initialStyle, final BiConsumer<FormattedText, Boolean> output) {
+		public FlatComponents(final List<StringSplitter.LineComponent> parts) {
+		public char charAt(final int position) {
+		public FormattedText splitAt(final int skipPosition, final int skipSize, final Style splitStyle) {
+		public @Nullable FormattedText getRemainder() {
+		public LineBreakFinder(final float maxWidth) {
+		public boolean accept(final int position, final Style style, final int codepoint) {
+		private boolean finishIteration(final int lineBreak, final Style style) {
+		private boolean lineBreakFound() {
+		public int getSplitPosition() {
+		public Style getSplitStyle() {
+		public void addToOffset(final int delta) {
+		public LineComponent(final String contents, final Style style) {
+		public <T> Optional<T> visit(final FormattedText.ContentConsumer<T> output) {
+		public <T> Optional<T> visit(final FormattedText.StyledContentConsumer<T> output, final Style parentStyle) {
+		public WidthLimitedCharSink(final float maxWidth) {
+		public boolean accept(final int position, final Style style, final int codepoint) {
+		public int getPosition() {
+		public void resetPosition() {

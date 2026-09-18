@@ -1,0 +1,14 @@
+Compiled from "ChatComponent.java"
+public final class net.minecraft.client.gui.components.ChatComponent$DisplayMode extends java.lang.Enum<net.minecraft.client.gui.components.ChatComponent$DisplayMode> {
+  public static final net.minecraft.client.gui.components.ChatComponent$DisplayMode BACKGROUND;
+  public static final net.minecraft.client.gui.components.ChatComponent$DisplayMode FOREGROUND;
+  public static final net.minecraft.client.gui.components.ChatComponent$DisplayMode FOREGROUND_RESTRICTED;
+  public final boolean foreground;
+  public final boolean showRestrictedPrompt;
+  private static final net.minecraft.client.gui.components.ChatComponent$DisplayMode[] $VALUES;
+  public static net.minecraft.client.gui.components.ChatComponent$DisplayMode[] values();
+  public static net.minecraft.client.gui.components.ChatComponent$DisplayMode valueOf(java.lang.String);
+  private net.minecraft.client.gui.components.ChatComponent$DisplayMode(boolean, boolean);
+  private static net.minecraft.client.gui.components.ChatComponent$DisplayMode[] $values();
+  static {};
+}

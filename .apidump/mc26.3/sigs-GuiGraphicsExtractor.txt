@@ -1,1 +1,110 @@
-(not found)
+	private GuiGraphicsExtractor(final Minecraft minecraft, final Matrix3x2fStack pose, final GuiRenderState guiRenderState, final int mouseX, final int mouseY) {
+	public GuiGraphicsExtractor(final Minecraft minecraft, final GuiRenderState guiRenderState, final int mouseX, final int mouseY) {
+	public void requestCursor(final CursorType cursorType) {
+	public void applyCursor(final Window window) {
+	public int guiWidth() {
+	public int guiHeight() {
+	public Matrix3x2fStack pose() {
+	public void nextStratum() {
+	public void blurBeforeThisStratum() {
+	public void enableScissor(final int x0, final int y0, final int x1, final int y1) {
+	public void disableScissor() {
+	public boolean containsPointInScissor(final int x, final int y) {
+	public void horizontalLine(int x0, int x1, final int y, final int col) {
+	public void verticalLine(final int x, int y0, int y1, final int col) {
+	public void fill(final int x0, final int y0, final int x1, final int y1, final int col) {
+	public void fill(final RenderPipeline pipeline, int x0, int y0, int x1, int y1, final int col) {
+	public void fillGradient(final int x0, final int y0, final int x1, final int y1, final int col1, final int col2) {
+	public void fill(final RenderPipeline renderPipeline, final TextureSetup textureSetup, final int x0, final int y0, final int x1, final int y1) {
+	public void outline(final int x, final int y, final int width, final int height, final int color) {
+	private void innerFill(
+	public void textHighlight(final int x0, final int y0, final int x1, final int y1, final boolean invertText) {
+	public void text(final Font font, final @Nullable String str, final int x, final int y, final int color) {
+	public void text(final Font font, final @Nullable String str, final int x, final int y, final int color, final boolean dropShadow) {
+	public void text(final Font font, final FormattedCharSequence str, final int x, final int y, final int color) {
+	public void text(final Font font, final FormattedCharSequence str, final int x, final int y, final int color, final boolean dropShadow) {
+	public void text(final Font font, final Component str, final int x, final int y, final int color) {
+	public void text(final Font font, final Component str, final int x, final int y, final int color, final boolean dropShadow) {
+	public void centeredText(final Font font, final String str, final int x, final int y, final int color) {
+	public void centeredText(final Font font, final Component text, final int x, final int y, final int color) {
+	public void centeredText(final Font font, final FormattedCharSequence text, final int x, final int y, final int color) {
+	public int textWithWordWrap(final Font font, final FormattedText string, final int x, final int y, final int width, final int col) {
+	public int textWithWordWrap(final Font font, final FormattedText string, final int x, int y, final int width, final int col, final boolean dropShadow) {
+	public void textWithBackdrop(final Font font, final Component str, final int textX, final int textY, final int textWidth, final int textColor) {
+	public void blit(
+	public void blit(
+	public void blit(
+	public void blit(
+	public void blit(
+	public void blit(
+	public void blitSprite(final RenderPipeline renderPipeline, final Identifier location, final int x, final int y, final int width, final int height) {
+	public void blitSprite(
+	public void blitSprite(
+	public void blitSprite(
+	public void blitSprite(
+	public void blitSprite(final RenderPipeline renderPipeline, final TextureAtlasSprite sprite, final int x, final int y, final int width, final int height) {
+	public void blitSprite(
+	private void blitSprite(
+	private void blitNineSlicedSprite(
+	private void blitNineSliceInnerSegment(
+	private void blitTiledSprite(
+	private void innerBlit(
+	private void innerBlit(
+	private void innerTiledBlit(
+	private static GuiSpriteScaling getSpriteScaling(final TextureAtlasSprite sprite) {
+	public void item(final ItemStack itemStack, final int x, final int y) {
+	public void item(final ItemStack itemStack, final int x, final int y, final int seed) {
+	public void item(final LivingEntity owner, final ItemStack itemStack, final int x, final int y, final int seed) {
+	private void item(final @Nullable LivingEntity owner, final @Nullable Level level, final ItemStack itemStack, final int x, final int y, final int seed) {
+	public void fakeItem(final ItemStack itemStack, final int x, final int y) {
+	public void fakeItem(final ItemStack itemStack, final int x, final int y, final int seed) {
+	public void itemDecorations(final Font font, final ItemStack itemStack, final int x, final int y) {
+	public void itemDecorations(final Font font, final ItemStack itemStack, final int x, final int y, final @Nullable String countText) {
+	private void itemBar(final ItemStack itemStack, final int x, final int y) {
+	private void itemCount(final Font font, final ItemStack itemStack, final int x, final int y, final @Nullable String countText) {
+	private void itemCooldown(final ItemStack itemStack, final int x, final int y) {
+	public void map(final MapRenderState mapRenderState) {
+	public void entity(
+	public void skin(
+	public void book(
+	public void bannerPattern(
+	public void profilerChart(final List<ResultField> chartData, final int x0, final int y0, final int x1, final int y1) {
+	public void setTooltipForNextFrame(final Component component, final int x, final int y) {
+	public void setTooltipForNextFrame(final List<FormattedCharSequence> formattedCharSequences, final int x, final int y) {
+	public void setTooltipForNextFrame(final Font font, final ItemStack itemStack, final int xo, final int yo) {
+	public void setTooltipForNextFrame(final Font font, final List<Component> texts, final Optional<TooltipComponent> optionalImage, final int xo, final int yo) {
+	public void setTooltipForNextFrame(
+	public void setTooltipForNextFrame(
+	public void setTooltipForNextFrame(
+	public void setTooltipForNextFrame(final Font font, final Component text, final int xo, final int yo) {
+	public void setTooltipForNextFrame(final Font font, final Component text, final int xo, final int yo, final @Nullable Identifier style) {
+	public void setComponentTooltipForNextFrame(final Font font, final List<Component> lines, final int xo, final int yo) {
+	public void setComponentTooltipForNextFrame(final Font font, final List<Component> lines, final int xo, final int yo, final @Nullable Identifier style) {
+	public void setTooltipForNextFrame(final Font font, final List<? extends FormattedCharSequence> lines, final int xo, final int yo) {
+	public void setTooltipForNextFrame(
+	public void setTooltipForNextFrame(
+	private void setTooltipForNextFrameInternal(
+	private void setTooltipForNextFrameInternal(
+	public void tooltip(
+	public void setPreeditOverlay(final Renderable preeditOverlay) {
+	public void extractDeferredElements(final int mouseX, final int mouseY, final float a) {
+	private void componentHoverEffect(final Font font, final Style hoveredStyle, final int xMouse, final int yMouse) {
+	public TextureAtlasSprite getSprite(final SpriteId sprite) {
+	public ActiveTextCollector textRendererForWidget(final AbstractWidget owner, final GuiGraphicsExtractor.HoveredTextEffects hoveredTextEffects) {
+	public ActiveTextCollector textRenderer() {
+	public ActiveTextCollector textRenderer(final GuiGraphicsExtractor.HoveredTextEffects hoveredTextEffects) {
+	public ActiveTextCollector textRenderer(
+	private ActiveTextCollector.Parameters createDefaultTextParameters(final float opacity) {
+		public static GuiGraphicsExtractor.HoveredTextEffects notClickable(final boolean canTooltip) {
+		private RenderingTextCollector(
+		public ActiveTextCollector.Parameters defaultParameters() {
+		public void defaultParameters(final ActiveTextCollector.Parameters newParameters) {
+		public void accept(final Style style) {
+		public void accept(
+		public void acceptScrolling(
+		private final Deque<ScreenRectangle> stack = new ArrayDeque<>();
+		private ScissorStack(final ScreenRectangle screenSize) {
+		public void push(final ScreenRectangle rectangle) {
+		public void pop() {
+		public @Nullable ScreenRectangle peek() {
+		public boolean containsPoint(final int x, final int y) {

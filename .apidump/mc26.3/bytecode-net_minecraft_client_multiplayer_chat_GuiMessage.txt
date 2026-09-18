@@ -1,0 +1,111 @@
+Compiled from "GuiMessage.java"
+public final class net.minecraft.client.multiplayer.chat.GuiMessage extends java.lang.Record {
+  private final int addedTime;
+
+  private final net.minecraft.network.chat.Component content;
+
+  private final net.minecraft.network.chat.MessageSignature signature;
+
+  private final net.minecraft.client.multiplayer.chat.GuiMessageSource source;
+
+  private final net.minecraft.client.multiplayer.chat.GuiMessageTag tag;
+
+  private static final int MESSAGE_TAG_MARGIN_LEFT;
+
+  public net.minecraft.client.multiplayer.chat.GuiMessage(int, net.minecraft.network.chat.Component, net.minecraft.network.chat.MessageSignature, net.minecraft.client.multiplayer.chat.GuiMessageSource, net.minecraft.client.multiplayer.chat.GuiMessageTag);
+    Code:
+         0: aload_0
+         1: invokespecial #36                 // Method java/lang/Record."<init>":()V
+         4: aload_0
+         5: iload_1
+         6: putfield      #38                 // Field addedTime:I
+         9: aload_0
+        10: aload_2
+        11: putfield      #40                 // Field content:Lnet/minecraft/network/chat/Component;
+        14: aload_0
+        15: aload_3
+        16: putfield      #42                 // Field signature:Lnet/minecraft/network/chat/MessageSignature;
+        19: aload_0
+        20: aload         4
+        22: putfield      #44                 // Field source:Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+        25: aload_0
+        26: aload         5
+        28: putfield      #46                 // Field tag:Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;
+        31: return
+
+  public java.util.List<net.minecraft.util.FormattedCharSequence> splitLines(net.minecraft.client.gui.Font, int);
+    Code:
+         0: aload_0
+         1: getfield      #46                 // Field tag:Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;
+         4: ifnull        34
+         7: aload_0
+         8: getfield      #46                 // Field tag:Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;
+        11: invokevirtual #57                 // Method net/minecraft/client/multiplayer/chat/GuiMessageTag.icon:()Lnet/minecraft/client/multiplayer/chat/GuiMessageTag$Icon;
+        14: ifnull        34
+        17: iload_2
+        18: aload_0
+        19: getfield      #46                 // Field tag:Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;
+        22: invokevirtual #57                 // Method net/minecraft/client/multiplayer/chat/GuiMessageTag.icon:()Lnet/minecraft/client/multiplayer/chat/GuiMessageTag$Icon;
+        25: getfield      #60                 // Field net/minecraft/client/multiplayer/chat/GuiMessageTag$Icon.width:I
+        28: iconst_4
+        29: iadd
+        30: iconst_2
+        31: iadd
+        32: isub
+        33: istore_2
+        34: aload_0
+        35: getfield      #40                 // Field content:Lnet/minecraft/network/chat/Component;
+        38: iload_2
+        39: aload_1
+        40: invokestatic  #66                 // Method net/minecraft/client/gui/components/ComponentRenderUtils.wrapComponents:(Lnet/minecraft/network/chat/FormattedText;ILnet/minecraft/client/gui/Font;)Ljava/util/List;
+        43: areturn
+
+  public final java.lang.String toString();
+    Code:
+         0: aload_0
+         1: invokedynamic #86,  0             // InvokeDynamic #0:toString:(Lnet/minecraft/client/multiplayer/chat/GuiMessage;)Ljava/lang/String;
+         6: areturn
+
+  public final int hashCode();
+    Code:
+         0: aload_0
+         1: invokedynamic #91,  0             // InvokeDynamic #0:hashCode:(Lnet/minecraft/client/multiplayer/chat/GuiMessage;)I
+         6: ireturn
+
+  public final boolean equals(java.lang.Object);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokedynamic #97,  0             // InvokeDynamic #0:equals:(Lnet/minecraft/client/multiplayer/chat/GuiMessage;Ljava/lang/Object;)Z
+         7: ireturn
+
+  public int addedTime();
+    Code:
+         0: aload_0
+         1: getfield      #38                 // Field addedTime:I
+         4: ireturn
+
+  public net.minecraft.network.chat.Component content();
+    Code:
+         0: aload_0
+         1: getfield      #40                 // Field content:Lnet/minecraft/network/chat/Component;
+         4: areturn
+
+  public net.minecraft.network.chat.MessageSignature signature();
+    Code:
+         0: aload_0
+         1: getfield      #42                 // Field signature:Lnet/minecraft/network/chat/MessageSignature;
+         4: areturn
+
+  public net.minecraft.client.multiplayer.chat.GuiMessageSource source();
+    Code:
+         0: aload_0
+         1: getfield      #44                 // Field source:Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;
+         4: areturn
+
+  public net.minecraft.client.multiplayer.chat.GuiMessageTag tag();
+    Code:
+         0: aload_0
+         1: getfield      #46                 // Field tag:Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;
+         4: areturn
+}

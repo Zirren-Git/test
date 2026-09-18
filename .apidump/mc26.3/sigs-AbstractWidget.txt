@@ -1,1 +1,56 @@
-(not found)
+	private final WidgetTooltipHolder tooltip = new WidgetTooltipHolder();
+	public AbstractWidget(final int x, final int y, final int width, final int height, final Component message) {
+	public int getHeight() {
+	public final void extractRenderState(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+	protected void extractTooltipForNextRenderPass(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY) {
+	protected void handleCursor(final GuiGraphicsExtractor graphics) {
+	public void setTooltip(final @Nullable Tooltip tooltip) {
+	public void setTooltipDelay(final Duration delay) {
+	protected MutableComponent createNarrationMessage() {
+	public static MutableComponent wrapDefaultNarrationMessage(final Component message) {
+	protected abstract void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a);
+	protected void extractScrollingStringOverContents(final ActiveTextCollector output, final Component message, final int margin) {
+	public void onClick(final MouseButtonEvent event, final boolean doubleClick) {
+	public void onRelease(final MouseButtonEvent event) {
+	protected void onDrag(final MouseButtonEvent event, final double dx, final double dy) {
+	public boolean mouseClicked(final MouseButtonEvent event, final boolean doubleClick) {
+	public boolean mouseReleased(final MouseButtonEvent event) {
+	protected boolean isValidClickButton(final MouseButtonInfo buttonInfo) {
+	public boolean mouseDragged(final MouseButtonEvent event, final double dx, final double dy) {
+	public @Nullable ComponentPath nextFocusPath(final FocusNavigationEvent navigationEvent) {
+	public boolean isMouseOver(final double mouseX, final double mouseY) {
+	public void playDownSound(final SoundManager soundManager) {
+	public static void playButtonClickSound(final SoundManager soundManager) {
+	public int getWidth() {
+	public void setWidth(final int width) {
+	public void setHeight(final int height) {
+	public void setAlpha(final float alpha) {
+	public float getAlpha() {
+	public void setMessage(final Component message) {
+	public Component getMessage() {
+	public boolean isFocused() {
+	public boolean isHovered() {
+	public boolean isHoveredOrFocused() {
+	public boolean isActive() {
+	public void setFocused(final boolean focused) {
+	public NarratableEntry.NarrationPriority narrationPriority() {
+	public final void updateNarration(final NarrationElementOutput output) {
+	protected abstract void updateWidgetNarration(final NarrationElementOutput output);
+	protected void defaultButtonNarrationText(final NarrationElementOutput output) {
+	public int getX() {
+	public void setX(final int x) {
+	public int getY() {
+	public void setY(final int y) {
+	public int getRight() {
+	public int getBottom() {
+	public void visitWidgets(final Consumer<AbstractWidget> widgetVisitor) {
+	public void setSize(final int width, final int height) {
+	public ScreenRectangle getRectangle() {
+	private boolean areCoordinatesInRectangle(final double x, final double y) {
+	public void setRectangle(final int width, final int height, final int x, final int y) {
+	public int getTabOrderGroup() {
+	public void setTabOrderGroup(final int tabOrderGroup) {
+		public static Component defaultInactiveMessage(final Component activeMessage) {
+		public WithInactiveMessage(final int x, final int y, final int width, final int height, final Component message) {
+		public Component getMessage() {
+		public void setMessage(final Component message) {

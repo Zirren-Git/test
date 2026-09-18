@@ -1,0 +1,33 @@
+Compiled from "PlayerInfo.java"
+public class net.minecraft.client.multiplayer.PlayerInfo {
+  private final com.mojang.authlib.GameProfile profile;
+  private java.util.function.Supplier<net.minecraft.world.entity.player.PlayerSkin> skinLookup;
+  private net.minecraft.world.level.GameType gameMode;
+  private int latency;
+  private net.minecraft.network.chat.Component tabListDisplayName;
+  private boolean showHat;
+  private net.minecraft.network.chat.RemoteChatSession chatSession;
+  private net.minecraft.network.chat.SignedMessageValidator messageValidator;
+  private int tabListOrder;
+  public net.minecraft.client.multiplayer.PlayerInfo(com.mojang.authlib.GameProfile, boolean);
+  private static java.util.function.Supplier<net.minecraft.world.entity.player.PlayerSkin> createSkinLookup(com.mojang.authlib.GameProfile);
+  public com.mojang.authlib.GameProfile getProfile();
+  public net.minecraft.network.chat.RemoteChatSession getChatSession();
+  public net.minecraft.network.chat.SignedMessageValidator getMessageValidator();
+  public boolean hasVerifiableChat();
+  protected void setChatSession(net.minecraft.network.chat.RemoteChatSession);
+  protected void clearChatSession(boolean);
+  private static net.minecraft.network.chat.SignedMessageValidator fallbackMessageValidator(boolean);
+  public net.minecraft.world.level.GameType getGameMode();
+  protected void setGameMode(net.minecraft.world.level.GameType);
+  public int getLatency();
+  protected void setLatency(int);
+  public net.minecraft.world.entity.player.PlayerSkin getSkin();
+  public net.minecraft.world.scores.PlayerTeam getTeam();
+  public void setTabListDisplayName(net.minecraft.network.chat.Component);
+  public net.minecraft.network.chat.Component getTabListDisplayName();
+  public void setShowHat(boolean);
+  public boolean showHat();
+  public void setTabListOrder(int);
+  public int getTabListOrder();
+}
