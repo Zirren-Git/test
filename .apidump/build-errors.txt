@@ -1,4 +1,16 @@
-=== build errors: MC 26.2 loader 0.19.3 ===
+=== build errors: MC 26.2 loader 0.19.4 ===
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxModMenu.java:6: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:15: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:16: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:32: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:34: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:36: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:38: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxModMenu.java:14: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:39: error: incompatible types: invalid method reference
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:44: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:53: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:78: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:110: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:123: error: cannot find symbol
@@ -17,8 +29,17 @@
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:236: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:367: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Sounds.java:25: error: incompatible types: Optional<Reference<SoundEvent>> cannot be converted to SoundEvent
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:39: error: incompatible types: invalid method reference
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:158: error: incompatible types: Object cannot be converted to String
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Sounds.java:25: error: incompatible types: Optional<Reference<SoundEvent>> cannot be converted to SoundEvent
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:32: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:34: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:36: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:38: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxModMenu.java:14: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:44: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:53: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:123: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:138: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:140: error: cannot find symbol
@@ -35,6 +56,21 @@
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:131: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:131: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:132: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxModMenu.java:6: error: package io.github.zirren.chatterbox.screen does not exist
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:15: error: package io.github.zirren.chatterbox.screen does not exist
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:16: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxModMenu.java:6: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:15: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:16: error: package io.github.zirren.chatterbox.screen does not exist
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:32: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:34: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:36: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:38: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxModMenu.java:14: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:39: error: incompatible types: invalid method reference
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:44: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:53: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:78: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:110: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:123: error: cannot find symbol
@@ -172,5 +208,5 @@
 	... 61 more
 
 
-BUILD FAILED in 43s
+BUILD FAILED in 47s
 1 actionable task: 1 executed
