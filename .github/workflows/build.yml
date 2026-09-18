@@ -51,7 +51,15 @@ jobs:
             case "$j" in *sources*) continue;; esac
             if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.class"; then JAR="$j"; fi
           done
-          for j in $(find "$HOME/.gradle/caches" -name "*sources*.jar" 2>/dev/null); do
+          {
+            echo "loom cache dirs:"
+            find "$HOME/.gradle" -maxdepth 5 -type d -iname "*loom*" 2>/dev/null | head -20
+            echo "gensources log tail:"
+            tail -n 40 gensources.log 2>/dev/null || true
+            echo "all source-ish jars:"
+            find "$HOME/.gradle" "$PWD/.gradle" "$HOME/.cache" -name "*.jar" 2>/dev/null | grep -iE "sources|decompil" | head -40
+          } > .apidump/diagnostics.txt 2>&1
+          for j in $(find "$HOME" "$PWD" -name "*sources*.jar" 2>/dev/null); do
             if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.java"; then SRCS="$j"; fi
           done
           echo "JAR=$JAR" >> "$GITHUB_ENV"
@@ -76,13 +84,14 @@ jobs:
 
           for c in \
             net.minecraft.client.Minecraft \
-            net.minecraft.client.Gui \
+            net.minecraft.client.gui.Gui \
             net.minecraft.client.gui.Hud \
             net.minecraft.client.gui.screens.ChatScreen \
             net.minecraft.client.gui.components.ChatComponent \
-            net.minecraft.client.gui.components.GuiMessage \
-            'net.minecraft.client.gui.components.GuiMessage$Line' \
-            net.minecraft.client.gui.components.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
             net.minecraft.client.gui.screens.Screen \
             net.minecraft.client.gui.components.AbstractWidget \
             net.minecraft.client.gui.components.Button \
@@ -99,7 +108,7 @@ jobs:
             net.minecraft.client.input.KeyEvent \
             net.minecraft.client.input.MouseButtonEvent \
             net.minecraft.client.multiplayer.ClientPacketListener \
-            net.minecraft.client.multiplayer.PlayerListEntry \
+            net.minecraft.client.multiplayer.PlayerInfo \
             net.minecraft.client.multiplayer.chat.ChatListener \
             net.minecraft.client.player.LocalPlayer \
             net.minecraft.client.resources.sounds.SimpleSoundInstance \
@@ -115,9 +124,52 @@ jobs:
             net.minecraft.network.chat.FormattedText \
             net.minecraft.ChatFormatting \
             net.minecraft.world.level.biome.Biome \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
+            'net.minecraft.client.gui.components.ChatComponent$DisplayMode' \
+            net.minecraft.client.gui.ActiveTextCollector \
+            com.mojang.blaze3d.platform.InputConstants \
+            'com.mojang.blaze3d.platform.InputConstants$Key' \
+            'com.mojang.blaze3d.platform.InputConstants$Type' \
+            net.minecraft.client.gui.components.ContainerObjectSelectionList \
+            net.minecraft.client.gui.components.Tooltip \
+            net.minecraft.client.input.CharacterEvent \
+            net.minecraft.client.User \
+            net.minecraft.client.multiplayer.ServerData \
+            net.minecraft.client.multiplayer.PlayerInfo \
+            net.minecraft.client.CommandHistory \
+            'net.minecraft.client.gui.screens.ChatScreen$ExitReason' \
+            'net.minecraft.client.gui.components.Checkbox$Builder' \
+            'net.minecraft.client.gui.components.Button$Builder' \
+            'net.minecraft.client.gui.components.Button$OnPress' \
+            net.minecraft.client.gui.components.CycleButton \
+            'net.minecraft.client.gui.components.CycleButton$Builder' \
+            net.minecraft.client.gui.layouts.HeaderAndFooterLayout \
+            net.minecraft.client.gui.components.AbstractButton \
+            net.minecraft.client.gui.components.CommandSuggestions \
+            'net.minecraft.client.KeyMapping$Category' \
             ; do
             n=$(echo "$c" | tr '$' '_' | tr '.' '_')
             javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true
+          done
+
+          # bytecode disassembly of the critical classes (flow reconstruction)
+          for c in \
+            net.minecraft.client.gui.components.ChatComponent \
+            net.minecraft.client.gui.screens.ChatScreen \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.input.KeyEvent \
+            net.minecraft.client.gui.components.EditBox \
+            net.minecraft.client.CommandHistory \
+            net.minecraft.client.KeyMapping \
+            ; do
+            n=$(echo "$c" | tr '$' '_' | tr '.' '_')
+            javap -c -p -cp "$JAR" "$c" > "$OUT/bytecode-$n.txt" 2>&1 || true
           done
 
           for f in \
@@ -214,13 +266,14 @@ jobs:
           mkdir -p "$OUT"
           for c in \
             net.minecraft.client.Minecraft \
-            net.minecraft.client.Gui \
+            net.minecraft.client.gui.Gui \
             net.minecraft.client.gui.Hud \
             net.minecraft.client.gui.screens.ChatScreen \
             net.minecraft.client.gui.components.ChatComponent \
-            net.minecraft.client.gui.components.GuiMessage \
-            'net.minecraft.client.gui.components.GuiMessage$Line' \
-            net.minecraft.client.gui.components.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
             net.minecraft.client.gui.screens.Screen \
             net.minecraft.client.gui.components.AbstractWidget \
             net.minecraft.client.gui.components.Button \
@@ -237,7 +290,7 @@ jobs:
             net.minecraft.client.input.KeyEvent \
             net.minecraft.client.input.MouseButtonEvent \
             net.minecraft.client.multiplayer.ClientPacketListener \
-            net.minecraft.client.multiplayer.PlayerListEntry \
+            net.minecraft.client.multiplayer.PlayerInfo \
             net.minecraft.client.multiplayer.chat.ChatListener \
             net.minecraft.client.player.LocalPlayer \
             net.minecraft.client.resources.sounds.SimpleSoundInstance \
@@ -248,6 +301,33 @@ jobs:
             net.minecraft.network.chat.Style \
             net.minecraft.network.chat.MutableComponent \
             net.minecraft.ChatFormatting \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
+            'net.minecraft.client.gui.components.ChatComponent$DisplayMode' \
+            net.minecraft.client.gui.ActiveTextCollector \
+            com.mojang.blaze3d.platform.InputConstants \
+            'com.mojang.blaze3d.platform.InputConstants$Key' \
+            'com.mojang.blaze3d.platform.InputConstants$Type' \
+            net.minecraft.client.gui.components.ContainerObjectSelectionList \
+            net.minecraft.client.gui.components.Tooltip \
+            net.minecraft.client.input.CharacterEvent \
+            net.minecraft.client.User \
+            net.minecraft.client.multiplayer.ServerData \
+            net.minecraft.client.multiplayer.PlayerInfo \
+            net.minecraft.client.CommandHistory \
+            'net.minecraft.client.gui.screens.ChatScreen$ExitReason' \
+            'net.minecraft.client.gui.components.Checkbox$Builder' \
+            'net.minecraft.client.gui.components.Button$Builder' \
+            'net.minecraft.client.gui.components.Button$OnPress' \
+            net.minecraft.client.gui.components.CycleButton \
+            'net.minecraft.client.gui.components.CycleButton$Builder' \
+            net.minecraft.client.gui.layouts.HeaderAndFooterLayout \
+            net.minecraft.client.gui.components.AbstractButton \
+            net.minecraft.client.gui.components.CommandSuggestions \
+            'net.minecraft.client.KeyMapping$Category' \
             ; do
             n=$(echo "$c" | tr '$' '_' | tr '.' '_')
             javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true
