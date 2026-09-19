@@ -37,7 +37,12 @@ public final class MentionWatcher {
 		}
 
 		for (MentionRule rule : matches) {
-			Sounds.play(rule.sound, rule.pitch, rule.volume);
+			if (rule.hasTune()) {
+				TunePlayer.play(rule.tuneInstrument, rule.tune, rule.volume,
+						rule.tuneTempo <= 0 ? 200 : rule.tuneTempo);
+			} else {
+				Sounds.play(rule.sound, rule.pitch, rule.volume);
+			}
 		}
 	}
 

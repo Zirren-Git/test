@@ -14,6 +14,7 @@ import org.jspecify.annotations.Nullable;
 
 import io.github.zirren.chatterbox.config.Config;
 import io.github.zirren.chatterbox.Lang;
+import io.github.zirren.chatterbox.chat.Instruments;
 import io.github.zirren.chatterbox.config.MentionRule;
 
 /**
@@ -107,7 +108,16 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 					g.fill(left - 2, getContentY(), left + RuleList.this.getRowWidth() - 4, getContentY() + 26, 0x25FFFFFF);
 				}
 				String word = (rule.enabled ? "● " : "○ ") + (rule.word.isEmpty() ? "—" : rule.word);
-				String rest = "→ " + rule.sound + String.format(Locale.ROOT, "   v%.1f  p%.2f", rule.volume, rule.pitch);
+				String rest;
+				if (rule.hasTune()) {
+					rest = "♪ " + Lang.tr("chatterbox.rules.alert.melody") + " · "
+							+ Instruments.friendly(rule.tuneInstrument) + " · "
+							+ rule.tuneNoteCount() + Lang.tr("chatterbox.rules.notes_suffix");
+				} else {
+					rest = "→ " + Instruments.friendly(rule.sound) + String.format(Locale.ROOT,
+							"  ·  v%.1f  ·  %s", rule.volume,
+							Instruments.noteName(Instruments.noteFromPitch(rule.pitch)));
+				}
 				String clipped = f.plainSubstrByWidth(word, RuleList.this.getRowWidth() - 8);
 				g.text(f, clipped, left, y, rule.enabled ? 0xFFFFFF : 0x707070, false);
 				String restClipped = f.plainSubstrByWidth(rest, RuleList.this.getRowWidth() - 8);

@@ -36,13 +36,20 @@ you're in another folder.
   of the vanilla grey italics.
 
 ### Mention sounds
-When a configured word or username is said in chat, a sound of your choice
+When a configured word or username is said in chat, an alert of your choice
 plays. Rules are managed in the settings: each rule has a word (`{you}` matches
-your own username), a sound, volume and pitch. The sound picker defaults to the
-**note block instruments** (harp, pling, bass, bell…) and can be switched to list
-**every registered sound event** in the game. Each entry has a **▶ preview**
-button; the pitch slider covers **all notes in between** (note 0–24, like note
-blocks).
+your own username), a volume and an **alert type**:
+
+- **Sound** — a single sound event. The picker defaults to the **note block
+  instruments** (harp, pling, bass, bell…) and can be switched to list **every
+  registered sound event** in the game. The pitch slider covers **all notes**
+  (note 0–24, like note blocks), and every rule has a **▶ Preview** button.
+- **Melody** — opens the **Tune Maker**: a 16-step note-block grid spanning the
+  full two octaves (F#3 – F#5). Click squares to place notes, click them again
+  to clear them, scroll to move across octaves, pick a note-block instrument
+  and a tempo (Leisurely / Steady / Brisk), then press **▶ Play** and watch the
+  tune hop along the grid. When your name is said in chat, the whole melody
+  plays.
 
 ### Search
 Press **K** (rebindable) to search the chat. Search is client-side, case
@@ -115,10 +122,18 @@ wrapped lines never slide under the name or timestamp.
 
 ## Settings
 Via **Mod Menu → ChatterBox → Configure**, or the *Open ChatterBox Settings*
-keybind. Everything above is configurable: folder visibility, unread badges,
-timestamps, compression, DM colors, mention rules, sound picker scope,
-shortcuts, whisper command, log files, cross-session search, drafts, and
-command-output classification.
+keybind. The settings are organized into categories, just like the game's own
+options screen — every option has a tooltip explaining what it does:
+
+| Category | Contents |
+|---|---|
+| **Chat** | repeat compression, drafts, multiline send, command handling |
+| **Timestamps & Layout** | timestamps on/off + format, two-line layout |
+| **Folders & Tabs** | unread counters, folder visibility |
+| **Direct Messages** | DM colors, whisper command, DM partner list |
+| **Mention Sounds** | mention rules (sound *or* melody), Tune Maker, sound picker scope |
+| **Shortcuts & Emojis** | text shortcuts and live-value tokens |
+| **Logging & Search** | chat log files, cross-session search |
 
 ## Version matrix
 

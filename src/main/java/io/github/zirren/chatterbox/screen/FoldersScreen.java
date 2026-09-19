@@ -2,6 +2,7 @@ package io.github.zirren.chatterbox.screen;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 
 import io.github.zirren.chatterbox.chat.Folder;
@@ -9,7 +10,8 @@ import io.github.zirren.chatterbox.config.Config;
 import io.github.zirren.chatterbox.Lang;
 
 /**
- * Show/hide individual folder tabs. "All" is always visible.
+ * Folder settings: unread counters + show/hide the individual folder tabs.
+ * "All" is always visible.
  */
 public class FoldersScreen extends ChatterBoxScreen {
 
@@ -19,7 +21,20 @@ public class FoldersScreen extends ChatterBoxScreen {
 
 	@Override
 	protected void init() {
-		int y = 30;
+		Config cfg = Config.get();
+
+		Button badges = Button.builder(
+				cycleLabel("chatterbox.config.unread_badges", ConfigScreen.onOff(cfg.unreadBadges)),
+				b -> {
+					cfg.unreadBadges = !cfg.unreadBadges;
+					cfg.save();
+					io.github.zirren.chatterbox.chat.ChatDisplay.refresh();
+					b.setMessage(cycleLabel("chatterbox.config.unread_badges", ConfigScreen.onOff(cfg.unreadBadges)));
+				}).pos(this.width / 2 - 110, 30).size(220, 20).build();
+		badges.setTooltip(Tooltip.create(Component.translatable("chatterbox.config.unread_badges.tooltip")));
+		addRenderableWidget(badges);
+
+		int y = 56;
 		for (Folder folder : Folder.values()) {
 			if (folder == Folder.ALL) continue;
 			addRenderableWidget(folderButton(folder, y));
@@ -43,8 +58,8 @@ public class FoldersScreen extends ChatterBoxScreen {
 			io.github.zirren.chatterbox.chat.ChatDisplay.refresh();
 			// refresh this screen's labels
 			this.rebuildWidgets();
-			// folder buttons were recreated by rebuildWidgets; nothing else to do
 		}).pos(this.width / 2 - 110, y).size(220, 20).build();
+		b.setTooltip(Tooltip.create(Component.translatable("chatterbox.config.folder_visible.tooltip")));
 		return b;
 	}
 

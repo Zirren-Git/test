@@ -21,7 +21,10 @@ import io.github.zirren.chatterbox.chat.ChatDisplay;
 import io.github.zirren.chatterbox.chat.ChatFileLogger;
 import io.github.zirren.chatterbox.chat.ChatStore;
 import io.github.zirren.chatterbox.chat.Folder;
+import io.github.zirren.chatterbox.chat.Instruments;
 import io.github.zirren.chatterbox.chat.Shortcuts;
+import io.github.zirren.chatterbox.chat.Sounds;
+import io.github.zirren.chatterbox.chat.TunePlayer;
 import io.github.zirren.chatterbox.config.Config;
 import io.github.zirren.chatterbox.config.MentionRule;
 import io.github.zirren.chatterbox.config.Shortcut;
@@ -36,6 +39,7 @@ import io.github.zirren.chatterbox.screen.PartnersScreen;
 import io.github.zirren.chatterbox.screen.ShortcutEditScreen;
 import io.github.zirren.chatterbox.screen.ShortcutsScreen;
 import io.github.zirren.chatterbox.screen.SoundPickerScreen;
+import io.github.zirren.chatterbox.screen.TuneMakerScreen;
 
 public class ChatterBoxClient implements ClientModInitializer {
 	public static final String MOD_ID = "chatterbox";
@@ -79,6 +83,7 @@ public class ChatterBoxClient implements ClientModInitializer {
 		SelfTest selfTest = FabricLoader.getInstance().isDevelopmentEnvironment() ? new SelfTest() : null;
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			try {
+				TunePlayer.tick(); // fire due melody notes
 				while (Keybinds.SEARCH != null && Keybinds.SEARCH.consumeClick()) {
 					client.gui.setScreen(new ChatSearchScreen(client.gui.screen()));
 				}
@@ -121,11 +126,22 @@ public class ChatterBoxClient implements ClientModInitializer {
 			steps.add(client -> stepFunnel(client));
 			steps.add(client -> stepFolders());
 			steps.add(client -> stepShortcuts());
+			steps.add(client -> stepInstruments());
+			steps.add(client -> stepTuneStart());
+			steps.add(client -> stepTuneCheck());
+			steps.add(client -> stepConfigJson());
 			steps.add(client -> client.gui.setScreen(new ConfigScreen(null)));
+			steps.add(client -> client.gui.setScreen(ConfigScreen.chatSettings(null)));
+			steps.add(client -> client.gui.setScreen(ConfigScreen.layoutSettings(null)));
+			steps.add(client -> client.gui.setScreen(ConfigScreen.dmSettings(null)));
+			steps.add(client -> client.gui.setScreen(ConfigScreen.soundSettings(null)));
+			steps.add(client -> client.gui.setScreen(ConfigScreen.loggingSettings(null)));
 			steps.add(client -> client.gui.setScreen(new FoldersScreen(null)));
 			steps.add(client -> client.gui.setScreen(new MentionRulesScreen(null)));
 			steps.add(client -> client.gui.setScreen(
 					new MentionRuleEditScreen(null, new MentionRule("test", "minecraft:block.note_block.pling", 1.0f, 1.0f), false)));
+			steps.add(client -> client.gui.setScreen(new MentionRuleEditScreen(null, melodyRule(), false)));
+			steps.add(client -> client.gui.setScreen(new TuneMakerScreen(null, melodyRule())));
 			steps.add(client -> client.gui.setScreen(new ShortcutsScreen(null)));
 			steps.add(client -> client.gui.setScreen(
 					new ShortcutEditScreen(null, new Shortcut("test", "value"), false)));
@@ -210,6 +226,71 @@ public class ChatterBoxClient implements ClientModInitializer {
 				check("unknown token untouched", Shortcuts.expand("{nope_token}").equals("{nope_token}"));
 			} catch (Throwable t) {
 				fail("shortcuts", t);
+			}
+		}
+
+		/** A rule with a melody, for the edit-screen and tune-maker steps. */
+		private MentionRule melodyRule() {
+			MentionRule rule = new MentionRule("tunetest", "minecraft:block.note_block.pling", 1.0f, 1.0f);
+			rule.tune = MentionRule.DEFAULT_MELODY.clone();
+			rule.tuneInstrument = "minecraft:block.note_block.bell";
+			rule.tuneTempo = 150;
+			return rule;
+		}
+
+		private void stepInstruments() {
+			try {
+				int resolvable = 0;
+				for (String id : Instruments.ORDERED) {
+					if (Sounds.exists(id)) resolvable++;
+				}
+				check("note-block instruments resolve", resolvable >= 10);
+				check("instrument list never empty", !Instruments.available().isEmpty());
+				check("note names", Instruments.noteName(0).contains("3")
+						&& Instruments.noteName(12).contains("4") && Instruments.noteName(24).contains("5"));
+			} catch (Throwable t) {
+				fail("instruments", t);
+			}
+		}
+
+		private void stepTuneStart() {
+			try {
+				MentionRule rule = melodyRule();
+				rule.tune = new int[] {12, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+				rule.tuneTempo = 100;
+				TunePlayer.play(rule.tuneInstrument, rule.tune, 1.0f, rule.tuneTempo);
+				check("tune scheduled", TunePlayer.isPlaying());
+			} catch (Throwable t) {
+				fail("tune start", t);
+			}
+		}
+
+		/** Runs 15 ticks (750 ms) after stepTuneStart: both notes must have fired. */
+		private void stepTuneCheck() {
+			try {
+				check("tune notes fired", TunePlayer.debugPlayedCount() >= 2);
+				check("tune finished", !TunePlayer.isPlaying() || TunePlayer.progressSteps() >= 2);
+			} catch (Throwable t) {
+				fail("tune check", t);
+			}
+		}
+
+		private void stepConfigJson() {
+			try {
+				com.google.gson.Gson gson = new com.google.gson.Gson();
+				MentionRule rule = melodyRule();
+				String json = gson.toJson(rule);
+				MentionRule back = gson.fromJson(json, MentionRule.class);
+				check("melody survives config round trip",
+						back.hasTune() && back.tuneNoteCount() == rule.tuneNoteCount()
+								&& back.tuneInstrument.equals(rule.tuneInstrument)
+								&& back.tuneTempo == rule.tuneTempo);
+				MentionRule plain = new MentionRule("p", "minecraft:block.note_block.pling", 1.0f, 1.0f);
+				MentionRule plainBack = gson.fromJson(gson.toJson(plain), MentionRule.class);
+				check("sound rule survives config round trip",
+						!plainBack.hasTune() && plainBack.tune == null);
+			} catch (Throwable t) {
+				fail("config json", t);
 			}
 		}
 

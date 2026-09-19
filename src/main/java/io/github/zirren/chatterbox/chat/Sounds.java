@@ -52,6 +52,30 @@ public final class Sounds {
 		client.getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
 	}
 
+	/**
+	 * Plays a sound without the rate limit (tune notes may repeat quickly) and
+	 * without ever throwing — used for melodies and UI previews.
+	 */
+	public static void playDirect(SoundEvent event, float pitch, float volume) {
+		try {
+			Minecraft client = Minecraft.getInstance();
+			if (client == null || event == null) return;
+			client.getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
+		} catch (Throwable ignored) {
+		}
+	}
+
+	/** Immediate preview of a sound id (no rate limit, never throws). */
+	public static void preview(String id, float pitch, float volume) {
+		try {
+			SoundEvent event = resolve(id);
+			if (event != null) {
+				playDirect(event, pitch, volume);
+			}
+		} catch (Throwable ignored) {
+		}
+	}
+
 	/** @return true if the id string is a sound event starting with block.note_block. */
 	public static boolean isNoteBlockInstrument(String id) {
 		String path = id.contains(":") ? id.substring(id.indexOf(':') + 1) : id;
