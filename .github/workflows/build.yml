@@ -447,6 +447,41 @@ jobs:
           cp build/libs/*.jar dist/
           ls dist
 
+      - name: Decompile list widget internals (diagnose invisible lists)
+        if: matrix.mc == '26.2' && matrix.loader == '0.19.3'
+        run: |
+          set -e
+          mkdir -p .apidump/decomp
+          # locate the mapped minecraft jar in the loom cache
+          MCJAR=""
+          for j in $(find "$HOME/.gradle/caches/fabric-loom" -name "*.jar" ! -name "*sources*" 2>/dev/null); do
+            if unzip -l "$j" 2>/dev/null | grep -q "components/AbstractSelectionList.class"; then MCJAR="$j"; break; fi
+          done
+          echo "minecraft jar: $MCJAR"
+          if [ -n "$MCJAR" ]; then
+            javap -c -p -classpath "$MCJAR" \
+              'net.minecraft.client.gui.components.AbstractSelectionList' \
+              'net.minecraft.client.gui.components.AbstractSelectionList$Entry' \
+              > .apidump/decomp/mc-AbstractSelectionList.txt
+            javap -c -p -classpath "$MCJAR" \
+              'net.minecraft.client.gui.components.AbstractWidget' \
+              'net.minecraft.client.gui.components.AbstractContainerWidget' \
+              > .apidump/decomp/mc-AbstractWidget.txt
+          fi
+          # compare with a known-working 26.2 mod that uses selection lists
+          if curl -sfL -o /tmp/modmenu.jar "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"; then
+            javap -c -p -classpath /tmp/modmenu.jar \
+              'com.terraformersmc.modmenu.gui.widget.DescriptionListWidget' \
+              'com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$MailableContactEntry' \
+              'com.terraformersmc.modmenu.gui.ModsScreen' \
+              > .apidump/decomp/modmenu-lists.txt 2>/dev/null || true
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f .apidump/decomp/*.txt
+          git commit -m "decomp: selection list internals MC $MC [skip ci]" || true
+          for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+
       - name: Inspect remapped jar (mixin target names)
         run: |
           JAR=$(ls build/libs/*.jar 2>/dev/null | grep -v sources | head -1 || true)
@@ -502,12 +537,35 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Install virtual display + software GL
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers imagemagick
 
       - name: Launch game with the mod (selftest quits it)
         run: |
           set +e
-          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 600 ./gradlew runClient             -Pminecraft_version=$MC -Pminecraft_dep=$DEP             -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU             -Ploader_version=$LOADER > smoke-gradle.log 2>&1
+          # run the game inside the virtual display and screenshot the two
+          # screens the selftest holds open (list-rendering evidence)
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 600 bash -c '
+            ./gradlew runClient \
+                -Pminecraft_version=$MC -Pminecraft_dep=$DEP \
+                -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU \
+                -Ploader_version=$LOADER > smoke-gradle.log 2>&1 &
+            GAME=$!
+            mkdir -p .apidump/shots
+            SEEN1=0; SEEN2=0
+            for i in $(seq 1 1100); do
+              kill -0 $GAME 2>/dev/null || break
+              if [ $SEEN1 -eq 0 ] && grep -q "HOLD mention-rules" run/logs/latest.log 2>/dev/null; then
+                SEEN1=1; sleep 2; import -window root .apidump/shots/mention-rules-mc$MC.png 2>/dev/null
+              fi
+              if [ $SEEN2 -eq 0 ] && grep -q "HOLD sound-picker" run/logs/latest.log 2>/dev/null; then
+                SEEN2=1; sleep 2; import -window root .apidump/shots/sound-picker-mc$MC.png 2>/dev/null
+              fi
+              if [ $SEEN1 -eq 1 ] && [ $SEEN2 -eq 1 ]; then break; fi
+              sleep 0.5
+            done
+            wait $GAME
+            exit 0
+          '
           code=$?
           echo "gradle exit code: $code"
           exit 0
@@ -517,6 +575,14 @@ jobs:
           LOG=run/logs/latest.log
           REPORT=".apidump/smoke-mc$MC-loader$LOADER.txt"
           mkdir -p .apidump
+          # commit any screenshots taken (evidence for list-rendering bugs)
+          if ls .apidump/shots/*.png >/dev/null 2>&1; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f .apidump/shots/*.png
+            git commit -m "smoke screenshots: MC $MC [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+          fi
           if [ ! -f "$LOG" ]; then
             { echo "=== smoke test MC $MC loader $LOADER: game never produced a log ==="; tail -n 100 smoke-gradle.log; } > "$REPORT"
             git config user.name "github-actions[bot]"
