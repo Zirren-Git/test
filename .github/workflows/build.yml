@@ -386,10 +386,13 @@ jobs:
     name: Build MC ${{ matrix.mc }} / loader ${{ matrix.loader }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    continue-on-error: ${{ matrix.experimental == true }}
     strategy:
       fail-fast: false
       matrix:
         include:
+          # Minecraft 26.1.2 (experimental: non-blocking)
+          - { mc: "26.1.2", api: "0.155.3+26.1.2", dep: "~26.1", modmenu: "20.0.2", loader: "0.19.5", experimental: true }
           # Minecraft 26.2
           - { mc: "26.2", api: "0.161.0+26.2", dep: "~26.2", modmenu: "20.0.2", loader: "0.19.3" }
           - { mc: "26.2", api: "0.161.0+26.2", dep: "~26.2", modmenu: "20.0.2", loader: "0.19.4" }
