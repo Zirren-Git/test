@@ -14,8 +14,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 
 import io.github.zirren.chatterbox.config.Config;
 import io.github.zirren.chatterbox.config.Shortcut;
@@ -75,9 +73,8 @@ public final class Shortcuts {
 			}
 			case "dim" -> {
 				if (player == null) return null;
-				Identifier id = player.level().dimension().location();
-				String name = prettyDimension(id);
-				return name;
+				Identifier id = player.level().dimension().identifier();
+				return prettyDimension(id);
 			}
 			case "facing" -> {
 				if (player == null) return null;
@@ -85,8 +82,10 @@ public final class Shortcuts {
 				return dir.getName().toUpperCase(Locale.ROOT);
 			}
 			case "biome" -> {
-				if (player == null) return null;
-				return prettyBiome(player.level(), player.blockPosition());
+				if (player == null || client.level == null) return null;
+				BlockPos pos = player.blockPosition();
+				var holder = client.level.getUncachedNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2);
+				return holder.unwrapKey().map(key -> prettify(key.identifier().getPath())).orElse("unknown");
 			}
 			case "hp" -> {
 				if (player == null) return null;
@@ -107,7 +106,7 @@ public final class Shortcuts {
 			}
 			case "time" -> {
 				if (player == null) return null;
-				long ticks = player.level().getDayTime() % 24000L;
+				long ticks = player.level().getLevelData().getDayTime() % 24000L;
 				long hours = (ticks / 1000L + 6L) % 24L;
 				long minutes = ticks % 1000L * 60L / 1000L;
 				return String.format("%02d:%02d", hours, minutes);
@@ -149,13 +148,6 @@ public final class Shortcuts {
 			};
 		}
 		return id.toString();
-	}
-
-	private static String prettyBiome(Level level, BlockPos pos) {
-		var holder = level.getBiome(pos);
-		return holder.unwrapKey()
-				.map(key -> prettify(key.location().getPath()))
-				.orElse("unknown");
 	}
 
 	private static String prettify(String path) {

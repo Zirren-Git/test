@@ -49,7 +49,7 @@ public final class MessageClassifier {
 
 		// 1. Player chat (signed chat path or "<Name> message" formatting)
 		if (chatMessage) {
-			String name = sender != null ? sender.getName() : chatSenderName;
+			String name = sender != null ? sender.name() : chatSenderName;
 			return new Result(Folder.CHAT, null, name, null, false);
 		}
 
