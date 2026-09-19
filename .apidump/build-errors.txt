@@ -1,202 +1,40 @@
-=== build errors: MC 26.2 loader 0.19.5 ===
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:19: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:8: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:5: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:19: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:11: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:7: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:10: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:16: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:9: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:6: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:9: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:23: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:191: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:209: error: cannot find symbol
+=== build errors: MC 26.3 loader 0.19.5 ===
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:30: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:32: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:34: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:36: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:38: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:121: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:124: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:164: error: ChatSearchScreen.ResultList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:216: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:234: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:36: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:84: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:87: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:105: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:109: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:115: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:123: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:134: error: SoundPickerScreen.SoundList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:183: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:49: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:54: error: MentionRulesScreen.RuleList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:95: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:46: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:49: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:71: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:73: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:78: error: PartnersScreen.PartnerList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:122: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:280: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:345: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:48: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:48: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:52: error: ShortcutsScreen.ShortcutList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:98: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:128: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:53: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:54: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:55: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:54: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:90: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:99: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:104: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:105: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:121: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:279: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:344: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:45: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:78: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:110: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:129: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:157: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:158: error: incompatible types: Object cannot be converted to String
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:52: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:133: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:135: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:194: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:197: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:249: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:256: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:158: error: incompatible types: Object cannot be converted to String
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:164: error: ChatSearchScreen.ResultList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:134: error: SoundPickerScreen.SoundList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:54: error: MentionRulesScreen.RuleList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:78: error: PartnersScreen.PartnerList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:52: error: ShortcutsScreen.ShortcutList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:19: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:8: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:5: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:19: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:11: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:7: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:10: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:16: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:9: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:6: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:9: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:23: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:191: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:209: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:109: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:30: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:32: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:34: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:36: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:38: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:45: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:121: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:124: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:36: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:84: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:87: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:105: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:109: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:115: error: cannot find symbol
   /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:123: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:49: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:46: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:49: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:71: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:73: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:280: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:345: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:48: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:48: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:53: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:54: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:55: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:54: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:90: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:99: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:104: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:105: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:121: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:45: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:194: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:197: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:216: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:234: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:183: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:95: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:122: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:98: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:128: error: method does not override or implement a method from a supertype
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:78: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:110: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:129: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:157: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:52: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:133: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:135: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:249: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:256: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:19: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:8: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:5: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:19: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:11: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:7: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:10: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:16: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:9: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:6: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:9: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:23: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:191: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:209: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:279: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:344: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:109: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:30: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:32: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:34: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:36: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/Keybinds.java:38: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:121: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:124: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:164: error: ChatSearchScreen.ResultList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:216: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:234: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:36: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:84: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:87: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:105: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:109: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:115: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:123: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:134: error: SoundPickerScreen.SoundList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:183: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:49: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:54: error: MentionRulesScreen.RuleList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:95: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:46: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:49: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutEditScreen.java:71: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:73: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:78: error: PartnersScreen.PartnerList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/PartnersScreen.java:122: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:280: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:345: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:48: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:48: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:52: error: ShortcutsScreen.ShortcutList is not abstract and does not override abstract method updateWidgetNarration(NarrationElementOutput) in AbstractWidget
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:98: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:128: error: method does not override or implement a method from a supertype
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:53: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:54: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/FoldersScreen.java:55: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:54: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:90: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:99: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:104: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:105: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:121: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:279: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:344: error: cannot find symbol
 /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:45: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:78: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:110: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:129: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:157: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:158: error: incompatible types: Object cannot be converted to String
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:52: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:133: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatStore.java:135: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:194: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:197: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:249: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:256: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/Shortcuts.java:109: error: cannot find symbol
 === tail ===
 	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
 	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
@@ -316,5 +154,5 @@
 	... 61 more
 
 
-BUILD FAILED in 50s
+BUILD FAILED in 40s
 1 actionable task: 1 executed
