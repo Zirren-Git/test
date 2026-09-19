@@ -819,6 +819,13 @@ jobs:
       - name: Boot with other chat mods (advisory - report only)
         run: |
           set +e
+          # Fabric Language Kotlin pinned to the newest 1.13.x: 1.14+ requires
+          # loader >=0.19.5, but this test mirrors a loader 0.19.3 instance
+          flk=$(curl -sf "https://api.modrinth.com/v2/project/fabric-language-kotlin/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" \
+            | jq -r '[.[] | select(.version_number | startswith("1.13."))][0].files[0].url // empty')
+          if [ -n "$flk" ]; then
+            curl -sfL -o "instance/mods/fabric-language-kotlin.jar" "$flk" && echo "added fabric-language-kotlin (1.13.x)"
+          fi
           for slug in appleskin betterf3 chat-heads chatanimation raised immediatelyfast entityculling modernfix jade xaeros-minimap xaeros-world-map sodium iris continuity falling-leaves mouse-tweaks gamma-utils ferrite-core lithium krypton reeses-sodium-options cloth-config yetanotherconfiglib betterstats searchables controlling highlighter pick-up-notifier immersive-hotbar make-bubbles-pop screenshot-viewer status-effect-bars subtle-effects camera-overhaul centered-crosshair geckolib spark c2me-fabric vmp-fabric packet-fixer scalablelux async-particles yacl forge-config-api-port puzzles-lib fzzy-config; do
             url=$(curl -sf "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" | jq -r '.[0].files[0].url // empty' 2>/dev/null)
             if [ -n "$url" ]; then
