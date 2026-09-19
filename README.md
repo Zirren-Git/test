@@ -18,7 +18,8 @@ the chat screen** (also `Ctrl+1`…`Ctrl+9`):
 | **All** | everything, joined |
 | **Chat** | normal player messages |
 | **DMs** | whispers, with a sub-tab per conversation |
-| **Server** | join/leave, admin broadcasts, announcements |
+| **Server** | admin broadcasts, announcements |
+| **Joins** | player join/leave messages |
 | **Commands** | command output/feedback |
 | **Deaths** | death messages |
 | **Pinned** | messages you pinned |

@@ -307,7 +307,7 @@ public class TuneMakerScreen extends ChatterBoxScreen {
 		}
 
 		String hint = Lang.tr("chatterbox.tune.hint");
-		g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, this.height - 22, 0x707070, false);
+		g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, this.height - 22, 0xFF707070, false);
 	}
 
 	private void drawGrid(GuiGraphicsExtractor g, int mouseX, int mouseY) {
@@ -328,7 +328,7 @@ public class TuneMakerScreen extends ChatterBoxScreen {
 			String label = String.valueOf(step + 1);
 			int cx = gridX + step * cellW + cellW / 2 - this.font.width(label) / 2;
 			boolean active = step == playCol;
-			g.text(this.font, label, cx, headerY, active ? 0x55FF55 : (step % 4 == 0 ? 0xB0B0B0 : 0x707070), false);
+			g.text(this.font, label, cx, headerY, active ? 0xFF55FF55 : (step % 4 == 0 ? 0xFFB0B0B0 : 0xFF707070), false);
 		}
 
 		// hovered cell
@@ -345,7 +345,7 @@ public class TuneMakerScreen extends ChatterBoxScreen {
 			boolean isC = note % 12 == 6;
 			String name = Instruments.noteName(note);
 			g.text(this.font, name, gridX - this.font.width(name) - 3, y + (cellH - 8) / 2,
-					isC ? 0xFFFFFF : 0x909090, false);
+					isC ? 0xFFFFFFFF : 0xFF909090, false);
 			if (isC) {
 				g.fill(gridX, y, gridX + gridW, y + cellH, 0x14FFFFFF);
 			}
@@ -381,7 +381,7 @@ public class TuneMakerScreen extends ChatterBoxScreen {
 			boolean playing = step == playCol;
 			g.fill(x + 1, y + 1, x + cellW - 1, y + cellH - 1, playing ? 0xFF6FCF5F : 0xFF3C8527);
 			g.text(this.font, "♪", x + cellW / 2 - this.font.width("♪") / 2,
-					y + (cellH - 8) / 2 - (playing ? 1 : 0), 0xFFFFFF, false);
+					y + (cellH - 8) / 2 - (playing ? 1 : 0), 0xFFFFFFFF, false);
 		}
 
 		// tooltip for the hovered cell

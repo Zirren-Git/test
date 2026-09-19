@@ -233,7 +233,7 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 				String summary = Lang.tr("chatterbox.rules.melody_summary",
 						Instruments.friendly(rule.tuneInstrument),
 						String.valueOf(rule.tuneNoteCount()));
-				g.text(this.font, summary, this.width / 2 - this.font.width(summary) / 2, 119, 0x909090, false);
+				g.text(this.font, summary, this.width / 2 - this.font.width(summary) / 2, 119, 0xFF909090, false);
 			} else if (soundButton != null) {
 				// the picker may have changed the sound while we were away
 				soundButton.setMessage(soundLabel());

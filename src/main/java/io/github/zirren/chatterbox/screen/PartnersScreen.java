@@ -72,7 +72,7 @@ public class PartnersScreen extends ChatterBoxScreen {
 		drawTitle(g, 0xFFFFFFFF);
 		if (ChatStore.INSTANCE.dmPartners().isEmpty()) {
 			String msg = Lang.tr("chatterbox.partners.empty");
-			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0x808080, false);
+			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0xFF808080, false);
 		}
 	}
 
@@ -133,7 +133,7 @@ public class PartnersScreen extends ChatterBoxScreen {
 				if (hovered || partner.equals(selected)) {
 					g.fill(left - 2, getContentY(), left + PartnerList.this.getRowWidth() - 4, getContentY() + 14, 0x25FFFFFF);
 				}
-				g.text(f, partner, left + 2, y, 0xFFFFFF, false);
+				g.text(f, partner, left + 2, y, 0xFFFFFFFF, false);
 			}
 		}
 	}

@@ -537,35 +537,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Install virtual display + software GL
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers imagemagick
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers
 
       - name: Launch game with the mod (selftest quits it)
         run: |
           set +e
-          # run the game inside the virtual display and screenshot the two
-          # screens the selftest holds open (list-rendering evidence)
-          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 600 bash -c '
-            ./gradlew runClient \
-                -Pminecraft_version=$MC -Pminecraft_dep=$DEP \
-                -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU \
-                -Ploader_version=$LOADER > smoke-gradle.log 2>&1 &
-            GAME=$!
-            mkdir -p .apidump/shots
-            SEEN1=0; SEEN2=0
-            for i in $(seq 1 1100); do
-              kill -0 $GAME 2>/dev/null || break
-              if [ $SEEN1 -eq 0 ] && grep -q "HOLD mention-rules" run/logs/latest.log 2>/dev/null; then
-                SEEN1=1; sleep 2; import -window root .apidump/shots/mention-rules-mc$MC.png 2>/dev/null
-              fi
-              if [ $SEEN2 -eq 0 ] && grep -q "HOLD sound-picker" run/logs/latest.log 2>/dev/null; then
-                SEEN2=1; sleep 2; import -window root .apidump/shots/sound-picker-mc$MC.png 2>/dev/null
-              fi
-              if [ $SEEN1 -eq 1 ] && [ $SEEN2 -eq 1 ]; then break; fi
-              sleep 0.5
-            done
-            wait $GAME
-            exit 0
-          '
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 600 ./gradlew runClient             -Pminecraft_version=$MC -Pminecraft_dep=$DEP             -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU             -Ploader_version=$LOADER > smoke-gradle.log 2>&1
           code=$?
           echo "gradle exit code: $code"
           exit 0
@@ -575,14 +552,6 @@ jobs:
           LOG=run/logs/latest.log
           REPORT=".apidump/smoke-mc$MC-loader$LOADER.txt"
           mkdir -p .apidump
-          # commit any screenshots taken (evidence for list-rendering bugs)
-          if ls .apidump/shots/*.png >/dev/null 2>&1; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -f .apidump/shots/*.png
-            git commit -m "smoke screenshots: MC $MC [skip ci]" || true
-            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
-          fi
           if [ ! -f "$LOG" ]; then
             { echo "=== smoke test MC $MC loader $LOADER: game never produced a log ==="; tail -n 100 smoke-gradle.log; } > "$REPORT"
             git config user.name "github-actions[bot]"

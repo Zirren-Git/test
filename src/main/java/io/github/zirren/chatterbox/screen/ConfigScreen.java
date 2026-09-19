@@ -174,8 +174,8 @@ public class ConfigScreen extends ChatterBoxScreen {
 		drawTitle(g, 0xFFFFFFFF);
 		String version = "ChatterBox v" + FabricLoader.getInstance().getModContainer("chatterbox")
 				.map(c -> c.getMetadata().getVersion().getFriendlyString()).orElse("?");
-		g.text(this.font, version, 4, this.height - 10, 0x707070, false);
+		g.text(this.font, version, 4, this.height - 10, 0xFF707070, false);
 		String mc = Lang.tr("chatterbox.config.mc", "26.2 – 26.3");
-		g.text(this.font, mc, this.width - this.font.width(mc) - 4, this.height - 10, 0x707070, false);
+		g.text(this.font, mc, this.width - this.font.width(mc) - 4, this.height - 10, 0xFF707070, false);
 	}
 }

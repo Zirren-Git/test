@@ -91,8 +91,12 @@ public final class ChatStore {
 				chatSenderName = ctx.chatSenderName();
 				pending = null;
 			}
+			// The hud pipeline the message came through is authoritative: many
+			// servers decorate player chat beyond what any format check can
+			// recognize, but it still enters through addPlayerMessage.
+			boolean playerSource = source == GuiMessageSource.PLAYER;
 
-			handleIncoming(message, chatMessage, sender, chatSenderName, source, tag);
+			handleIncoming(message, chatMessage, playerSource, sender, chatSenderName, source, tag);
 			return false;
 		} catch (Throwable t) {
 			io.github.zirren.chatterbox.ChatterBoxClient.LOGGER
@@ -101,10 +105,10 @@ public final class ChatStore {
 		}
 	}
 
-	private void handleIncoming(Component message, boolean chatMessage, GameProfile sender, String chatSenderName,
-			GuiMessageSource source, @Nullable GuiMessageTag tag) {
-		MessageClassifier.Result result = MessageClassifier.classify(message, chatMessage, sender, chatSenderName,
-				lastCommandSentAt, Config.get().commandFeedbackFolder);
+	private void handleIncoming(Component message, boolean chatMessage, boolean playerSource, GameProfile sender,
+			String chatSenderName, GuiMessageSource source, @Nullable GuiMessageTag tag) {
+		MessageClassifier.Result result = MessageClassifier.classify(message, chatMessage, playerSource, sender,
+				chatSenderName, lastCommandSentAt, Config.get().commandFeedbackFolder);
 
 		if (result.folder() == Folder.DM && result.dmPartner() != null) {
 			addDmPartner(result.dmPartner());

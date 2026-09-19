@@ -12,8 +12,10 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 /**
  * Decides which folder an incoming message belongs to.
  *
- * <p>Vanilla servers are detected via translation keys; modded servers fall
- * back to regex heuristics.</p>
+ * <p>Messages that entered the chat hud through the player-chat pipeline are
+ * always player chat (many servers decorate them beyond recognition, so the
+ * pipeline origin is the only reliable signal). System messages are detected
+ * via translation keys first, then regex heuristics for modded servers.</p>
  */
 public final class MessageClassifier {
 	// Fallback patterns for non-vanilla servers (Bukkit/Spigot/Paper etc.)
@@ -39,17 +41,25 @@ public final class MessageClassifier {
 
 	/**
 	 * @param component    the message component about to be displayed
-	 * @param chatMessage  true if this arrived as a player chat message (signed chat)
+	 * @param chatMessage  true if this arrived as a player chat message (signed chat event context)
+	 * @param playerSource true if the chat hud received it through the player-chat pipeline
+	 *                     (authoritative - the decorated component may not match any format)
 	 * @param sender       sender profile for chat messages, if known
 	 * @param commandSentAt epoch millis when the local player last sent a command, or 0
 	 */
-	public static Result classify(Component component, boolean chatMessage, @Nullable GameProfile sender,
+	public static Result classify(Component component, boolean chatMessage, boolean playerSource, @Nullable GameProfile sender,
 			@Nullable String chatSenderName, long commandSentAt, boolean commandFeedbackEnabled) {
 		String plain = component.getString();
 
-		// 1. Player chat (signed chat path or "<Name> message" formatting)
-		if (chatMessage) {
-			String name = sender != null ? sender.name() : chatSenderName;
+		// 1. Player chat: signed-chat context or the hud's player pipeline.
+		//    (Whisper keys are still checked - some servers route /msg through here.)
+		if (chatMessage || playerSource) {
+			if (component.getContents() instanceof TranslatableContents translatable
+					&& translatable.getKey().startsWith("commands.message.display.")) {
+				return whisper(translatable);
+			}
+			String name = sender != null ? sender.name()
+					: (chatSenderName != null ? chatSenderName : chatLineName(plain));
 			return new Result(Folder.CHAT, null, name, null, false);
 		}
 
@@ -57,17 +67,18 @@ public final class MessageClassifier {
 		if (component.getContents() instanceof TranslatableContents translatable) {
 			String key = translatable.getKey();
 			if (key.startsWith("commands.message.display.")) {
-				boolean outgoing = key.endsWith("outgoing");
-				String partner = argString(translatable, 0);
-				String content = argString(translatable, 1);
-				return new Result(Folder.DM, partner, outgoing ? null : partner, content, outgoing);
+				return whisper(translatable);
 			}
 			if (key.startsWith("death.") || key.startsWith("multiplayer.player.died")) {
 				return new Result(Folder.DEATH, null, argString(translatable, 0), null, false);
 			}
+			if (key.equals("multiplayer.player.joined") || key.equals("multiplayer.player.left")
+					|| key.equals("multiplayer.player.quit")) {
+				return new Result(Folder.JOINS, null, argString(translatable, 0), null, false);
+			}
 			if (key.startsWith("multiplayer.player.") || key.equals("chat.type.admin")
 					|| key.equals("chat.type.announcement") || key.equals("chat.type.emote")
-					|| key.startsWith("chat.type.advancement.") || key.startsWith("multiplayer.player.quit")) {
+					|| key.startsWith("chat.type.advancement.")) {
 				return new Result(Folder.SERVER, null, argString(translatable, 0), null, false);
 			}
 			if (key.startsWith("chat.type.")) {
@@ -86,22 +97,23 @@ public final class MessageClassifier {
 			return new Result(Folder.DM, mOut.group(1), null, mOut.group(2), true);
 		}
 
-		// 4. Death regex fallback
+		// 4. "<Name> message" chat formatting - BEFORE join/death, so that
+		//    "<Bob> left the game" stays player chat and not a join message
+		Matcher mChat = CHAT_LINE.matcher(plain);
+		if (mChat.matches()) {
+			return new Result(Folder.CHAT, null, mChat.group(1), null, false);
+		}
+
+		// 5. Death regex fallback
 		for (Pattern p : DEATH_PATTERNS) {
 			if (p.matcher(plain).find()) {
 				return new Result(Folder.DEATH, null, firstWord(plain), null, false);
 			}
 		}
 
-		// 5. Join/leave
+		// 6. Join/leave
 		if (JOIN_LEAVE.matcher(plain).find()) {
-			return new Result(Folder.SERVER, null, firstWord(plain), null, false);
-		}
-
-		// 6. "<Name> message" chat formatting
-		Matcher mChat = CHAT_LINE.matcher(plain);
-		if (mChat.matches()) {
-			return new Result(Folder.CHAT, null, mChat.group(1), null, false);
+			return new Result(Folder.JOINS, null, firstWord(plain), null, false);
 		}
 
 		// 7. Command feedback: system message shortly after we ran a command
@@ -112,6 +124,20 @@ public final class MessageClassifier {
 
 		// 8. Remaining system messages -> server folder
 		return new Result(Folder.SERVER, null, null, null, false);
+	}
+
+	private static Result whisper(TranslatableContents translatable) {
+		String key = translatable.getKey();
+		boolean outgoing = key.endsWith("outgoing");
+		String partner = argString(translatable, 0);
+		String content = argString(translatable, 1);
+		return new Result(Folder.DM, partner, outgoing ? null : partner, content, outgoing);
+	}
+
+	/** Extracts the name from a "<Name> …" string, or null. */
+	private static String chatLineName(String plain) {
+		Matcher m = CHAT_LINE.matcher(plain);
+		return m.matches() ? m.group(1) : null;
 	}
 
 	private static String argString(TranslatableContents contents, int index) {

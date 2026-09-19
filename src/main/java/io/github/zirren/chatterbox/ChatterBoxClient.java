@@ -163,19 +163,8 @@ public class ChatterBoxClient implements ClientModInitializer {
 				if (tick >= 100 && index < steps.size() && (tick - 100) % 15 == 0) {
 					steps.get(index).accept(client);
 				}
-				// hold two list screens open so CI can screenshot them
-				int holdStart = 100 + 15 * steps.size() + 20;
-				if (tick == holdStart) {
-					seedRules();
-					client.gui.setScreen(new MentionRulesScreen(null));
-					LOGGER.info("CHATTERBOX SELFTEST: HOLD mention-rules");
-				}
-				if (tick == holdStart + 120) {
-					client.gui.setScreen(new SoundPickerScreen(null, "minecraft:block.note_block.pling", 1.0f, 1.0f, id -> { }));
-					LOGGER.info("CHATTERBOX SELFTEST: HOLD sound-picker");
-				}
 				// let the last screen render for a moment, then finish
-				if (tick >= holdStart + 240 && !announcedResult) {
+				if (tick >= 100 + 15 * steps.size() + 60 && !announcedResult) {
 					announcedResult = true;
 					LOGGER.info("CHATTERBOX SELFTEST COMPLETE: FAILURES={}", failures);
 					LOGGER.info("CHATTERBOX SELFTEST: stopping game");
@@ -190,38 +179,36 @@ public class ChatterBoxClient implements ClientModInitializer {
 			}
 		}
 
-		/** Gives the mention rules list a few rows so screenshots are meaningful. */
-		private void seedRules() {
-			try {
-				Config cfg = Config.get();
-				while (cfg.mentionRules.size() < 3) {
-					cfg.mentionRules.add(new MentionRule("tester" + cfg.mentionRules.size(),
-							"minecraft:block.note_block.bell", 1.0f, 1.2f));
-				}
-				cfg.save();
-			} catch (Throwable t) {
-				fail("seed rules", t);
-			}
-		}
-
 		private void stepFunnel(Minecraft client) {
 			try {
 				var chat = client.gui.hud.getChat();
 				int before = ChatStore.INSTANCE.entries().size();
 				chat.addClientSystemMessage(Component.literal("[selftest] client system message"));
 				chat.addServerSystemMessage(Component.translatable("multiplayer.player.joined", Component.literal("SelfTester")));
+				chat.addServerSystemMessage(Component.literal("Joiner left the game"));
 				chat.addPlayerMessage(Component.literal("<Steve> hello world"), null, null);
+				// decorated player chat without any recognizable format must still
+				// land in the Chat folder (player-pipeline source, not heuristics)
+				chat.addPlayerMessage(Component.literal("Steve » hello again"), null, null);
 				chat.addPlayerMessage(Component.translatable("commands.message.display.incoming",
 						Component.literal("Alex"), Component.literal("psst")), null, null);
 				int after = ChatStore.INSTANCE.entries().size();
-				check("captured 4 messages", after >= before + 4);
+				check("captured 6 messages", after >= before + 6);
 				check("dm partner detected", ChatStore.INSTANCE.hasDmPartner("Alex"));
 				check("chat folder populated",
 						ChatStore.INSTANCE.entries().stream().anyMatch(e -> e.folder == Folder.CHAT));
+				check("player-pipeline chat classified as chat", ChatStore.INSTANCE.entries().stream()
+						.anyMatch(e -> e.folder == Folder.CHAT && e.text.contains("hello again")));
 				check("dm folder populated",
 						ChatStore.INSTANCE.entries().stream().anyMatch(e -> e.folder == Folder.DM));
 				check("server folder populated",
 						ChatStore.INSTANCE.entries().stream().anyMatch(e -> e.folder == Folder.SERVER));
+				check("joins folder populated (translation key)",
+						ChatStore.INSTANCE.entries().stream()
+								.anyMatch(e -> e.folder == Folder.JOINS && e.text.contains("SelfTester")));
+				check("joins folder populated (regex)",
+						ChatStore.INSTANCE.entries().stream()
+								.anyMatch(e -> e.folder == Folder.JOINS && e.text.contains("Joiner")));
 			} catch (Throwable t) {
 				fail("funnel", t);
 			}

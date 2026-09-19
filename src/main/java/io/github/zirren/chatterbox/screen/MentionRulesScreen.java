@@ -49,7 +49,7 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		drawTitle(g, 0xFFFFFFFF);
 		if (Config.get().mentionRules.isEmpty()) {
 			String msg = Lang.tr("chatterbox.rules.empty");
-			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0x808080, false);
+			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0xFF808080, false);
 		}
 	}
 
@@ -119,9 +119,9 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 							Instruments.noteName(Instruments.noteFromPitch(rule.pitch)));
 				}
 				String clipped = f.plainSubstrByWidth(word, RuleList.this.getRowWidth() - 8);
-				g.text(f, clipped, left, y, rule.enabled ? 0xFFFFFF : 0x707070, false);
+				g.text(f, clipped, left, y, rule.enabled ? 0xFFFFFFFF : 0xFF707070, false);
 				String restClipped = f.plainSubstrByWidth(rest, RuleList.this.getRowWidth() - 8);
-				g.text(f, restClipped, left + 4, y + 12, 0x909090, false);
+				g.text(f, restClipped, left + 4, y + 12, 0xFF909090, false);
 			}
 		}
 	}

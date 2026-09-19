@@ -118,11 +118,11 @@ public class SoundPickerScreen extends Screen {
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
 		super.extractRenderState(graphics, mouseX, mouseY, delta);
-		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFF, true);
+		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFFFF, true);
 		String selected = Component.translatable("chatterbox.sounds.selected", pendingId).getString();
-		graphics.text(this.font, selected, this.width / 2 - this.font.width(selected) / 2, this.height - 34, 0xA0A0A0, false);
+		graphics.text(this.font, selected, this.width / 2 - this.font.width(selected) / 2, this.height - 34, 0xFFA0A0A0, false);
 		String hint = Lang.tr("chatterbox.sounds.hint");
-		graphics.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, this.height - 44, 0x707070, false);
+		graphics.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, this.height - 44, 0xFF707070, false);
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public class SoundPickerScreen extends Screen {
 				boolean isNote = Sounds.isNoteBlockInstrument(id);
 				String display = (isNote ? "♪ " : "  ") + id;
 				String clipped = f.plainSubstrByWidth(display, SoundList.this.getRowWidth() - 10);
-				graphics.text(f, clipped, left, y, id.equals(pendingId) ? 0x55FF55 : (isNote ? 0xFFFFFF : 0xB8B8B8), false);
+				graphics.text(f, clipped, left, y, id.equals(pendingId) ? 0xFF55FF55 : (isNote ? 0xFFFFFFFF : 0xFFB8B8B8), false);
 			}
 		}
 	}

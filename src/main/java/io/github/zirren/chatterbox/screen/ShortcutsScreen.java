@@ -47,7 +47,7 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 		drawTitle(g, 0xFFFFFFFF);
 		int y = this.height - 40;
 		String hint = Lang.tr("chatterbox.shortcuts.static") + " · " + Lang.tr("chatterbox.shortcuts.dynamic");
-		g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, y, 0x707070, false);
+		g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, y, 0xFF707070, false);
 	}
 
 	private class ShortcutList extends AbstractSelectionList<ShortcutList.Entry> {
@@ -114,8 +114,8 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 				String token = "{" + shortcut.token + "}";
 				String value = shortcut.replacement;
 				g.text(f, f.plainSubstrByWidth(token, w - 8), left, y,
-						on ? 0x55FF55 : 0x707070, false);
-				g.text(f, f.plainSubstrByWidth("→ " + value, w - 8), left + 4, y + 12, on ? 0xFFFFFF : 0x707070, false);
+						on ? 0xFF55FF55 : 0xFF707070, false);
+				g.text(f, f.plainSubstrByWidth("→ " + value, w - 8), left + 4, y + 12, on ? 0xFFFFFFFF : 0xFF707070, false);
 			}
 		}
 
@@ -139,8 +139,8 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 				boolean on = Config.get().isDynamicShortcutEnabled(token);
 				String desc = ShortcutsDefaults.DYNAMIC_DESCRIPTIONS.getOrDefault(token, "");
 				g.text(f, f.plainSubstrByWidth("{" + token + "}", w - 8), left, y,
-						on ? 0xFFD35C : 0x707070, false);
-				g.text(f, f.plainSubstrByWidth("→ " + desc, w - 8), left + 4, y + 12, on ? 0xB8B8B8 : 0x606060, false);
+						on ? 0xFFFFD35C : 0xFF707070, false);
+				g.text(f, f.plainSubstrByWidth("→ " + desc, w - 8), left + 4, y + 12, on ? 0xFFB8B8B8 : 0xFF606060, false);
 			}
 		}
 	}

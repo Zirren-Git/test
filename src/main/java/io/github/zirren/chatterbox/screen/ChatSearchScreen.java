@@ -118,14 +118,14 @@ public class ChatSearchScreen extends Screen {
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
 		super.extractRenderState(graphics, mouseX, mouseY, delta);
-		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFF, true);
+		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFFFF, true);
 		String count = Lang.tr("chatterbox.search.results", resultCount);
-		graphics.text(this.font, count, this.width / 2 + 134, 15, 0xA0A0A0, false);
+		graphics.text(this.font, count, this.width / 2 + 134, 15, 0xFFA0A0A0, false);
 		if (rows.isEmpty()) {
 			String empty = Lang.tr(searchBox != null && !searchBox.getValue().isEmpty()
 					? "chatterbox.search.empty" : "chatterbox.search.type");
 			graphics.text(this.font, empty, this.width / 2 - this.font.width(empty) / 2,
-					this.height / 2 - 10, 0x808080, false);
+					this.height / 2 - 10, 0xFF808080, false);
 		}
 	}
 
@@ -221,7 +221,7 @@ public class ChatSearchScreen extends Screen {
 
 			@Override
 			public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float delta) {
-				graphics.text(font, label, ResultList.this.getRowLeft() + 4, getContentY() + 2, 0x707070, false);
+				graphics.text(font, label, ResultList.this.getRowLeft() + 4, getContentY() + 2, 0xFF707070, false);
 			}
 		}
 
@@ -245,26 +245,26 @@ public class ChatSearchScreen extends Screen {
 				}
 
 				Component time = Component.literal("[" + result.time + "]");
-				graphics.text(f, time, left, y, 0xA0A0A0, false);
+				graphics.text(f, time, left, y, 0xFFA0A0A0, false);
 				int x = left + f.width(time);
 
 				String folderName = result.folder == Folder.DM && result.dmPartner != null
 						? "DM/" + result.dmPartner
 						: Component.translatable(result.folder.translationKey()).getString();
 				Component folder = Component.literal(" [" + folderName + "]");
-				graphics.text(f, folder, x, y, 0x55FFFF, false);
+				graphics.text(f, folder, x, y, 0xFF55FFFF, false);
 				x += f.width(folder) + 3;
 
 				if (result.sender != null) {
 					Component sender = Component.literal("<" + result.sender + "> ");
-					graphics.text(f, sender, x, y, 0xFFFFFF, false);
+					graphics.text(f, sender, x, y, 0xFFFFFFFF, false);
 					x += f.width(sender);
 				}
 
 				int remaining = maxRight - x;
 				if (remaining > 8) {
 					String clipped = f.plainSubstrByWidth(result.text, remaining);
-					graphics.text(f, clipped, x, y, hovered ? 0xFFFFA0 : 0xD8D8D8, false);
+					graphics.text(f, clipped, x, y, hovered ? 0xFFFFFFA0 : 0xFFD8D8D8, false);
 				}
 			}
 		}

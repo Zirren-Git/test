@@ -9,6 +9,7 @@ public enum Folder {
 	CHAT("chat"),
 	DM("dm"),
 	SERVER("server"),
+	JOINS("joins"),
 	COMMAND("command"),
 	DEATH("death"),
 	PINNED("pinned");
@@ -25,7 +26,7 @@ public enum Folder {
 
 	/** All folders in tab order, excluding ALL (which is always first). */
 	public static Folder[] categories() {
-		return new Folder[]{CHAT, DM, SERVER, COMMAND, DEATH, PINNED};
+		return new Folder[]{CHAT, DM, SERVER, JOINS, COMMAND, DEATH, PINNED};
 	}
 
 	public static Folder byKey(String key) {

@@ -69,7 +69,7 @@ public class ShortcutEditScreen extends ChatterBoxScreen {
 		drawTitle(g, 0xFFFFFFFF);
 		if (!token.getValue().isEmpty()) {
 			String example = Lang.tr("chatterbox.shortcuts.example", token.getValue(), replacement.getValue());
-			g.text(this.font, this.font.plainSubstrByWidth(example, this.width - 20), 10, this.height - 44, 0x707070, false);
+			g.text(this.font, this.font.plainSubstrByWidth(example, this.width - 20), 10, this.height - 44, 0xFF707070, false);
 		}
 	}
 
