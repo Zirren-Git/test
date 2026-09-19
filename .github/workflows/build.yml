@@ -703,6 +703,7 @@ jobs:
       - name: Create a real Fabric instance (like a launcher does)
         run: |
           curl -sfL -o fabric-installer.jar "https://maven.fabricmc.net/net/fabricmc/fabric-installer/1.1.1/fabric-installer-1.1.1.jar"
+          mkdir -p instance   # installer requires an existing game dir
           java -jar fabric-installer.jar client -dir instance -mcversion "$MC" -loader "$LOADER" -noprofile
           echo "--- instance layout ---"
           find instance -maxdepth 3 -type d | sort
