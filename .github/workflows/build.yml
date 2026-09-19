@@ -780,6 +780,7 @@ jobs:
           set +e
           xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 240 bash run-game.sh > game-baseline.log 2>&1
           code=$?
+          echo "$code" > game-exitcode.txt
           echo "game exit code: $code (124 = ran until timeout = good)"
           tail -n 30 game-baseline.log
 
@@ -801,8 +802,10 @@ jobs:
           } > "$REPORT"
           ok=1
           grep -q "ChatterBox initialized" "$LOG" || { echo "::error::ChatterBox did not initialize in production mode"; ok=0; }
-          grep -q "Sound engine started" "$LOG" || { echo "::error::game did not finish booting"; ok=0; }
+          grep -q "Reloading ResourceManager: vanilla, chatterbox" "$LOG" || { echo "::error::game did not get past mod loading"; ok=0; }
           ls instance/crash-reports/*.txt >/dev/null 2>&1 && { echo "::error::crash report produced"; ok=0; }
+          code=$(cat game-exitcode.txt 2>/dev/null || echo unknown)
+          [ "$code" = "124" ] || { echo "::error::game exited early (code $code) instead of surviving until the timeout"; ok=0; }
           if [ $ok -ne 1 ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -816,7 +819,7 @@ jobs:
       - name: Boot with other chat mods (advisory - report only)
         run: |
           set +e
-          for slug in chat_heads chatanimation; do
+          for slug in chat_heads chatanimation raised; do
             url=$(curl -sf "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" | jq -r '.[0].files[0].url // empty' 2>/dev/null)
             if [ -n "$url" ]; then
               curl -sfL -o "instance/mods/$slug.jar" "$url" && echo "added $slug"
