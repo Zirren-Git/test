@@ -492,6 +492,7 @@ jobs:
       MODMENU: "20.0.2"
       LOADER: "0.19.3"
       LIBGL_ALWAYS_SOFTWARE: "1"
+      SDL_VIDEODRIVER: "x11"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -514,25 +515,37 @@ jobs:
       - name: Check selftest results
         run: |
           LOG=run/logs/latest.log
+          REPORT=".apidump/smoke-mc$MC-loader$LOADER.log"
+          mkdir -p .apidump
           if [ ! -f "$LOG" ]; then
+            { echo "=== smoke test MC $MC loader $LOADER: game never produced a log ==="; tail -n 100 smoke-gradle.log; } > "$REPORT"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$REPORT"
+            git commit -m "smoke failure: no game log, MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
             echo "::error::game never produced a log"
-            tail -n 80 smoke-gradle.log
             exit 1
           fi
-          echo "--- selftest output ---"
-          grep -n "CHATTERBOX SELFTEST" "$LOG" || true
-          echo "--- crash markers ---"
-          grep -nE "Crash report|MixinApplyError|Fatal" "$LOG" | head -20 || true
-          if ls run/crash-reports/*.txt >/dev/null 2>&1; then
-            echo "::error::crash report produced"
-            ls run/crash-reports/
-            exit 1
-          fi
-          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG"; then
+          {
+            echo "=== smoke test MC $MC loader $LOADER ==="
+            echo "--- selftest lines ---"; grep -n "CHATTERBOX SELFTEST" "$LOG" || true
+            echo "--- error markers ---"; grep -nE "Crash report|MixinApplyError|Exception|FATAL" "$LOG" | head -60 || true
+            echo "--- game log tail ---"; tail -n 120 "$LOG"
+            echo "--- gradle log tail ---"; tail -n 60 smoke-gradle.log
+            if [ -n "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
+              echo "--- crash report ---"; head -n 150 run/crash-reports/*.txt
+            fi
+          } > "$REPORT"
+          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG" && [ -z "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
             echo "SMOKE TEST PASSED"
           else
-            echo "::error::selftest did not complete cleanly"
-            tail -n 100 "$LOG"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$REPORT"
+            git commit -m "smoke failure: MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            echo "::error::selftest did not complete cleanly (log committed to $REPORT)"
             exit 1
           fi
 
@@ -558,6 +571,7 @@ jobs:
       MODMENU: "21.0.0-beta.1"
       LOADER: "0.19.5"
       LIBGL_ALWAYS_SOFTWARE: "1"
+      SDL_VIDEODRIVER: "x11"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -580,25 +594,37 @@ jobs:
       - name: Check selftest results
         run: |
           LOG=run/logs/latest.log
+          REPORT=".apidump/smoke-mc$MC-loader$LOADER.log"
+          mkdir -p .apidump
           if [ ! -f "$LOG" ]; then
+            { echo "=== smoke test MC $MC loader $LOADER: game never produced a log ==="; tail -n 100 smoke-gradle.log; } > "$REPORT"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$REPORT"
+            git commit -m "smoke failure: no game log, MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
             echo "::error::game never produced a log"
-            tail -n 80 smoke-gradle.log
             exit 1
           fi
-          echo "--- selftest output ---"
-          grep -n "CHATTERBOX SELFTEST" "$LOG" || true
-          echo "--- crash markers ---"
-          grep -nE "Crash report|MixinApplyError|Fatal" "$LOG" | head -20 || true
-          if ls run/crash-reports/*.txt >/dev/null 2>&1; then
-            echo "::error::crash report produced"
-            ls run/crash-reports/
-            exit 1
-          fi
-          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG"; then
+          {
+            echo "=== smoke test MC $MC loader $LOADER ==="
+            echo "--- selftest lines ---"; grep -n "CHATTERBOX SELFTEST" "$LOG" || true
+            echo "--- error markers ---"; grep -nE "Crash report|MixinApplyError|Exception|FATAL" "$LOG" | head -60 || true
+            echo "--- game log tail ---"; tail -n 120 "$LOG"
+            echo "--- gradle log tail ---"; tail -n 60 smoke-gradle.log
+            if [ -n "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
+              echo "--- crash report ---"; head -n 150 run/crash-reports/*.txt
+            fi
+          } > "$REPORT"
+          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG" && [ -z "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
             echo "SMOKE TEST PASSED"
           else
-            echo "::error::selftest did not complete cleanly"
-            tail -n 100 "$LOG"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$REPORT"
+            git commit -m "smoke failure: MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            echo "::error::selftest did not complete cleanly (log committed to $REPORT)"
             exit 1
           fi
 
