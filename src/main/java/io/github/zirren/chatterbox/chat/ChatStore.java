@@ -13,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.mojang.authlib.GameProfile;
 import org.jspecify.annotations.Nullable;
 
+import net.minecraft.client.multiplayer.chat.GuiMessageSource;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.network.chat.Component;
 
 import io.github.zirren.chatterbox.config.Config;
@@ -72,7 +74,7 @@ public final class ChatStore {
 	 * display a message. Returns true if the caller should proceed (we are
 	 * routing our own content), false when the message was consumed by us.
 	 */
-	public boolean onVanillaAddMessage(Component message) {
+	public boolean onVanillaAddMessage(Component message, GuiMessageSource source, @Nullable GuiMessageTag tag) {
 		if (routing) return true;
 
 		boolean chatMessage = false;
@@ -86,11 +88,12 @@ public final class ChatStore {
 			pending = null;
 		}
 
-		handleIncoming(message, chatMessage, sender, chatSenderName);
+		handleIncoming(message, chatMessage, sender, chatSenderName, source, tag);
 		return false;
 	}
 
-	private void handleIncoming(Component message, boolean chatMessage, GameProfile sender, String chatSenderName) {
+	private void handleIncoming(Component message, boolean chatMessage, GameProfile sender, String chatSenderName,
+			GuiMessageSource source, @Nullable GuiMessageTag tag) {
 		MessageClassifier.Result result = MessageClassifier.classify(message, chatMessage, sender, chatSenderName,
 				lastCommandSentAt, Config.get().commandFeedbackFolder);
 
@@ -99,7 +102,7 @@ public final class ChatStore {
 		}
 
 		ChatEntry entry = new ChatEntry(message, result.folder(), result.dmPartner(), Instant.now(),
-				result.sender(), message.getString(), result.dmContent(), result.outgoing(), sessionId);
+				result.sender(), message.getString(), result.dmContent(), result.outgoing(), sessionId, source, tag);
 
 		// Repeat compression
 		if (Config.get().compressRepeats && !entries.isEmpty()) {
@@ -120,30 +123,26 @@ public final class ChatStore {
 
 	private void notifyUi(ChatEntry raw, ChatEntry repeated) {
 		ChatEntry entry = repeated != null ? repeated : raw;
-		ChatEntry changed = repeated != null ? repeated : raw;
 
 		// Mention sound
-		MentionWatcher.check(changed);
+		MentionWatcher.check(entry);
 
-		// Unread counters
-		if (!isVisibleInView(changed, activeFolder, activeDmPartner)) {
-			bumpUnread(changed.folder());
-			if (changed.folder() == Folder.DM && changed.dmPartner() != null) {
-				dmUnread.merge(dmKey(changed.dmPartner()), 1, Integer::sum);
+		boolean visible = isVisibleInView(entry, activeFolder, activeDmPartner);
+		if (!visible) {
+			// Unread counters for inactive tabs
+			bumpUnread(entry.folder());
+			if (entry.folder == Folder.DM && entry.dmPartner != null) {
+				dmUnread.merge(dmKey(entry.dmPartner()), 1, Integer::sum);
 			}
+			return;
 		}
 
-		// Display
-		if (isVisibleInView(changed, activeFolder, activeDmPartner)) {
-			ChatDisplay.display(changed, repeated != null);
-		} else if (repeated != null && wasVisible(repeated)) {
-			ChatDisplay.display(changed, true);
+		if (repeated != null) {
+			// repeat counter changed on an already-shown message
+			ChatDisplay.refresh();
+		} else {
+			ChatDisplay.display(entry);
 		}
-	}
-
-	private boolean wasVisible(ChatEntry entry) {
-		// if the repeated entry was visible in any view we might be showing
-		return isVisibleInView(entry, activeFolder, activeDmPartner);
 	}
 
 	private @Nullable ChatEntry lastInFolder(Folder folder, @Nullable String dmPartner) {
@@ -370,6 +369,10 @@ public final class ChatStore {
 	// ------------------------------------------------------------------
 	// Routing guard (used by ChatDisplay)
 	// ------------------------------------------------------------------
+
+	public boolean isRouting() {
+		return routing;
+	}
 
 	public boolean beginRouting() {
 		boolean was = routing;

@@ -18,6 +18,7 @@ jobs:
     name: API dump sources (MC 26.3)
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    if: contains(github.event.head_commit.message, '[apidump]')
     concurrency:
       group: apidump263
       cancel-in-progress: false
@@ -62,10 +63,16 @@ jobs:
           for j in $(find "$HOME" "$PWD" -name "*sources*.jar" 2>/dev/null); do
             if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.java"; then SRCS="$j"; fi
           done
+          AUTHLIB=""
+          for j in $(find "$HOME/.gradle/caches" -name "*.jar" 2>/dev/null); do
+            if unzip -l "$j" 2>/dev/null | grep -q "com/mojang/authlib/GameProfile.class"; then AUTHLIB="$j"; fi
+          done
           echo "JAR=$JAR" >> "$GITHUB_ENV"
           echo "SRCS=$SRCS" >> "$GITHUB_ENV"
+          echo "AUTHLIB=$AUTHLIB" >> "$GITHUB_ENV"
           echo "JAR=$JAR"
           echo "SRCS=$SRCS"
+          echo "AUTHLIB=$AUTHLIB"
 
       - name: Dump
         env:
@@ -151,10 +158,25 @@ jobs:
             net.minecraft.client.gui.components.AbstractButton \
             net.minecraft.client.gui.components.CommandSuggestions \
             'net.minecraft.client.KeyMapping$Category' \
+            net.minecraft.world.entity.Entity \
+            net.minecraft.world.entity.LivingEntity \
+            net.minecraft.world.entity.player.Player \
+            net.minecraft.world.level.Level \
+            net.minecraft.world.level.LevelAccessor \
+            net.minecraft.client.multiplayer.ClientLevel \
+            net.minecraft.resources.ResourceKey \
+            net.minecraft.core.Holder \
+            net.minecraft.network.chat.contents.TranslatableContents \
+            net.minecraft.client.input.InputWithModifiers \
+            net.minecraft.world.food.FoodData \
             ; do
             n=$(echo "$c" | tr '$' '_' | tr '.' '_')
             javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true
           done
+
+          if [ -n "$AUTHLIB" ]; then
+            javap -p -cp "$AUTHLIB" com.mojang.authlib.GameProfile > "$OUT/javap-com_mojang_authlib_GameProfile.txt" 2>&1 || true
+          fi
 
           # bytecode disassembly of the critical classes (flow reconstruction)
           for c in \
@@ -228,7 +250,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: apidump263
-    if: always()
+    if: always() && contains(github.event.head_commit.message, '[apidump]')
     concurrency:
       group: apidump262
       cancel-in-progress: false
@@ -328,6 +350,17 @@ jobs:
             net.minecraft.client.gui.components.AbstractButton \
             net.minecraft.client.gui.components.CommandSuggestions \
             'net.minecraft.client.KeyMapping$Category' \
+            net.minecraft.world.entity.Entity \
+            net.minecraft.world.entity.LivingEntity \
+            net.minecraft.world.entity.player.Player \
+            net.minecraft.world.level.Level \
+            net.minecraft.world.level.LevelAccessor \
+            net.minecraft.client.multiplayer.ClientLevel \
+            net.minecraft.resources.ResourceKey \
+            net.minecraft.core.Holder \
+            net.minecraft.network.chat.contents.TranslatableContents \
+            net.minecraft.client.input.InputWithModifiers \
+            net.minecraft.world.food.FoodData \
             ; do
             n=$(echo "$c" | tr '$' '_' | tr '.' '_')
             javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true

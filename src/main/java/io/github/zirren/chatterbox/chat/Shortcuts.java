@@ -120,7 +120,7 @@ public final class Shortcuts {
 			}
 			case "server" -> {
 				if (client.getCurrentServer() != null) {
-					return client.getCurrentServer().address;
+					return client.getCurrentServer().ip;
 				}
 				return player != null && player.level() != null && !player.level().isClientSide()
 						? "local" : "singleplayer";

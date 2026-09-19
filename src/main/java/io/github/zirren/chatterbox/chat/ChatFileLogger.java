@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import net.fabricmc.loader.api.FabricLoader;
 
 /**
- * Persists chat history to {@code logs/chatterbox/chat-YYYY-MM-DD.log} and
+ * Persists chat history to {@code logs/chat/chat-YYYY-MM-DD.log} and
  * reads it back for cross-session search.
  *
  * <p>Line format (tab separated): {@code HH:mm:ss <TAB> FOLDER <TAB> sender-or-- <TAB> text}</p>
@@ -34,7 +34,7 @@ public final class ChatFileLogger {
 	private LocalDate currentDate;
 
 	public ChatFileLogger() {
-		this.dir = FabricLoader.getInstance().getGameDir().resolve("logs").resolve("chatterbox");
+		this.dir = FabricLoader.getInstance().getGameDir().resolve("logs").resolve("chat");
 	}
 
 	private Path fileFor(LocalDate date) {
@@ -98,7 +98,7 @@ public final class ChatFileLogger {
 	 * session ids assigned (new session on every SESSION marker).
 	 */
 	public static List<ParsedLine> readAll() {
-		Path dir = FabricLoader.getInstance().getGameDir().resolve("logs").resolve("chatterbox");
+		Path dir = FabricLoader.getInstance().getGameDir().resolve("logs").resolve("chat");
 		List<ParsedLine> result = new ArrayList<>();
 		if (!Files.isDirectory(dir)) return result;
 

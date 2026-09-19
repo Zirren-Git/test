@@ -3,7 +3,13 @@
 	"package": "io.github.zirren.chatterbox.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"minVersion": "0.8",
-	"client": [],
+	"client": [
+    "GuiMixin",
+    "ChatComponentMixin",
+    "ChatComponentAccessor",
+    "ChatComponentInvoker",
+    "ChatScreenAccessor"
+  ],
 	"injectors": {
 		"defaultRequire": 1
 	}

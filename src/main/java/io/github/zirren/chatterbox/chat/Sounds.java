@@ -22,7 +22,7 @@ public final class Sounds {
 	public static SoundEvent resolve(String id) {
 		try {
 			Identifier identifier = Identifier.parse(id.contains(":") ? id : "minecraft:" + id);
-			return BuiltInRegistries.SOUND_EVENT.get(identifier);
+			return BuiltInRegistries.SOUND_EVENT.getValue(identifier);
 		} catch (Exception e) {
 			return null;
 		}

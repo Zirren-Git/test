@@ -49,6 +49,8 @@ public final class Config {
 	public String whisperCommand = "msg";
 	/** Expand {shortcuts} inside commands starting with '/' as well. */
 	public boolean expandShortcutsInCommands = true;
+	/** Join queued lines into one message on Enter instead of sending them line by line. */
+	public boolean joinQueuedLines = false;
 
 	// --- Mention sounds ---
 	/** Rules: word -> sound. */

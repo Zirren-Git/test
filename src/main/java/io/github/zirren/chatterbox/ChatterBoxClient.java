@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.zirren.chatterbox.chat.ChatDisplay;
 import io.github.zirren.chatterbox.chat.ChatStore;
 import io.github.zirren.chatterbox.config.Config;
 import io.github.zirren.chatterbox.screen.ChatSearchScreen;
@@ -36,13 +37,14 @@ public class ChatterBoxClient implements ClientModInitializer {
 				ChatStore.INSTANCE.onEvent(message, false, null, null, overlay));
 
 		// --- sending ---------------------------------------------------
-		ClientSendMessageEvents.COMMAND.register(ChatStore.INSTANCE::noteCommandSent);
+		ClientSendMessageEvents.COMMAND.register(command -> ChatStore.INSTANCE.noteCommandSent());
 		ClientSendMessageEvents.CHAT.register(message -> ChatStore.INSTANCE.noteChatSent());
 
 		// --- connection lifecycle ---------------------------------------
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-			String info = server != null ? server.address : "singleplayer";
+			String info = server != null ? server.ip : "singleplayer";
 			ChatStore.INSTANCE.onJoin(info);
+			ChatDisplay.installFilter();
 		});
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
 				ChatStore.INSTANCE.onDisconnect());

@@ -2,6 +2,10 @@ package io.github.zirren.chatterbox.chat;
 
 import java.time.Instant;
 
+import org.jspecify.annotations.Nullable;
+
+import net.minecraft.client.multiplayer.chat.GuiMessageSource;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.network.chat.Component;
 
 /**
@@ -22,6 +26,10 @@ public final class ChatEntry {
 	public final Instant timestamp;
 	/** Sender display name (without <>) or null. */
 	public final String sender;
+	/** The vanilla chat hud source this entry was received through. */
+	public final GuiMessageSource source;
+	/** The vanilla message tag (secure-chat indicator) to re-display with. */
+	public final @Nullable GuiMessageTag tag;
 	/** Plain text of the whole message (for search + compression). */
 	public final String text;
 	/** For DMs: the message body without the "whispers" wrapper. */
@@ -36,7 +44,8 @@ public final class ChatEntry {
 	public int repeatCount = 1;
 
 	ChatEntry(Component original, Folder folder, String dmPartner, Instant timestamp,
-			String sender, String text, String dmContent, boolean outgoing, long sessionId) {
+			String sender, String text, String dmContent, boolean outgoing, long sessionId,
+			GuiMessageSource source, @Nullable GuiMessageTag tag) {
 		this.id = nextId++;
 		this.original = original;
 		this.folder = folder;
@@ -47,6 +56,8 @@ public final class ChatEntry {
 		this.dmContent = dmContent;
 		this.outgoing = outgoing;
 		this.sessionId = sessionId;
+		this.source = source;
+		this.tag = tag;
 	}
 
 	public boolean isRepeatOf(ChatEntry other) {
