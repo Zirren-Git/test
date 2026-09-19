@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 
 import io.github.zirren.chatterbox.chat.Folder;
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 
 /**
  * Show/hide individual folder tabs. "All" is always visible.
@@ -49,9 +50,9 @@ public class FoldersScreen extends ChatterBoxScreen {
 
 	private static Component label(Folder folder) {
 		Config cfg = Config.get();
-		return Component.literal(tr("chatterbox.config.folder_visible",
-				tr(folder.translationKey()),
-				tr(cfg.isFolderHidden(folder.key) ? "chatterbox.config.visible.hidden"
+		return Component.literal(Lang.tr("chatterbox.config.folder_visible",
+				Lang.tr(folder.translationKey()),
+				Lang.tr(cfg.isFolderHidden(folder.key) ? "chatterbox.config.visible.hidden"
 						: "chatterbox.config.visible.shown")));
 	}
 

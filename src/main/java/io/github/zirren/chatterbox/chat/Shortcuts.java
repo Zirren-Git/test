@@ -106,7 +106,7 @@ public final class Shortcuts {
 			}
 			case "time" -> {
 				if (player == null) return null;
-				long ticks = player.level().getLevelData().getDayTime() % 24000L;
+				long ticks = player.level().getGameTime() % 24000L;
 				long hours = (ticks / 1000L + 6L) % 24L;
 				long minutes = ticks % 1000L * 60L / 1000L;
 				return String.format("%02d:%02d", hours, minutes);

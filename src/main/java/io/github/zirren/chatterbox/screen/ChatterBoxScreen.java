@@ -1,5 +1,6 @@
 package io.github.zirren.chatterbox.screen;
 
+import io.github.zirren.chatterbox.Lang;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -32,11 +33,7 @@ abstract class ChatterBoxScreen extends Screen {
 
 	/** "Label: value" component used by cycle buttons. */
 	protected static Component cycleLabel(String labelKey, String value) {
-		return Component.literal(tr(labelKey) + ": " + value);
+		return Component.literal(Lang.tr(labelKey) + ": " + value);
 	}
 
-	/** Translates a key (with optional args) into a plain string. */
-	static String tr(String key, Object... args) {
-		return Component.translatable(key, args).getString();
-	}
 }

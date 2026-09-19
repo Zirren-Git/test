@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import java.util.Locale;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 import io.github.zirren.chatterbox.config.MentionRule;
 
 /**
@@ -80,10 +81,10 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 		addRenderableWidget(pitchSlider);
 
 		enabledButton = Button.builder(cycleLabel("chatterbox.rules.enabled",
-				tr(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")), b -> {
+				Lang.tr(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")), b -> {
 					rule.enabled = !rule.enabled;
 					b.setMessage(cycleLabel("chatterbox.rules.enabled",
-							tr(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")));
+							Lang.tr(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")));
 				}).pos(this.width / 2 - 100, 126).size(200, 20).build();
 		addRenderableWidget(enabledButton);
 
@@ -101,17 +102,17 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 	}
 
 	private Component soundLabel() {
-		return Component.literal(tr("chatterbox.rules.sound") + ": " + rule.sound);
+		return Component.literal(Lang.tr("chatterbox.rules.sound") + ": " + rule.sound);
 	}
 
 	private Component volumeLabel() {
-		return Component.literal(tr("chatterbox.rules.volume",
+		return Component.literal(Lang.tr("chatterbox.rules.volume",
 				String.format(Locale.ROOT, "%.1f", rule.volume)));
 	}
 
 	private Component pitchLabel() {
 		int note = (int) Math.round(12.0 * Math.log(rule.pitch) / Math.log(2.0) + 12.0);
-		return Component.literal(tr("chatterbox.rules.pitch",
+		return Component.literal(Lang.tr("chatterbox.rules.pitch",
 				String.format(Locale.ROOT, "%.2f", rule.pitch), String.valueOf(note)));
 	}
 

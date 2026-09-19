@@ -22,6 +22,7 @@ import net.minecraft.resources.Identifier;
 
 import io.github.zirren.chatterbox.chat.Sounds;
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 
 /**
  * Sound picker: lists sound events from the game's registry. Defaults to note
@@ -120,7 +121,7 @@ public class SoundPickerScreen extends Screen {
 		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFF, true);
 		String selected = Component.translatable("chatterbox.sounds.selected", pendingId).getString();
 		graphics.text(this.font, selected, this.width / 2 - this.font.width(selected) / 2, this.height - 34, 0xA0A0A0, false);
-		String hint = tr("chatterbox.sounds.hint");
+		String hint = Lang.tr("chatterbox.sounds.hint");
 		graphics.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, this.height - 44, 0x707070, false);
 	}
 

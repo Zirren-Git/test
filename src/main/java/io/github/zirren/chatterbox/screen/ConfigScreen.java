@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 
 /**
  * ModMenu / keybind settings screen: every ChatterBox option as vanilla-style
@@ -50,7 +51,7 @@ public class ConfigScreen extends ChatterBoxScreen {
 				new CycleDef("chatterbox.config.chat_log", () -> onOff(cfg.chatLog), () -> cfg.chatLog = !cfg.chatLog),
 				new CycleDef("chatterbox.config.cross_session", () -> onOff(cfg.crossSessionSearch),
 						() -> cfg.crossSessionSearch = !cfg.crossSessionSearch),
-				new CycleDef("chatterbox.config.sound_picker_all", () -> tr(Config.get().soundPickerAllSounds
+				new CycleDef("chatterbox.config.sound_picker_all", () -> Lang.tr(Config.get().soundPickerAllSounds
 						? "chatterbox.config.sound_picker_all.all"
 						: "chatterbox.config.sound_picker_all.noteblocks"),
 						() -> cfg.soundPickerAllSounds = !cfg.soundPickerAllSounds));
@@ -86,7 +87,7 @@ public class ConfigScreen extends ChatterBoxScreen {
 	}
 
 	private Button subButton(String key, Runnable open, int x, int y) {
-		return Button.builder(Component.literal(tr(key) + "…"), b -> open.run())
+		return Button.builder(Component.literal(Lang.tr(key) + "…"), b -> open.run())
 				.pos(x, y).size(150, 20).build();
 	}
 
@@ -95,13 +96,13 @@ public class ConfigScreen extends ChatterBoxScreen {
 	}
 
 	private static String onOff(boolean value) {
-		return tr(value ? "chatterbox.on" : "chatterbox.off");
+		return Lang.tr(value ? "chatterbox.on" : "chatterbox.off");
 	}
 
 	private static String timestampValue() {
 		Config cfg = Config.get();
-		if (!cfg.timestamps) return tr("chatterbox.config.timestamps.none");
-		return tr(cfg.timestampSeconds ? "chatterbox.config.timestamps.long" : "chatterbox.config.timestamps.short");
+		if (!cfg.timestamps) return Lang.tr("chatterbox.config.timestamps.none");
+		return Lang.tr(cfg.timestampSeconds ? "chatterbox.config.timestamps.long" : "chatterbox.config.timestamps.short");
 	}
 
 	private static void cycleTimestamps() {
@@ -117,7 +118,7 @@ public class ConfigScreen extends ChatterBoxScreen {
 	}
 
 	private static String queueValue() {
-		return tr(Config.get().joinQueuedLines ? "chatterbox.config.queue_mode.joined"
+		return Lang.tr(Config.get().joinQueuedLines ? "chatterbox.config.queue_mode.joined"
 				: "chatterbox.config.queue_mode.lines");
 	}
 

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 import io.github.zirren.chatterbox.config.Shortcut;
 
 /**
@@ -42,10 +43,10 @@ public class ShortcutEditScreen extends ChatterBoxScreen {
 		addRenderableWidget(replacement);
 
 		enabledButton = Button.builder(cycleLabel("chatterbox.rules.enabled",
-				tr(shortcut.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")), b -> {
+				Lang.tr(shortcut.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")), b -> {
 					shortcut.enabled = !shortcut.enabled;
 					b.setMessage(cycleLabel("chatterbox.rules.enabled",
-							tr(shortcut.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")));
+							Lang.tr(shortcut.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")));
 				}).pos(this.width / 2 - 100, 78).size(200, 20).build();
 		addRenderableWidget(enabledButton);
 
@@ -67,7 +68,7 @@ public class ShortcutEditScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		if (!token.getValue().isEmpty()) {
-			String example = tr("chatterbox.shortcuts.example", token.getValue(), replacement.getValue());
+			String example = Lang.tr("chatterbox.shortcuts.example", token.getValue(), replacement.getValue());
 			g.text(this.font, this.font.plainSubstrByWidth(example, this.width - 20), 10, this.height - 44, 0x707070, false);
 		}
 	}

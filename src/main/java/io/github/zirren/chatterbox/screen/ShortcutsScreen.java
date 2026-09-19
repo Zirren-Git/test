@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.Nullable;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 import io.github.zirren.chatterbox.config.Shortcut;
 import io.github.zirren.chatterbox.config.ShortcutsDefaults;
 
@@ -45,7 +46,7 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		int y = this.height - 40;
-		String hint = tr("chatterbox.shortcuts.static") + " · " + tr("chatterbox.shortcuts.dynamic");
+		String hint = Lang.tr("chatterbox.shortcuts.static") + " · " + Lang.tr("chatterbox.shortcuts.dynamic");
 		g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, y, 0x707070, false);
 	}
 

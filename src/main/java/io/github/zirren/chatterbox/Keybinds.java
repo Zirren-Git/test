@@ -27,14 +27,14 @@ public final class Keybinds {
 
 	public static void register() {
 		SEARCH = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.chatterbox.search", InputConstants.Type.KEYSYM, InputConstants.KEY_K, KeyMapping.Category.MISC));
+				"key.chatterbox.search", InputConstants.KEY_K, KeyMapping.Category.MISC));
 		PIN = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.chatterbox.pin", InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
+				"key.chatterbox.pin", InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
 		CONFIG = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.chatterbox.config", InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
+				"key.chatterbox.config", InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
 		NEXT_FOLDER = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.chatterbox.next_folder", InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
+				"key.chatterbox.next_folder", InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
 		PREV_FOLDER = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.chatterbox.prev_folder", InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
+				"key.chatterbox.prev_folder", InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
 	}
 }

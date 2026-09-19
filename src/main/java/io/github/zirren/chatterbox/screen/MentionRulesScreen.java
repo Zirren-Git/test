@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.Nullable;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 import io.github.zirren.chatterbox.config.MentionRule;
 
 /**
@@ -46,7 +47,7 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		if (Config.get().mentionRules.isEmpty()) {
-			String msg = tr("chatterbox.rules.empty");
+			String msg = Lang.tr("chatterbox.rules.empty");
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0x808080, false);
 		}
 	}

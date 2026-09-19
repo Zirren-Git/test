@@ -432,6 +432,14 @@ jobs:
             exit 1
           fi
 
+      - name: Upload build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-mc${{ matrix.mc }}-loader${{ matrix.loader }}
+          path: build.log
+          if-no-files-found: ignore
+
       - name: Collect artifacts
         run: |
           mkdir -p dist

@@ -13,6 +13,7 @@ import org.jspecify.annotations.Nullable;
 
 import io.github.zirren.chatterbox.chat.ChatStore;
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 
 /**
  * DM partner management: add a sub-folder manually, remove partners you no
@@ -70,7 +71,7 @@ public class PartnersScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		if (ChatStore.INSTANCE.dmPartners().isEmpty()) {
-			String msg = tr("chatterbox.partners.empty");
+			String msg = Lang.tr("chatterbox.partners.empty");
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0x808080, false);
 		}
 	}

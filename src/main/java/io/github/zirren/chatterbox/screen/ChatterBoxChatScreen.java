@@ -24,6 +24,7 @@ import io.github.zirren.chatterbox.chat.ChatStore;
 import io.github.zirren.chatterbox.chat.Folder;
 import io.github.zirren.chatterbox.chat.Sounds;
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 import io.github.zirren.chatterbox.mixin.ChatScreenAccessor;
 
 /**
@@ -276,7 +277,7 @@ public class ChatterBoxChatScreen extends ChatScreen {
 		int y = 2;
 		boolean badges = cfg.unreadBadges;
 		for (Folder folder : store.visibleFolders()) {
-			String label = tabLabel(tr(folder.translationKey()), badges ? store.unread(folder) : 0);
+			String label = tabLabel(Lang.tr(folder.translationKey()), badges ? store.unread(folder) : 0);
 			int w = font.width(label) + 8;
 			if (x + w > this.width - 44 && folder != Folder.ALL) break;
 			boolean active = store.activeFolder() == folder;
@@ -341,7 +342,7 @@ public class ChatterBoxChatScreen extends ChatScreen {
 			y -= 11;
 			if (y < 40) break;
 		}
-		String hint = tr("chatterbox.queue.count", queue.size());
+		String hint = Lang.tr("chatterbox.queue.count", queue.size());
 		ChatDisplay.drawBorderedText(g, font, hint, 6, y, 0xFF9A9AA0);
 	}
 

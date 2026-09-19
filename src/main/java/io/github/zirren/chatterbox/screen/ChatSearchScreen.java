@@ -24,6 +24,7 @@ import io.github.zirren.chatterbox.chat.ChatFileLogger;
 import io.github.zirren.chatterbox.chat.ChatStore;
 import io.github.zirren.chatterbox.chat.Folder;
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.Lang;
 
 /**
  * Chat search screen: searches the current session and (optionally) the log
@@ -118,10 +119,10 @@ public class ChatSearchScreen extends Screen {
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
 		super.extractRenderState(graphics, mouseX, mouseY, delta);
 		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFF, true);
-		String count = tr("chatterbox.search.results", resultCount);
+		String count = Lang.tr("chatterbox.search.results", resultCount);
 		graphics.text(this.font, count, this.width / 2 + 134, 15, 0xA0A0A0, false);
 		if (rows.isEmpty()) {
-			String empty = tr(searchBox != null && !searchBox.getValue().isEmpty()
+			String empty = Lang.tr(searchBox != null && !searchBox.getValue().isEmpty()
 					? "chatterbox.search.empty" : "chatterbox.search.type");
 			graphics.text(this.font, empty, this.width / 2 - this.font.width(empty) / 2,
 					this.height / 2 - 10, 0x808080, false);
