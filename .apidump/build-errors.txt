@@ -1,73 +1,10 @@
-=== build errors: MC 26.1.2 loader 0.19.5 ===
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/mixin/GuiMixin.java:12: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/mixin/GuiMixin.java:27: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:135: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:206: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:26: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:45: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:131: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:38: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:86: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/DmAddScreen.java:46: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/DmAddScreen.java:58: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:158: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:177: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:245: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:247: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:37: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:87: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:95: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:59: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:59: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:50: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/mixin/GuiMixin.java:12: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/mixin/GuiMixin.java:27: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:50: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:135: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:206: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:26: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:45: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:131: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:38: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:86: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/DmAddScreen.java:46: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/DmAddScreen.java:58: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:158: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:177: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:245: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:247: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:37: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:87: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:95: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:59: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:59: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/mixin/GuiMixin.java:12: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/mixin/GuiMixin.java:27: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:135: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatSearchScreen.java:206: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxScreen.java:26: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRuleEditScreen.java:45: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/SoundPickerScreen.java:131: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:38: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:86: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/DmAddScreen.java:46: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/DmAddScreen.java:58: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:158: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:177: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:245: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ChatterBoxChatScreen.java:247: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:37: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ShortcutsScreen.java:87: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/ConfigScreen.java:95: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:56: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:59: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/ChatterBoxClient.java:59: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/ChatDisplay.java:50: error: cannot find symbol
+=== build errors: MC 26.3 loader 0.19.5 ===
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/TuneMakerScreen.java:86: error: method cycleInstrument in class TuneMakerScreen cannot be applied to given types;
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/TuneMakerScreen.java:92: error: method cycleInstrument in class TuneMakerScreen cannot be applied to given types;
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/TuneMakerScreen.java:86: error: method cycleInstrument in class TuneMakerScreen cannot be applied to given types;
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/TuneMakerScreen.java:92: error: method cycleInstrument in class TuneMakerScreen cannot be applied to given types;
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/TuneMakerScreen.java:86: error: method cycleInstrument in class TuneMakerScreen cannot be applied to given types;
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/TuneMakerScreen.java:92: error: method cycleInstrument in class TuneMakerScreen cannot be applied to given types;
 === tail ===
 	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
 	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
@@ -187,5 +124,5 @@
 	... 30 more
 
 
-BUILD FAILED in 48s
+BUILD FAILED in 41s
 1 actionable task: 1 executed
