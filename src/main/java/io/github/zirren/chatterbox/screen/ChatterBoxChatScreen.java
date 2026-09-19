@@ -17,6 +17,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
+import io.github.zirren.chatterbox.ChatterBoxClient;
 import io.github.zirren.chatterbox.Keybinds;
 import io.github.zirren.chatterbox.chat.ChatDisplay;
 import io.github.zirren.chatterbox.chat.ChatEntry;
@@ -59,31 +60,39 @@ public class ChatterBoxChatScreen extends ChatScreen {
 	@Override
 	protected void init() {
 		super.init();
-		ChatStore store = ChatStore.INSTANCE;
-		if (stash != null) {
-			if (!stash.input().isEmpty()) {
-				input.setValue(stash.input());
+		try {
+			ChatStore store = ChatStore.INSTANCE;
+			if (stash != null) {
+				if (!stash.input().isEmpty()) {
+					input.setValue(stash.input());
+				}
+				queue.addAll(stash.queue());
+				stash = null;
+			} else if (Config.get().drafts && (initial == null || initial.isEmpty())) {
+				String draft = store.getDraft(store.activeFolder(), store.activeDmPartner());
+				if (!draft.isEmpty()) {
+					input.setValue(draft);
+				}
+				queue.addAll(store.getQueuedLines(store.activeFolder(), store.activeDmPartner()));
 			}
-			queue.addAll(stash.queue());
-			stash = null;
-		} else if (Config.get().drafts && (initial == null || initial.isEmpty())) {
-			String draft = store.getDraft(store.activeFolder(), store.activeDmPartner());
-			if (!draft.isEmpty()) {
-				input.setValue(draft);
-			}
-			queue.addAll(store.getQueuedLines(store.activeFolder(), store.activeDmPartner()));
+		} catch (Throwable t) {
+			ChatterBoxClient.LOGGER.warn("ChatterBox draft restore failed", t);
 		}
 	}
 
 	@Override
 	public void removed() {
-		if (exitReason != ChatScreen.ExitReason.DONE) {
-			stash = new Stash(input.getValue(), new ArrayList<>(queue));
-			if (Config.get().drafts) {
-				ChatStore store = ChatStore.INSTANCE;
-				store.setDraft(store.activeFolder(), store.activeDmPartner(), input.getValue());
-				store.setQueuedLines(store.activeFolder(), store.activeDmPartner(), queue);
+		try {
+			if (exitReason != ChatScreen.ExitReason.DONE) {
+				stash = new Stash(input.getValue(), new ArrayList<>(queue));
+				if (Config.get().drafts) {
+					ChatStore store = ChatStore.INSTANCE;
+					store.setDraft(store.activeFolder(), store.activeDmPartner(), input.getValue());
+					store.setQueuedLines(store.activeFolder(), store.activeDmPartner(), queue);
+				}
 			}
+		} catch (Throwable t) {
+			ChatterBoxClient.LOGGER.warn("ChatterBox draft saving failed", t);
 		}
 		super.removed();
 	}
@@ -94,6 +103,21 @@ public class ChatterBoxChatScreen extends ChatScreen {
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
+		try {
+			if (chatterboxHandleKey(event)) {
+				return true;
+			}
+		} catch (Throwable t) {
+			ChatterBoxClient.LOGGER.warn("ChatterBox key handling failed; using vanilla behaviour", t);
+		}
+		return super.keyPressed(event);
+	}
+
+	/**
+	 * ChatterBox's key handling. Returns true when the key was consumed.
+	 * Any failure falls back to the vanilla behaviour instead of crashing.
+	 */
+	private boolean chatterboxHandleKey(KeyEvent event) {
 		int key = event.key();
 		ChatStore store = ChatStore.INSTANCE;
 
@@ -130,7 +154,7 @@ public class ChatterBoxChatScreen extends ChatScreen {
 			}
 		}
 
-		return super.keyPressed(event);
+		return false;
 	}
 
 	// ------------------------------------------------------------------
@@ -239,17 +263,21 @@ public class ChatterBoxChatScreen extends ChatScreen {
 
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-		for (Tab tab : tabs) {
-			if (tab.hit(event.x(), event.y())) {
-				if (tab.search()) {
-					minecraft.gui.setScreen(new ChatSearchScreen(this));
-				} else if (tab.addDm()) {
-					minecraft.gui.setScreen(new DmAddScreen(this));
-				} else {
-					switchTo(tab.folder(), tab.partner());
+		try {
+			for (Tab tab : tabs) {
+				if (tab.hit(event.x(), event.y())) {
+					if (tab.search()) {
+						minecraft.gui.setScreen(new ChatSearchScreen(this));
+					} else if (tab.addDm()) {
+						minecraft.gui.setScreen(new DmAddScreen(this));
+					} else {
+						switchTo(tab.folder(), tab.partner());
+					}
+					return true;
 				}
-				return true;
 			}
+		} catch (Throwable t) {
+			ChatterBoxClient.LOGGER.warn("ChatterBox tab click failed; using vanilla behaviour", t);
 		}
 		return super.mouseClicked(event, doubleClick);
 	}
@@ -260,11 +288,15 @@ public class ChatterBoxChatScreen extends ChatScreen {
 
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(g, mouseX, mouseY, delta);
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
-		super.extractRenderState(g, mouseX, mouseY, delta);
-		drawTabBar(g, this.font);
-		drawQueue(g, this.font);
+		try {
+			drawTabBar(g, this.font);
+			drawQueue(g, this.font);
+		} catch (Throwable t) {
+			ChatterBoxClient.LOGGER.warn("ChatterBox tab bar rendering failed once; hidden for this session", t);
+		}
 	}
 
 	private void drawTabBar(GuiGraphicsExtractor g, Font font) {

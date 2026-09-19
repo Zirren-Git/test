@@ -37,6 +37,8 @@ public final class ChatDisplay {
 	/** Maps the exact component instance we pushed into the chat hud back to its entry. */
 	static final Map<Component, ChatEntry> BY_CONTENT = new IdentityHashMap<>();
 
+	private static boolean warned;
+
 	private static final DateTimeFormatter HHMM = DateTimeFormatter.ofPattern("HH:mm", Locale.ROOT);
 	private static final DateTimeFormatter HHMMSS = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ROOT);
 	private static final String INDENT = "  ";
@@ -59,11 +61,15 @@ public final class ChatDisplay {
 	 * not add ourselves are never hidden, so other mods keep working.
 	 */
 	public static void installFilter() {
-		ChatStore store = ChatStore.INSTANCE;
-		chat().setVisibleMessageFilter(message -> {
-			ChatEntry entry = BY_CONTENT.get(message.content());
-			return entry == null || store.isVisibleInView(entry, store.activeFolder(), store.activeDmPartner());
-		});
+		try {
+			ChatStore store = ChatStore.INSTANCE;
+			chat().setVisibleMessageFilter(message -> {
+				ChatEntry entry = BY_CONTENT.get(message.content());
+				return entry == null || store.isVisibleInView(entry, store.activeFolder(), store.activeDmPartner());
+			});
+		} catch (Throwable t) {
+			warn("installing the folder filter", t);
+		}
 	}
 
 	// ------------------------------------------------------------------
@@ -72,23 +78,46 @@ public final class ChatDisplay {
 
 	/** Adds a single newly received entry to the chat hud. */
 	public static void display(ChatEntry entry) {
-		ChatComponent chat = chat();
-		Minecraft mc = Minecraft.getInstance();
-		boolean dmView = ChatStore.INSTANCE.activeFolder() == Folder.DM
-				&& ChatStore.INSTANCE.activeDmPartner() != null;
-		int maxWidth = wrapWidth(mc.font);
-		Component content = buildContent(mc.font, entry, dmView, maxWidth);
-		BY_CONTENT.put(content, entry);
-		boolean was = ChatStore.INSTANCE.beginRouting();
 		try {
-			((ChatComponentInvoker) chat).chatterbox$addMessage(content, null, entry.source, entry.tag);
-		} finally {
-			ChatStore.INSTANCE.endRouting(was);
+			ChatComponent chat = chat();
+			Minecraft mc = Minecraft.getInstance();
+			boolean dmView = ChatStore.INSTANCE.activeFolder() == Folder.DM
+					&& ChatStore.INSTANCE.activeDmPartner() != null;
+			int maxWidth = wrapWidth(mc.font);
+			Component content = buildContent(mc.font, entry, dmView, maxWidth);
+			BY_CONTENT.put(content, entry);
+			boolean was = ChatStore.INSTANCE.beginRouting();
+			try {
+				((ChatComponentInvoker) chat).chatterbox$addMessage(content, null, entry.source, entry.tag);
+			} finally {
+				ChatStore.INSTANCE.endRouting(was);
+			}
+		} catch (Throwable t) {
+			warn("displaying a message", t);
+			// fall back to the raw, unformatted message so nothing is lost
+			try {
+				boolean was = ChatStore.INSTANCE.beginRouting();
+				try {
+					((ChatComponentInvoker) chat()).chatterbox$addMessage(entry.original, null, entry.source, entry.tag);
+				} finally {
+					ChatStore.INSTANCE.endRouting(was);
+				}
+			} catch (Throwable t2) {
+				warn("raw fallback display", t2);
+			}
 		}
 	}
 
 	/** Rebuilds the whole visible chat hud for the current view. */
 	public static void refresh() {
+		try {
+			refresh0();
+		} catch (Throwable t) {
+			warn("switching folders (chat keeps working)", t);
+		}
+	}
+
+	private static void refresh0() {
 		ChatStore store = ChatStore.INSTANCE;
 		ChatComponent chat = chat();
 		Minecraft mc = Minecraft.getInstance();
@@ -133,6 +162,14 @@ public final class ChatDisplay {
 	// ------------------------------------------------------------------
 	// Content building
 	// ------------------------------------------------------------------
+
+	private static void warn(String what, Throwable t) {
+		if (!warned) {
+			warned = true;
+			io.github.zirren.chatterbox.ChatterBoxClient.LOGGER
+					.error("ChatterBox failed while {} (further warnings suppressed)", what, t);
+		}
+	}
 
 	private static int wrapWidth(Font font) {
 		Minecraft mc = Minecraft.getInstance();

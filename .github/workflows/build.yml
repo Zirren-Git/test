@@ -447,14 +447,175 @@ jobs:
           cp build/libs/*.jar dist/
           ls dist
 
+      - name: Inspect remapped jar (mixin target names)
+        run: |
+          JAR=$(ls build/libs/*.jar 2>/dev/null | grep -v sources | head -1 || true)
+          if [ -z "$JAR" ]; then echo "no jar built"; exit 0; fi
+          mkdir -p inspect && cd inspect
+          unzip -o "../$JAR" 'io/github/zirren/chatterbox/mixin/*.class' 'io/github/zirren/chatterbox/chat/ChatDisplay.class' > /dev/null
+          echo "=== ChatterBox mixin constant-pool strings ==="
+          for c in io/github/zirren/chatterbox/mixin/*.class; do
+            echo "--- $c"
+            strings -a "$c" | grep -aE "net/minecraft|class_[0-9]+|method_[0-9]+|field_[0-9]+|openChatScreen|addMessage|logChatMessage|allMessages|chatScrollbarPos|commandSuggestions" | sort -u | head -30
+          done
+          echo "--- ChatDisplay (regular class references)"
+          strings -a io/github/zirren/chatterbox/chat/ChatDisplay.class | grep -aE "net/minecraft|class_[0-9]+" | sort -u | head -20
+          echo "=== ModMenu 20.0.2 (known-working 26.2 mod) for comparison ==="
+          if curl -sfL -o modmenu.jar "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"; then
+            unzip -o modmenu.jar '*.class' -d modmenu > /dev/null 2>&1 || true
+            find modmenu -iname '*mixin*.class' | head -2 | while read -r c; do
+              echo "--- $c"
+              strings -a "$c" | grep -aE "net/minecraft|class_[0-9]+|method_[0-9]+" | sort -u | head -15
+            done
+            echo "--- any modmenu class refs (shape check)"
+            find modmenu -name '*.class' | head -3 | while read -r c; do
+              echo "--- $c"
+              strings -a "$c" | grep -aE "net/minecraft|class_[0-9]+" | sort -u | head -10
+            done
+          else
+            echo "(modmenu download failed)"
+          fi
+
       - uses: actions/upload-artifact@v4
         with:
           name: chatterbox-mc${{ matrix.mc }}-loader${{ matrix.loader }}
           path: dist/*.jar
 
+  smoke262:
+    name: Smoke test MC 26.2 / loader 0.19.3 (launches the game)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MC: "26.2"
+      API: "0.161.0+26.2"
+      DEP: "~26.2"
+      MODMENU: "20.0.2"
+      LOADER: "0.19.3"
+      LIBGL_ALWAYS_SOFTWARE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install virtual display + software GL
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0
+
+      - name: Launch game with the mod (selftest quits it)
+        run: |
+          set +e
+          xvfb-run -a timeout -k 30 600 ./gradlew runClient             -Pminecraft_version=$MC -Pminecraft_dep=$DEP             -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU             -Ploader_version=$LOADER > smoke-gradle.log 2>&1
+          code=$?
+          echo "gradle exit code: $code"
+          exit 0
+
+      - name: Check selftest results
+        run: |
+          LOG=run/logs/latest.log
+          if [ ! -f "$LOG" ]; then
+            echo "::error::game never produced a log"
+            tail -n 80 smoke-gradle.log
+            exit 1
+          fi
+          echo "--- selftest output ---"
+          grep -n "CHATTERBOX SELFTEST" "$LOG" || true
+          echo "--- crash markers ---"
+          grep -nE "Crash report|MixinApplyError|Fatal" "$LOG" | head -20 || true
+          if ls run/crash-reports/*.txt >/dev/null 2>&1; then
+            echo "::error::crash report produced"
+            ls run/crash-reports/
+            exit 1
+          fi
+          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG"; then
+            echo "SMOKE TEST PASSED"
+          else
+            echo "::error::selftest did not complete cleanly"
+            tail -n 100 "$LOG"
+            exit 1
+          fi
+
+      - name: Upload game logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-log-mc26.2-loader0.19.3
+          path: |
+            run/logs/
+            run/crash-reports/
+            smoke-gradle.log
+          if-no-files-found: warn
+
+  smoke263:
+    name: Smoke test MC 26.3 / loader 0.19.5 (launches the game)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MC: "26.3"
+      API: "0.161.0+26.3"
+      DEP: "~26.3"
+      MODMENU: "21.0.0-beta.1"
+      LOADER: "0.19.5"
+      LIBGL_ALWAYS_SOFTWARE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install virtual display + software GL
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0
+
+      - name: Launch game with the mod (selftest quits it)
+        run: |
+          set +e
+          xvfb-run -a timeout -k 30 600 ./gradlew runClient             -Pminecraft_version=$MC -Pminecraft_dep=$DEP             -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU             -Ploader_version=$LOADER > smoke-gradle.log 2>&1
+          code=$?
+          echo "gradle exit code: $code"
+          exit 0
+
+      - name: Check selftest results
+        run: |
+          LOG=run/logs/latest.log
+          if [ ! -f "$LOG" ]; then
+            echo "::error::game never produced a log"
+            tail -n 80 smoke-gradle.log
+            exit 1
+          fi
+          echo "--- selftest output ---"
+          grep -n "CHATTERBOX SELFTEST" "$LOG" || true
+          echo "--- crash markers ---"
+          grep -nE "Crash report|MixinApplyError|Fatal" "$LOG" | head -20 || true
+          if ls run/crash-reports/*.txt >/dev/null 2>&1; then
+            echo "::error::crash report produced"
+            ls run/crash-reports/
+            exit 1
+          fi
+          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG"; then
+            echo "SMOKE TEST PASSED"
+          else
+            echo "::error::selftest did not complete cleanly"
+            tail -n 100 "$LOG"
+            exit 1
+          fi
+
+      - name: Upload game logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-log-mc26.3-loader0.19.5
+          path: |
+            run/logs/
+            run/crash-reports/
+            smoke-gradle.log
+          if-no-files-found: warn
+
   release:
     name: GitHub Release
-    needs: [build]
+    needs: [build, smoke262, smoke263]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/arena/'))
     runs-on: ubuntu-latest
     steps:

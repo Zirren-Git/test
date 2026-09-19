@@ -73,23 +73,32 @@ public final class ChatStore {
 	 * Called from the ChatComponent mixin when the vanilla chat hud is about to
 	 * display a message. Returns true if the caller should proceed (we are
 	 * routing our own content), false when the message was consumed by us.
+	 *
+	 * <p>Fully guarded: on ANY failure this returns true so the message is
+	 * shown by vanilla, unmodified - a ChatterBox bug or an unexpected
+	 * (modded) message shape must never crash the game or eat a message.</p>
 	 */
 	public boolean onVanillaAddMessage(Component message, GuiMessageSource source, @Nullable GuiMessageTag tag) {
 		if (routing) return true;
+		try {
+			boolean chatMessage = false;
+			GameProfile sender = null;
+			String chatSenderName = null;
+			PendingContext ctx = pending;
+			if (ctx != null && ctx.component() == message) {
+				chatMessage = ctx.chatMessage();
+				sender = ctx.sender();
+				chatSenderName = ctx.chatSenderName();
+				pending = null;
+			}
 
-		boolean chatMessage = false;
-		GameProfile sender = null;
-		String chatSenderName = null;
-		PendingContext ctx = pending;
-		if (ctx != null && ctx.component() == message) {
-			chatMessage = ctx.chatMessage();
-			sender = ctx.sender();
-			chatSenderName = ctx.chatSenderName();
-			pending = null;
+			handleIncoming(message, chatMessage, sender, chatSenderName, source, tag);
+			return false;
+		} catch (Throwable t) {
+			io.github.zirren.chatterbox.ChatterBoxClient.LOGGER
+					.error("ChatterBox failed to process a chat message; showing it unformatted instead", t);
+			return true;
 		}
-
-		handleIncoming(message, chatMessage, sender, chatSenderName, source, tag);
-		return false;
 	}
 
 	private void handleIncoming(Component message, boolean chatMessage, GameProfile sender, String chatSenderName,
