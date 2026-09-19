@@ -126,7 +126,7 @@ public final class Shortcuts {
 						? "local" : "singleplayer";
 			}
 			case "player", "me" -> {
-				return player == null ? null : player.getGameProfile().getName();
+				return client.getUser() != null ? client.getUser().getName() : null;
 			}
 			case "held" -> {
 				if (player == null) return null;

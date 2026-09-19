@@ -6,9 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.locale.I18n;
 
 import org.jspecify.annotations.Nullable;
 
@@ -46,7 +46,7 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		if (Config.get().mentionRules.isEmpty()) {
-			String msg = I18n.get("chatterbox.rules.empty");
+			String msg = tr("chatterbox.rules.empty");
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0x808080, false);
 		}
 	}
@@ -67,6 +67,10 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		@Override
 		public int getRowWidth() {
 			return Math.min(420, this.width - 24);
+		}
+
+		@Override
+		protected void updateWidgetNarration(NarrationElementOutput output) {
 		}
 
 		@Override
@@ -92,10 +96,6 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 				this.rule = rule;
 			}
 
-			@Override
-			public Component getNarration() {
-				return Component.literal(rule.word);
-			}
 
 			@Override
 			public void extractContent(GuiGraphicsExtractor g, int mouseX, int mouseY, boolean hovered, float delta) {

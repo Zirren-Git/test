@@ -3,7 +3,6 @@ package io.github.zirren.chatterbox.screen;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.locale.I18n;
 
 import io.github.zirren.chatterbox.chat.Folder;
 import io.github.zirren.chatterbox.config.Config;
@@ -50,9 +49,9 @@ public class FoldersScreen extends ChatterBoxScreen {
 
 	private static Component label(Folder folder) {
 		Config cfg = Config.get();
-		return Component.literal(I18n.get("chatterbox.config.folder_visible",
-				I18n.get(folder.translationKey()),
-				I18n.get(cfg.isFolderHidden(folder.key) ? "chatterbox.config.visible.hidden"
+		return Component.literal(tr("chatterbox.config.folder_visible",
+				tr(folder.translationKey()),
+				tr(cfg.isFolderHidden(folder.key) ? "chatterbox.config.visible.hidden"
 						: "chatterbox.config.visible.shown")));
 	}
 

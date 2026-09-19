@@ -12,11 +12,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.locale.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
@@ -120,7 +120,7 @@ public class SoundPickerScreen extends Screen {
 		graphics.text(this.font, this.title, this.width / 2 - this.font.width(this.title) / 2, 2, 0xFFFFFF, true);
 		String selected = Component.translatable("chatterbox.sounds.selected", pendingId).getString();
 		graphics.text(this.font, selected, this.width / 2 - this.font.width(selected) / 2, this.height - 34, 0xA0A0A0, false);
-		String hint = I18n.get("chatterbox.sounds.hint");
+		String hint = tr("chatterbox.sounds.hint");
 		graphics.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, this.height - 44, 0x707070, false);
 	}
 
@@ -148,6 +148,10 @@ public class SoundPickerScreen extends Screen {
 		@Override
 		public int getRowWidth() {
 			return Math.min(500, this.width - 24);
+		}
+
+		@Override
+		protected void updateWidgetNarration(NarrationElementOutput output) {
 		}
 
 		@Override
@@ -180,10 +184,6 @@ public class SoundPickerScreen extends Screen {
 				this.id = id;
 			}
 
-			@Override
-			public Component getNarration() {
-				return Component.literal(id);
-			}
 
 			@Override
 			public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float delta) {

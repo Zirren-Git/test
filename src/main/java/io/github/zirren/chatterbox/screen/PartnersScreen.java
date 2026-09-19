@@ -4,10 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
-import net.minecraft.locale.I18n;
 
 import org.jspecify.annotations.Nullable;
 
@@ -70,7 +70,7 @@ public class PartnersScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		if (ChatStore.INSTANCE.dmPartners().isEmpty()) {
-			String msg = I18n.get("chatterbox.partners.empty");
+			String msg = tr("chatterbox.partners.empty");
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0x808080, false);
 		}
 	}
@@ -91,6 +91,10 @@ public class PartnersScreen extends ChatterBoxScreen {
 		@Override
 		public int getRowWidth() {
 			return Math.min(360, this.width - 24);
+		}
+
+		@Override
+		protected void updateWidgetNarration(NarrationElementOutput output) {
 		}
 
 		@Override
@@ -119,10 +123,6 @@ public class PartnersScreen extends ChatterBoxScreen {
 				this.partner = partner;
 			}
 
-			@Override
-			public Component getNarration() {
-				return Component.literal(partner);
-			}
 
 			@Override
 			public void extractContent(GuiGraphicsExtractor g, int mouseX, int mouseY, boolean hovered, float delta) {

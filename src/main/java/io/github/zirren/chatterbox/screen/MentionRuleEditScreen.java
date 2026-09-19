@@ -5,7 +5,6 @@ import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
-import net.minecraft.locale.I18n;
 
 import java.util.Locale;
 
@@ -81,10 +80,10 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 		addRenderableWidget(pitchSlider);
 
 		enabledButton = Button.builder(cycleLabel("chatterbox.rules.enabled",
-				I18n.get(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")), b -> {
+				tr(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")), b -> {
 					rule.enabled = !rule.enabled;
 					b.setMessage(cycleLabel("chatterbox.rules.enabled",
-							I18n.get(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")));
+							tr(rule.enabled ? "chatterbox.rules.on" : "chatterbox.rules.off")));
 				}).pos(this.width / 2 - 100, 126).size(200, 20).build();
 		addRenderableWidget(enabledButton);
 
@@ -102,17 +101,17 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 	}
 
 	private Component soundLabel() {
-		return Component.literal(I18n.get("chatterbox.rules.sound") + ": " + rule.sound);
+		return Component.literal(tr("chatterbox.rules.sound") + ": " + rule.sound);
 	}
 
 	private Component volumeLabel() {
-		return Component.literal(I18n.get("chatterbox.rules.volume",
+		return Component.literal(tr("chatterbox.rules.volume",
 				String.format(Locale.ROOT, "%.1f", rule.volume)));
 	}
 
 	private Component pitchLabel() {
 		int note = (int) Math.round(12.0 * Math.log(rule.pitch) / Math.log(2.0) + 12.0);
-		return Component.literal(I18n.get("chatterbox.rules.pitch",
+		return Component.literal(tr("chatterbox.rules.pitch",
 				String.format(Locale.ROOT, "%.2f", rule.pitch), String.valueOf(note)));
 	}
 

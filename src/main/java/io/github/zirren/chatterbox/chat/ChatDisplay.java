@@ -20,7 +20,7 @@ import net.minecraft.client.multiplayer.chat.GuiMessage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.util.FormattedText;
+import net.minecraft.network.chat.FormattedText;
 
 import io.github.zirren.chatterbox.config.Config;
 import io.github.zirren.chatterbox.mixin.ChatComponentAccessor;
@@ -246,14 +246,14 @@ public final class ChatDisplay {
 		if (entryHeight <= 0) return null;
 
 		int scroll = ((ChatComponentAccessor) chat).chatterbox$getChatScrollbarPos();
-		int total = chat.trimmedMessages().size();
+		int total = ((ChatComponentAccessor) chat).chatterbox$trimmedMessages().size();
 		int perPage = chat.getLinesPerPage();
 		int count = Math.max(0, Math.min(total - scroll, perPage));
 		int row = (int) Math.floor((chatBottom - ly) / entryHeight);
 		if (row < 0 || row >= count) return null;
 		int index = scroll + row;
 		if (index < 0 || index >= total) return null;
-		GuiMessage.Line line = chat.trimmedMessages().get(index);
+		GuiMessage.Line line = ((ChatComponentAccessor) chat).chatterbox$trimmedMessages().get(index);
 		return BY_CONTENT.get(line.parent().content());
 	}
 

@@ -13,7 +13,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.CommandSuggestions;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.locale.I18n;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -277,7 +276,7 @@ public class ChatterBoxChatScreen extends ChatScreen {
 		int y = 2;
 		boolean badges = cfg.unreadBadges;
 		for (Folder folder : store.visibleFolders()) {
-			String label = tabLabel(I18n.get(folder.translationKey()), badges ? store.unread(folder) : 0);
+			String label = tabLabel(tr(folder.translationKey()), badges ? store.unread(folder) : 0);
 			int w = font.width(label) + 8;
 			if (x + w > this.width - 44 && folder != Folder.ALL) break;
 			boolean active = store.activeFolder() == folder;
@@ -342,7 +341,7 @@ public class ChatterBoxChatScreen extends ChatScreen {
 			y -= 11;
 			if (y < 40) break;
 		}
-		String hint = I18n.get("chatterbox.queue.count", queue.size());
+		String hint = tr("chatterbox.queue.count", queue.size());
 		ChatDisplay.drawBorderedText(g, font, hint, 6, y, 0xFF9A9AA0);
 	}
 

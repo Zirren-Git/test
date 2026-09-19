@@ -42,7 +42,8 @@ public class ChatterBoxClient implements ClientModInitializer {
 
 		// --- connection lifecycle ---------------------------------------
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-			String info = server != null ? server.ip : "singleplayer";
+			net.minecraft.client.multiplayer.ServerData data = client.getCurrentServer();
+			String info = data != null ? data.ip : "singleplayer";
 			ChatStore.INSTANCE.onJoin(info);
 			ChatDisplay.installFilter();
 		});

@@ -4,9 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSelectionList;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.locale.I18n;
 
 import org.jspecify.annotations.Nullable;
 
@@ -45,7 +45,7 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 		super.extractRenderState(g, mouseX, mouseY, delta);
 		drawTitle(g, 0xFFFFFFFF);
 		int y = this.height - 40;
-		String hint = I18n.get("chatterbox.shortcuts.static") + " · " + I18n.get("chatterbox.shortcuts.dynamic");
+		String hint = tr("chatterbox.shortcuts.static") + " · " + tr("chatterbox.shortcuts.dynamic");
 		g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, y, 0x707070, false);
 	}
 
@@ -68,6 +68,10 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 		@Override
 		public int getRowWidth() {
 			return Math.min(460, this.width - 24);
+		}
+
+		@Override
+		protected void updateWidgetNarration(NarrationElementOutput output) {
 		}
 
 		@Override
@@ -95,10 +99,6 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 				this.shortcut = shortcut;
 			}
 
-			@Override
-			public Component getNarration() {
-				return Component.literal(shortcut.token);
-			}
 
 			@Override
 			public void extractContent(GuiGraphicsExtractor g, int mouseX, int mouseY, boolean hovered, float delta) {
@@ -125,10 +125,6 @@ public class ShortcutsScreen extends ChatterBoxScreen {
 				this.token = token;
 			}
 
-			@Override
-			public Component getNarration() {
-				return Component.literal(token);
-			}
 
 			@Override
 			public void extractContent(GuiGraphicsExtractor g, int mouseX, int mouseY, boolean hovered, float delta) {

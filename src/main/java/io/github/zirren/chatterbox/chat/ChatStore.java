@@ -130,9 +130,9 @@ public final class ChatStore {
 		boolean visible = isVisibleInView(entry, activeFolder, activeDmPartner);
 		if (!visible) {
 			// Unread counters for inactive tabs
-			bumpUnread(entry.folder());
+			bumpUnread(entry.folder);
 			if (entry.folder == Folder.DM && entry.dmPartner != null) {
-				dmUnread.merge(dmKey(entry.dmPartner()), 1, Integer::sum);
+				dmUnread.merge(dmKey(entry.dmPartner), 1, Integer::sum);
 			}
 			return;
 		}
