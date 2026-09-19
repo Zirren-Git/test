@@ -11,7 +11,10 @@ continuity.jar
 controlling.jar
 entityculling.jar
 fabric-api-0.161.0+26.2.jar
+fabric-language-kotlin.jar
 ferrite-core.jar
+forge-config-api-port.jar
+fzzy-config.jar
 gamma-utils.jar
 geckolib.jar
 immediatelyfast.jar
@@ -26,6 +29,7 @@ modmenu-20.0.2.jar
 mouse-tweaks.jar
 packet-fixer.jar
 pick-up-notifier.jar
+puzzles-lib.jar
 raised.jar
 reeses-sodium-options.jar
 scalablelux.jar
@@ -38,40 +42,32 @@ subtle-effects.jar
 vmp-fabric.jar
 xaeros-minimap.jar
 xaeros-world-map.jar
+yacl.jar
 zoomify.jar
 --- chatterbox markers ---
 --- errors ---
-7:[22:02:30] [main/ERROR]: Incompatible mods found!
+7:[22:13:05] [main/ERROR]: Incompatible mods found!
 8:net.fabricmc.loader.impl.FormattedException: Some of your mods are incompatible with the game or each other!
-28:	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:51)
+19:	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:51)
 --- game output tail ---
-[22:02:29] [main/INFO]: Loading Minecraft 26.2 with Fabric Loader 0.19.3
-[22:02:29] [main/INFO]: Mappings not present!
-[22:02:30] [main/WARN]: Mod resolution failed
-[22:02:30] [main/INFO]: Immediate reason: [HARD_DEP_NO_CANDIDATE immersive-hotbar 1.2.2-26.2 {depends yet_another_config_lib_v3 @ [>=3.9.0]}, ROOT_FORCELOAD_SINGLE immersive-hotbar 1.2.2-26.2]
-[22:02:30] [main/INFO]: Reason: [HARD_DEP immersive-hotbar 1.2.2-26.2 {depends yet_another_config_lib_v3 @ [>=3.9.0]}, HARD_DEP itemborders 1.3.2 {depends iceberg @ [>=1.4.2]}, HARD_DEP itemborders 1.3.2 {depends prism @ [>=1.1.2]}, HARD_DEP legendarytooltips 1.6.2.1 {depends iceberg @ [>=1.4.2]}, HARD_DEP legendarytooltips 1.6.2.1 {depends prism @ [*]}, HARD_DEP pickupnotifier 26.2.0 {depends forgeconfigapiport @ [*]}, HARD_DEP pickupnotifier 26.2.0 {depends puzzleslib @ [>=26.2.0]}, HARD_DEP subtle_effects 1.14.3 {depends fzzy_config @ [>=0.7.6+26.2]}, HARD_DEP zoomify 2.16.1+26.2 {depends fabric-language-kotlin @ [>=1.13.8+kotlin.2.3.0]}, HARD_DEP zoomify 2.16.1+26.2 {depends yet_another_config_lib_v3 @ [>=3.6.6]}]
-[22:02:30] [main/INFO]: Fix: add [add:yet_another_config_lib_v3 3.9.0 ([[3.9.0,∞)]), add:iceberg 1.4.2 ([[1.4.2,∞)]), add:prism 1.1.2 ([[1.1.2,∞)]), add:forgeconfigapiport 1 ([(-∞,∞)]), add:puzzleslib 26.2.0 ([[26.2.0,∞)]), add:fzzy_config 0.7.6+26.2 ([[0.7.6+26.2,∞)]), add:fabric-language-kotlin 1.13.8+kotlin.2.3.0 ([[1.13.8+kotlin.2.3.0,∞)])], remove [], replace []
-[22:02:30] [main/ERROR]: Incompatible mods found!
+[22:13:04] [main/INFO]: Loading Minecraft 26.2 with Fabric Loader 0.19.3
+[22:13:04] [main/INFO]: Mappings not present!
+[22:13:05] [main/WARN]: Mod resolution failed
+[22:13:05] [main/INFO]: Immediate reason: [HARD_DEP_NO_CANDIDATE fabric-language-kotlin 1.14.1+kotlin.2.4.20 {depends fabricloader @ [>=0.19.5]}, ROOT_FORCELOAD_SINGLE fabric-language-kotlin 1.14.1+kotlin.2.4.20]
+[22:13:05] [main/INFO]: Reason: [HARD_DEP fabric-language-kotlin 1.14.1+kotlin.2.4.20 {depends fabricloader @ [>=0.19.5]}, HARD_DEP itemborders 1.3.2 {depends iceberg @ [>=1.4.2]}, HARD_DEP itemborders 1.3.2 {depends prism @ [>=1.1.2]}, HARD_DEP legendarytooltips 1.6.2.1 {depends iceberg @ [>=1.4.2]}, HARD_DEP legendarytooltips 1.6.2.1 {depends prism @ [*]}]
+[22:13:05] [main/INFO]: Fix: add [add:iceberg 1.4.2 ([[1.4.2,∞)]), add:prism 1.1.2 ([[1.1.2,∞)])], remove [], replace [[fabricloader 0.19.3] -> add:fabricloader 0.19.5 ([[0.19.5,∞)])]
+[22:13:05] [main/ERROR]: Incompatible mods found!
 net.fabricmc.loader.impl.FormattedException: Some of your mods are incompatible with the game or each other!
 A potential solution has been determined, this may resolve your problem:
-	 - Install yet_another_config_lib_v3, version 3.9.0 or later.
 	 - Install iceberg, version 1.4.2 or later.
 	 - Install prism, version 1.1.2 or later.
-	 - Install forgeconfigapiport, any version.
-	 - Install puzzleslib, version 26.2.0 or later.
-	 - Install fzzy_config, version 0.7.6+26.2 or later.
-	 - Install fabric-language-kotlin, version 1.13.8+kotlin.2.3.0 or later.
+	 - Replace mod 'Fabric Loader' (fabricloader) 0.19.3 with version 0.19.5 or later.
 More details:
-	 - Mod 'Immersive Hotbar' (immersive-hotbar) 1.2.2-26.2 requires version 3.9.0 or later of yet_another_config_lib_v3, which is missing!
+	 - Mod 'Fabric Language Kotlin' (fabric-language-kotlin) 1.14.1+kotlin.2.4.20 requires version 0.19.5 or later of mod 'Fabric Loader' (fabricloader), but only the wrong version is present: 0.19.3!
 	 - Mod 'Item Borders' (itemborders) 1.3.2 requires version 1.4.2 or later of iceberg, which is missing!
 	 - Mod 'Item Borders' (itemborders) 1.3.2 requires version 1.1.2 or later of prism, which is missing!
 	 - Mod 'Legendary Tooltips' (legendarytooltips) 1.6.2.1 requires version 1.4.2 or later of iceberg, which is missing!
 	 - Mod 'Legendary Tooltips' (legendarytooltips) 1.6.2.1 requires any version of prism, which is missing!
-	 - Mod 'Pick Up Notifier' (pickupnotifier) 26.2.0 requires any version of forgeconfigapiport, which is missing!
-	 - Mod 'Pick Up Notifier' (pickupnotifier) 26.2.0 requires version 26.2.0 or later of puzzleslib, which is missing!
-	 - Mod 'Subtle Effects' (subtle_effects) 1.14.3 requires version 0.7.6+26.2 or later of fzzy_config, which is missing!
-	 - Mod 'Zoomify' (zoomify) 2.16.1+26.2 requires version 1.13.8+kotlin.2.3.0 or later of fabric-language-kotlin, which is missing!
-	 - Mod 'Zoomify' (zoomify) 2.16.1+26.2 requires version 3.6.6 or later of yet_another_config_lib_v3, which is missing!
 	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:51)
 	at net.fabricmc.loader.impl.FabricLoaderImpl.load(FabricLoaderImpl.java:202)
 	at net.fabricmc.loader.impl.launch.knot.Knot.init(Knot.java:142)
