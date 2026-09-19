@@ -819,7 +819,7 @@ jobs:
       - name: Boot with other chat mods (advisory - report only)
         run: |
           set +e
-          for slug in chat_heads chatanimation raised; do
+          for slug in appleskin betterf3 chat-heads chatanimation raised immediatelyfast entityculling modernfix zoomify jade xaeros-minimap xaeros-world-map sodium iris continuity falling-leaves mouse-tweaks gamma-utils ferrite-core lithium krypton reeses-sodium-options cloth-config yetanotherconfiglib betterstats searchables controlling highlighter pick-up-notifier item-borders legendary-tooltips immersive-hotbar make-bubbles-pop screenshot-viewer status-effect-bars subtle-effects camera-overhaul centered-crosshair geckolib spark c2me-fabric vmp-fabric packet-fixer scalablelux async-particles; do
             url=$(curl -sf "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" | jq -r '.[0].files[0].url // empty' 2>/dev/null)
             if [ -n "$url" ]; then
               curl -sfL -o "instance/mods/$slug.jar" "$url" && echo "added $slug"
@@ -828,7 +828,7 @@ jobs:
             fi
           done
           ls -la instance/mods/
-          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 240 bash run-game.sh > game-chatmods.log 2>&1
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 420 bash run-game.sh > game-chatmods.log 2>&1
           code=$?
           echo "game exit code: $code (124 = ran until timeout = good)"
           LOG=instance/logs/latest.log
