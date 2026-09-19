@@ -216,8 +216,7 @@ public class TuneMakerScreen extends ChatterBoxScreen {
 		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
-	private void cycleInstrument(int direction) {
-		List<String> instruments = Instruments.available();
+	private void cycleInstrument(int direction, List<String> instruments) {
 		instrumentIndex = Math.floorMod(instrumentIndex + direction, instruments.size());
 		instrument = instruments.get(instrumentIndex);
 		instrumentButton.setMessage(instrumentLabel());
