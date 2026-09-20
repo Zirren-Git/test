@@ -78,7 +78,7 @@ public class ChatterBoxClient implements ClientModInitializer {
 		}
 	}
 
-	private static void init() {
+	private void init() {
 		// touch config so it loads & defaults are created
 		safe("config load", Config::get);
 		safe("dm partners load", () -> ChatStore.INSTANCE.loadPersistedPartners());
