@@ -903,12 +903,63 @@ jobs:
           JARS=$(ls artifacts/*mc26.2*loader0.19.5*.jar artifacts/*mc26.3*loader0.19.5*.jar 2>/dev/null || ls artifacts/*.jar)
           # checksum sidecars so users can verify their download is not truncated
           for f in $JARS; do sha256sum "$f" | awk '{print $1}' > "$f.sha256"; done
-          echo "=== jar checksums ==="; for f in $JARS; do echo "$(cat "$f.sha256")  $(basename "$f")"; done
+          # release notes with the checksum table visible on the release page
+          NOTES=$(mktemp --suffix=.md)
+          {
+            echo "ChatterBox $TAG - chat folders, DMs, mention sounds + Tune Maker, search, logs, pins, compression, drafts, queue, timestamps, ModMenu config. For Minecraft 26.2 & 26.3, Fabric Loader 0.19.3-0.19.5, Java 25."
+            echo ""
+            echo "## Download integrity"
+            echo ""
+            echo "If the game crashes with \`zip END header not found\` mentioning chatterbox, your jar download was truncated/corrupted - the mod never ran. Delete every chatterbox jar from your mods folder (including any \" (1)\" copies Windows made), re-download, and verify the size and SHA-256 against this table (PowerShell: \`Get-FileHash <file> -Algorithm SHA256\`):"
+            echo ""
+            echo "| file | size (bytes) | sha256 |"
+            echo "|---|---|---|"
+            for f in $JARS; do echo "| \`$(basename "$f")\` | $(stat -c%s "$f") | \`$(cat "$f.sha256")\` |"; done
+          } > "$NOTES"
+          cat "$NOTES"
           FILES="$JARS $(for f in $JARS; do echo "$f.sha256"; done)"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" $FILES --clobber
+            gh release edit "$TAG" --notes-file "$NOTES"
           else
             gh release create "$TAG" $FILES --target "$GITHUB_SHA" \
               --title "ChatterBox $TAG" \
-              --notes "Built from branch ${GITHUB_REF#refs/heads/}. See README for features and install instructions."
+              --notes-file "$NOTES"
           fi
+
+  verify-release:
+    name: Verify release download integrity
+    needs: release
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/arena/'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Downloads the published jars over the public HTTPS release URL - exactly
+      # the bytes a user's browser gets - and validates them end to end:
+      # full ZIP structure check (unzip -t) + sha256 against the sidecar.
+      - name: Download the release like a user and validate it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          TAG="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
+          echo "verifying release $TAG"
+          mkdir dl && cd dl
+          for name in $(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | select(.name | endswith(".jar")) | .name'); do
+            echo "downloading $name"
+            curl -sfL --retry 5 --retry-delay 5 --retry-all-errors -O "https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$name"
+          done
+          ls -la
+          for j in *.jar; do
+            echo "=== $j ==="
+            unzip -t "$j" > /dev/null && echo "ZIP OK: $j" || { echo "::error::$j is not a valid zip file"; exit 1; }
+            expected=$(curl -sfL --retry 5 --retry-all-errors "https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$j.sha256" | tr -d '[:space:]')
+            actual=$(sha256sum "$j" | awk '{print $1}')
+            if [ "$expected" != "$actual" ]; then
+              echo "::error::sha256 mismatch for $j: expected $expected, got $actual"
+              exit 1
+            fi
+            echo "SHA256 OK: $j $actual"
+          done
+          echo "RELEASE ASSETS VERIFIED - what users download from GitHub is intact"
