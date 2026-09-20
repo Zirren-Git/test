@@ -935,26 +935,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Downloads the published jars over the public HTTPS release URL - exactly
-      # the bytes a user's browser gets - and validates them end to end:
-      # full ZIP structure check (unzip -t) + sha256 against the sidecar.
-      - name: Download the release like a user and validate it
+      # Downloads the published jars with an authenticated request (this repo
+      # is private - anonymous release URLs return 404) and validates them
+      # end to end: full ZIP structure check (unzip -t) + sha256 vs sidecar.
+      - name: Download the published release and validate it
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -e
           TAG="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
           echo "verifying release $TAG"
-          mkdir dl && cd dl
-          for name in $(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | select(.name | endswith(".jar")) | .name'); do
-            echo "downloading $name"
-            curl -sfL --retry 5 --retry-delay 5 --retry-all-errors -O "https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$name"
-          done
-          ls -la
+          mkdir dl
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.jar' --pattern '*.jar.sha256' --dir dl --clobber
+          ls -la dl
+          cd dl
           for j in *.jar; do
             echo "=== $j ==="
             unzip -t "$j" > /dev/null && echo "ZIP OK: $j" || { echo "::error::$j is not a valid zip file"; exit 1; }
-            expected=$(curl -sfL --retry 5 --retry-all-errors "https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$j.sha256" | tr -d '[:space:]')
+            expected=$(cat "$j.sha256" | tr -d '[:space:]')
             actual=$(sha256sum "$j" | awk '{print $1}')
             if [ "$expected" != "$actual" ]; then
               echo "::error::sha256 mismatch for $j: expected $expected, got $actual"
@@ -962,4 +960,4 @@ jobs:
             fi
             echo "SHA256 OK: $j $actual"
           done
-          echo "RELEASE ASSETS VERIFIED - what users download from GitHub is intact"
+          echo "RELEASE ASSETS VERIFIED - the published jars are intact"
