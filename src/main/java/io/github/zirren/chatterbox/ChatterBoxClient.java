@@ -45,8 +45,40 @@ public class ChatterBoxClient implements ClientModInitializer {
 	public static final String MOD_ID = "chatterbox";
 	public static final Logger LOGGER = LoggerFactory.getLogger("ChatterBox");
 
+	/** True once the whole mod initialized successfully. Diagnostic flag:
+	 *  if a boot log shows "ChatterBox initializing" but never "ChatterBox
+	 *  initialized", the crash happened in (or because of) this init. */
+	public static volatile boolean ACTIVE = false;
+
 	@Override
 	public void onInitializeClient() {
+		try {
+			LOGGER.info("ChatterBox initializing v{}", version());
+			init();
+			ACTIVE = true;
+			LOGGER.info("ChatterBox initialized");
+		} catch (Throwable t) {
+			// Absolute last resort. Every part of the init is individually
+			// guarded, so this can only fire if the event registrations
+			// themselves explode - e.g. in a heavily modded environment we
+			// could not foresee. A ChatterBox bug must never take the whole
+			// game down: disable ourselves and let the game boot.
+			ACTIVE = false;
+			LOGGER.error("ChatterBox: initialization FAILED - ChatterBox is now disabled, the game will continue without it. Please report this together with your logs/latest.log", t);
+		}
+	}
+
+	private static String version() {
+		try {
+			return FabricLoader.getInstance().getModContainer(MOD_ID)
+					.map(c -> c.getMetadata().getVersion().getFriendlyString())
+					.orElse("?");
+		} catch (Throwable t) {
+			return "?";
+		}
+	}
+
+	private static void init() {
 		// touch config so it loads & defaults are created
 		safe("config load", Config::get);
 		safe("dm partners load", () -> ChatStore.INSTANCE.loadPersistedPartners());
@@ -97,8 +129,6 @@ public class ChatterBoxClient implements ClientModInitializer {
 				selfTest.tick(client);
 			}
 		});
-
-		LOGGER.info("ChatterBox initialized");
 	}
 
 	/** Runs a task; a ChatterBox failure must never crash the game. */
