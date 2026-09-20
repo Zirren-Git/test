@@ -900,7 +900,11 @@ jobs:
           ls -la artifacts/ || true
           TAG="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
           # publish the loader 0.19.5 builds (which run on 0.19.3-0.19.5)
-          FILES=$(ls artifacts/*mc26.2*loader0.19.5*.jar artifacts/*mc26.3*loader0.19.5*.jar 2>/dev/null || ls artifacts/*.jar)
+          JARS=$(ls artifacts/*mc26.2*loader0.19.5*.jar artifacts/*mc26.3*loader0.19.5*.jar 2>/dev/null || ls artifacts/*.jar)
+          # checksum sidecars so users can verify their download is not truncated
+          for f in $JARS; do sha256sum "$f" | awk '{print $1}' > "$f.sha256"; done
+          echo "=== jar checksums ==="; for f in $JARS; do echo "$(cat "$f.sha256")  $(basename "$f")"; done
+          FILES="$JARS $(for f in $JARS; do echo "$f.sha256"; done)"
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" $FILES --clobber
           else
