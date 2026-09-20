@@ -714,8 +714,15 @@ jobs:
         run: |
           mkdir -p instance/mods
           cp build/libs/chatterbox-*+mc26.2.jar instance/mods/
-          curl -sfL -o "instance/mods/fabric-api-0.161.0+26.2.jar" "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.161.0+26.2/fabric-api-0.161.0+26.2.jar"
-          curl -sfL -o "instance/mods/modmenu-20.0.2.jar" "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"
+          curl -sfL --retry 4 --retry-delay 5 --retry-all-errors -o "instance/mods/fabric-api-0.161.0+26.2.jar" "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.161.0+26.2/fabric-api-0.161.0+26.2.jar"
+          # terraformers maven is flaky - retry, then fall back to Modrinth
+          if ! curl -sfL --retry 4 --retry-delay 5 --retry-all-errors -o "instance/mods/modmenu-20.0.2.jar" "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"; then
+            echo "terraformers maven failed - downloading modmenu $MODMENU from Modrinth"
+            url=$(curl -sf "https://api.modrinth.com/v2/project/modmenu/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" \
+              | jq -r "([.[] | select(.version_number==\"$MODMENU\")][0].files[0].url) // (.[0].files[0].url) // empty")
+            [ -n "$url" ]
+            curl -sfL --retry 4 --retry-delay 5 --retry-all-errors -o "instance/mods/modmenu-20.0.2.jar" "$url"
+          fi
           ls -la instance/mods/
 
       - name: Download the vanilla client + libraries (like a launcher does)
