@@ -25,7 +25,7 @@ Fabric Loom: 1.17.21
 1 error
 
 > Task :compileJava FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1790006943962.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1790007750039.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/test/test/build/reports/problems/problems-report.html
 
@@ -45,5 +45,5 @@ Execution failed for task ':compileJava' (registered by plugin class 'org.gradle
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights from a Build Scan (powered by Develocity).
 
-BUILD FAILED in 34s
+BUILD FAILED in 36s
 1 actionable task: 1 executed
