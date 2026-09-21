@@ -28,7 +28,7 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 	private static final long DELETE_ARM_MS = 3000L;
 
 	private RuleList list;
-	private Row selected;
+	private RuleList.Row selected;
 	private long lastSelectTime;
 	private boolean armedDelete;
 	private long armedAt;
