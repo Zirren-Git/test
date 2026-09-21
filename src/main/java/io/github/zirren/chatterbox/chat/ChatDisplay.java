@@ -191,6 +191,12 @@ public final class ChatDisplay {
 			out.append(Component.literal("📌 ").withStyle(ChatFormatting.GOLD));
 		}
 
+		// In the All folder message types mix; tag everything that is not
+		// normal player chat so the types are visually distinguishable.
+		if (cfg.typeTags && ChatStore.INSTANCE.activeFolder() == Folder.ALL && entry.folder != Folder.CHAT) {
+			out.append(typeTag(entry.folder));
+		}
+
 		if (dmView && entry.folder == Folder.DM && entry.dmContent != null) {
 			// DM folder: render like a normal chat message, not greyed out.
 			String name = entry.outgoing
@@ -219,6 +225,18 @@ public final class ChatDisplay {
 			out.append(Component.literal(" (" + entry.repeatCount + ")").withStyle(ChatFormatting.GRAY));
 		}
 		return out;
+	}
+
+	/** Colored prefix tag shown in the All folder for non-chat messages. */
+	private static Component typeTag(Folder folder) {
+		return switch (folder) {
+		case DM -> Component.literal("[DM] ").withStyle(ChatFormatting.GOLD);
+		case SERVER -> Component.literal("[Sys] ").withStyle(ChatFormatting.GRAY);
+		case JOINS -> Component.literal("[Join] ").withStyle(ChatFormatting.GREEN);
+		case COMMAND -> Component.literal("[Cmd] ").withStyle(ChatFormatting.AQUA);
+		case DEATH -> Component.literal("[Death] ").withStyle(ChatFormatting.RED);
+		default -> Component.empty();
+		};
 	}
 
 	/**

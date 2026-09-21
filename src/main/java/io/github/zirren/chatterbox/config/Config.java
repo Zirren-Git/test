@@ -35,6 +35,8 @@ public final class Config {
 	public boolean timestampSeconds = false;
 	/** Timestamp + sender on its own line; message indented below it. */
 	public boolean twoLineLayout = false;
+	/** Show colored type tags ([DM], [Sys], [Join]…) in the All folder. */
+	public boolean typeTags = true;
 
 	// --- Chat behaviour ---
 	/** Compress consecutive identical messages into one entry with an (xN) counter. */

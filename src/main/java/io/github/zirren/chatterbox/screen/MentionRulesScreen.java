@@ -18,11 +18,23 @@ import io.github.zirren.chatterbox.chat.Instruments;
 import io.github.zirren.chatterbox.config.MentionRule;
 
 /**
- * Lists the mention rules (word → sound). Click a rule to edit it.
+ * Lists the mention rules (word → sound). Click a rule to select it;
+ * double-click a rule (or press "Edit") to change it; "Delete" removes the
+ * selected rule after a confirm click, so rules can never be lost by accident.
  */
 public class MentionRulesScreen extends ChatterBoxScreen {
 
+	private static final long DOUBLE_CLICK_MS = 400L;
+	private static final long DELETE_ARM_MS = 3000L;
+
 	private RuleList list;
+	private Row selected;
+	private long lastSelectTime;
+	private boolean armedDelete;
+	private long armedAt;
+
+	private Button editButton;
+	private Button deleteButton;
 
 	public MentionRulesScreen(net.minecraft.client.gui.screens.Screen parent) {
 		super(Component.translatable("chatterbox.rules.title"), parent);
@@ -34,13 +46,62 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		list.refresh();
 		addRenderableWidget(list);
 
-		addRenderableWidget(Button.builder(Component.translatable("chatterbox.rules.add"), b -> {
+		int w = 74;
+		int gap = 4;
+		int x0 = this.width / 2 - (w * 4 + gap * 3) / 2;
+		int y = this.height - 26;
+
+		addRenderableWidget(Button.builder(Component.translatable("chatterbox.button.add"), b -> {
 			MentionRule rule = new MentionRule("", "minecraft:block.note_block.pling", 1.0f, 1.0f);
 			this.minecraft.gui.setScreen(new MentionRuleEditScreen(this, rule, false));
-		}).pos(this.width / 2 - 155, this.height - 26).size(150, 20).build());
+		}).pos(x0, y).size(w, 20).build());
+
+		editButton = Button.builder(Component.translatable("chatterbox.rules.edit"), b -> {
+			if (selected != null) {
+				openEdit(selected.rule);
+			}
+		}).pos(x0 + w + gap, y).size(w, 20).build();
+		editButton.active = false;
+		addRenderableWidget(editButton);
+
+		deleteButton = Button.builder(Component.translatable("chatterbox.rules.delete"), b -> {
+			if (selected == null) return;
+			long now = System.currentTimeMillis();
+			if (!armedDelete || now - armedAt > DELETE_ARM_MS) {
+				// first click: ask for confirmation instead of deleting at once
+				armedDelete = true;
+				armedAt = now;
+				deleteButton.setMessage(Component.translatable("chatterbox.rules.delete_confirm"));
+				return;
+			}
+			Config.get().mentionRules.remove(selected.rule);
+			Config.get().save();
+			selected = null;
+			armedDelete = false;
+			list.refresh();
+			updateButtons();
+		}).pos(x0 + 2 * (w + gap), y).size(w, 20).build();
+		deleteButton.active = false;
+		addRenderableWidget(deleteButton);
 
 		addRenderableWidget(Button.builder(Component.translatable("chatterbox.button.back"), b -> onClose())
-				.pos(this.width / 2 + 5, this.height - 26).size(150, 20).build());
+				.pos(x0 + 3 * (w + gap), y).size(w, 20).build());
+	}
+
+	private void openEdit(MentionRule rule) {
+		this.minecraft.gui.setScreen(new MentionRuleEditScreen(this, rule, true));
+	}
+
+	private void updateButtons() {
+		if (editButton != null) {
+			editButton.active = selected != null;
+		}
+		if (deleteButton != null) {
+			deleteButton.active = selected != null;
+			if (!armedDelete) {
+				deleteButton.setMessage(Component.translatable("chatterbox.rules.delete"));
+			}
+		}
 	}
 
 	@Override
@@ -50,6 +111,9 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		if (Config.get().mentionRules.isEmpty()) {
 			String msg = Lang.tr("chatterbox.rules.empty");
 			g.text(this.font, msg, this.width / 2 - this.font.width(msg) / 2, this.height / 2 - 20, 0xFF808080, false);
+		} else {
+			String hint = Lang.tr("chatterbox.rules.hint");
+			g.text(this.font, hint, this.width / 2 - this.font.width(hint) / 2, 19, 0xFF707070, false);
 		}
 	}
 
@@ -84,7 +148,17 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		public void setSelected(@Nullable Entry entry) {
 			super.setSelected(entry);
 			if (entry instanceof Row row) {
-				MentionRulesScreen.this.minecraft.gui.setScreen(new MentionRuleEditScreen(MentionRulesScreen.this, row.rule, true));
+				long now = System.currentTimeMillis();
+				if (selected == row && now - lastSelectTime < DOUBLE_CLICK_MS) {
+					// double-click on an already-selected rule = edit
+					lastSelectTime = 0;
+					openEdit(row.rule);
+					return;
+				}
+				selected = row;
+				lastSelectTime = now;
+				armedDelete = false;
+				updateButtons();
 			}
 		}
 
@@ -98,13 +172,15 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 				this.rule = rule;
 			}
 
-
 			@Override
 			public void extractContent(GuiGraphicsExtractor g, int mouseX, int mouseY, boolean hovered, float delta) {
 				Font f = MentionRulesScreen.this.font;
 				int left = RuleList.this.getRowLeft() + 2;
 				int y = getContentY() + 2;
-				if (hovered) {
+				boolean isSelected = MentionRulesScreen.this.selected == this;
+				if (isSelected) {
+					g.fill(left - 2, getContentY(), left + RuleList.this.getRowWidth() - 4, getContentY() + 26, 0x45FFFFFF);
+				} else if (hovered) {
 					g.fill(left - 2, getContentY(), left + RuleList.this.getRowWidth() - 4, getContentY() + 26, 0x25FFFFFF);
 				}
 				String word = (rule.enabled ? "● " : "○ ") + (rule.word.isEmpty() ? "—" : rule.word);
