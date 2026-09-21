@@ -946,19 +946,38 @@ jobs:
           set -e
           TAG="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
           echo "verifying release $TAG"
-          mkdir dl
-          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.jar' --pattern '*.jar.sha256' --dir dl --clobber
-          ls -la dl
-          cd dl
-          for j in *.jar; do
-            echo "=== $j ==="
-            unzip -t "$j" > /dev/null && echo "ZIP OK: $j" || { echo "::error::$j is not a valid zip file"; exit 1; }
-            expected=$(cat "$j.sha256" | tr -d '[:space:]')
-            actual=$(sha256sum "$j" | awk '{print $1}')
-            if [ "$expected" != "$actual" ]; then
-              echo "::error::sha256 mismatch for $j: expected $expected, got $actual"
+
+          verify() {
+            cd "$GITHUB_WORKSPACE"
+            rm -rf dl && mkdir dl
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.jar' --pattern '*.jar.sha256' --dir dl --clobber
+            ls -la dl
+            cd dl
+            for j in *.jar; do
+              echo "=== $j ==="
+              unzip -t "$j" > /dev/null && echo "ZIP OK: $j" || { echo "::warning::$j is not a valid zip on this attempt"; return 1; }
+              expected=$(cat "$j.sha256" | tr -d '[:space:]')
+              actual=$(sha256sum "$j" | awk '{print $1}')
+              if [ "$expected" != "$actual" ]; then
+                echo "::warning::sha256 mismatch for $j: expected $expected, got $actual"
+                return 1
+              fi
+              echo "SHA256 OK: $j $actual"
+            done
+          }
+
+          # This job starts seconds after the release is published; the CDN can
+          # briefly serve a truncated copy of a brand-new asset (the same
+          # read-your-writes race users hit downloading right after a release),
+          # so retry the whole download+validation before declaring failure.
+          n=0
+          until verify; do
+            n=$((n+1))
+            if [ "$n" -ge 3 ]; then
+              echo "::error::release assets failed validation after $((n+1)) attempts"
               exit 1
             fi
-            echo "SHA256 OK: $j $actual"
+            echo "download/validation failed - retrying in 30s (attempt $((n+2)) of 4)..."
+            sleep 30
           done
           echo "RELEASE ASSETS VERIFIED - the published jars are intact"
