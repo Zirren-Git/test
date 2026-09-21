@@ -1,0 +1,134 @@
+=== production boot test with other chat mods ===
+appleskin.jar
+betterf3.jar
+c2me-fabric.jar
+centered-crosshair.jar
+chat-heads.jar
+chatanimation.jar
+chatterbox-1.1.4+mc26.2.jar
+cloth-config.jar
+continuity.jar
+controlling.jar
+entityculling.jar
+fabric-api-0.161.0+26.2.jar
+fabric-language-kotlin.jar
+ferrite-core.jar
+forge-config-api-port.jar
+fzzy-config.jar
+gamma-utils.jar
+geckolib.jar
+immediatelyfast.jar
+immersive-hotbar.jar
+iris.jar
+jade.jar
+krypton.jar
+lithium.jar
+modmenu-20.0.2.jar
+mouse-tweaks.jar
+packet-fixer.jar
+pick-up-notifier.jar
+puzzles-lib.jar
+raised.jar
+reeses-sodium-options.jar
+scalablelux.jar
+screenshot-viewer.jar
+searchables.jar
+sodium.jar
+spark.jar
+status-effect-bars.jar
+subtle-effects.jar
+vmp-fabric.jar
+xaeros-minimap.jar
+xaeros-world-map.jar
+yacl.jar
+--- chatterbox markers ---
+--- errors ---
+220:[16:38:09] [main/WARN]: Error loading class: mezz/jei/fabric/platform/RenderHelper (java.lang.ClassNotFoundException: mezz/jei/fabric/platform/RenderHelper)
+222:[16:38:09] [main/WARN]: Error loading class: net/vulkanmod/config/option/Options (java.lang.ClassNotFoundException: net/vulkanmod/config/option/Options)
+226:[16:38:10] [main/WARN]: Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [NO_ERROR_CONTEXT_UNSUPPORTED]
+230:[16:38:12] [main/ERROR]: Minecraft has crashed!
+231:net.fabricmc.loader.impl.FormattedException: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
+232:	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:63)
+236:Caused by: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
+271:Caused by: java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class org.objectweb.asm.tree.AnnotationNode (java.util.ArrayList is in module java.base of loader 'bootstrap'; org.objectweb.asm.tree.AnnotationNode is in unnamed module of loader 'app')
+--- game output tail ---
+[16:38:08] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.bettermipmaps.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.compat.sodium.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.fixes.maxfpscrash.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/INFO]: Loaded configuration file for Lithium: 171 options available, 0 override(s) found.
+[16:38:08] [main/WARN]: Reference map 'raised.refmap.json' for raised.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'reeses-sodium-options.refmap.json' for reeses-sodium-options.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'searchables.refmap.json' for searchables.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'searchables.refmap.json' for searchables.fabric.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/INFO]: Loaded configuration file for Sodium: 37 options available, 1 override(s) found
+[16:38:08] [main/WARN]: Reference map 'subtle_effects.refmap.json' for subtle_effects.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'subtle_effects.refmap.json' for subtle_effects.fabric.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/INFO]: Successfully started async appender with [SysOut, ServerGuiConsole, Tracy, File]
+[16:38:08] [main/WARN]: Reference map 'xaerolib.refmap.json' for xaerolib.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'xaeroworldmap.refmap.json' for xaeroworldmap.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'yet_another_config_lib_v3.refmap.json' for yacl.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:08] [main/WARN]: Reference map 'yet_another_config_lib_v3.refmap.json' for yacl-fabric.mixins.json could not be read. If this is a development environment you can ignore this message
+[16:38:09] [main/WARN]: Error loading class: mezz/jei/fabric/platform/RenderHelper (java.lang.ClassNotFoundException: mezz/jei/fabric/platform/RenderHelper)
+[16:38:09] [main/WARN]: @Mixin target mezz.jei.fabric.platform.RenderHelper was not found appleskin.jei.mixins.json:JEIRenderHelperMixin from mod appleskin
+[16:38:09] [main/WARN]: Error loading class: net/vulkanmod/config/option/Options (java.lang.ClassNotFoundException: net/vulkanmod/config/option/Options)
+[16:38:09] [main/WARN]: Force-disabling mixin 'features.render.world.sky.LevelRendererMixin' as rule 'mixin.features.render.world.sky' (added by mods [iris]) disables it and children
+[16:38:10] [main/INFO]: Searching for graphics cards...
+[16:38:10] [main/WARN]: Could not find any graphics adapters! Probably the device is not on a bus we can probe, or there are no devices supporting 3D acceleration.
+[16:38:10] [main/WARN]: Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [NO_ERROR_CONTEXT_UNSUPPORTED]
+[16:38:10] [main/WARN]: This is not necessarily an issue, but it may result in certain features or optimizations being disabled. You can sometimes fix these issues by upgrading your graphics driver.
+[16:38:10] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.4).
+Screenshot Viewer sets 'java.awt.headless' to false!
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.lwjgl.system.MemoryUtil (file:/home/runner/work/test/test/instance/libraries-mc/org/lwjgl/lwjgl/3.4.1/lwjgl-3.4.1-unsafe.jar)
+WARNING: Please consider reporting this to the maintainers of class org.lwjgl.system.MemoryUtil
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[16:38:11] [Datafixer Bootstrap #0/INFO]: 295 Datafixer optimizations took 467 milliseconds
+[16:38:12] [main/ERROR]: Minecraft has crashed!
+net.fabricmc.loader.impl.FormattedException: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
+	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:63)
+	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:516)
+	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:72)
+	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+Caused by: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.getPostMixinClassByteArray(KnotClassDelegate.java:440)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.tryLoadClass(KnotClassDelegate.java:336)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:231)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:144)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.defineClassFwd(KnotClassLoader.java:165)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.tryLoadClass(KnotClassDelegate.java:368)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:231)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:144)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.defineClassFwd(KnotClassLoader.java:165)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.tryLoadClass(KnotClassDelegate.java:368)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:231)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at knot//net.minecraft.SystemReport.handler$cdk001$iris$fillSystemDetails(SystemReport.java:1025)
+	at knot//net.minecraft.SystemReport.<init>(SystemReport.java:73)
+	at knot//net.minecraft.CrashReport.<init>(CrashReport.java:35)
+	at knot//net.minecraft.CrashReport.forThrowable(CrashReport.java:244)
+	at knot//net.minecraft.client.main.Main.main(Main.java:248)
+	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:514)
+	... 2 more
+Caused by: org.spongepowered.asm.mixin.transformer.throwables.MixinTransformerError: An unexpected critical error was encountered
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:380)
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClass(MixinTransformer.java:237)
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:202)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.getPostMixinClassByteArray(KnotClassDelegate.java:435)
+	... 28 more
+Caused by: java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class org.objectweb.asm.tree.AnnotationNode (java.util.ArrayList is in module java.base of loader 'bootstrap'; org.objectweb.asm.tree.AnnotationNode is in unnamed module of loader 'app')
+	at knot//com.llamalad7.mixinextras.wrapper.factory.FactoryRedirectWrapperMixinTransformer.transform(FactoryRedirectWrapperMixinTransformer.java:18)
+	at knot//com.llamalad7.mixinextras.transformer.MixinTransformerExtension.preApply(MixinTransformerExtension.java:40)
+	at org.spongepowered.asm.mixin.transformer.ext.Extensions.preApply(Extensions.java:156)
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.preApply(TargetClassContext.java:429)
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:416)
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:351)
+	... 31 more
