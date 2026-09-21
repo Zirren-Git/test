@@ -424,6 +424,7 @@ jobs:
             echo "BUILD FAILED - capturing errors"
             mkdir -p .apidump
             { echo "=== build errors: MC $MC loader $LOADER ==="; grep -E "error:|warning: \[|\.java:[0-9]+:[0-9]+" build.log | head -200; echo "=== tail ==="; tail -n 120 build.log; } > ".apidump/build-errors.txt"
+          cat ".apidump/build-errors.txt"
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add .apidump/build-errors.txt || true
