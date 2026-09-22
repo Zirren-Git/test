@@ -163,6 +163,17 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 		}
 
 		abstract class Entry extends AbstractSelectionList.Entry<Entry> {
+			// 26.x lists have no built-in click-to-select: a row only receives
+			// clicks if it overrides mouseClicked (see vanilla ObjectSelectionList
+			// users and ModMenu). Without this, Edit/Delete never activate.
+			@Override
+			public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+				if (event.button() == 0 && isMouseOver(event.x(), event.y())) {
+					RuleList.this.setSelected(this);
+					return true;
+				}
+				return false;
+			}
 		}
 
 		private class Row extends Entry {
@@ -193,6 +204,12 @@ public class MentionRulesScreen extends ChatterBoxScreen {
 					rest = "→ " + Instruments.friendly(rule.sound) + String.format(Locale.ROOT,
 							"  ·  v%.1f  ·  %s", rule.volume,
 							Instruments.noteName(Instruments.noteFromPitch(rule.pitch)));
+				}
+				if (rule.caseSensitive || !rule.wholeWord
+						|| !MentionRule.SCOPE_ALL.equals(MentionRule.normalizeScope(rule.scope))) {
+					rest += "  ·  " + (rule.caseSensitive ? "Aa " : "")
+							+ (!rule.wholeWord ? "≈ " : "")
+							+ Lang.tr("chatterbox.rules.scope." + MentionRule.normalizeScope(rule.scope));
 				}
 				String clipped = f.plainSubstrByWidth(word, RuleList.this.getRowWidth() - 8);
 				g.text(f, clipped, left, y, rule.enabled ? 0xFFFFFFFF : 0xFF707070, false);

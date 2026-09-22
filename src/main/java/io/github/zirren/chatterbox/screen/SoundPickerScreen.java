@@ -176,6 +176,15 @@ public class SoundPickerScreen extends Screen {
 		}
 
 		abstract class Entry extends AbstractSelectionList.Entry<Entry> {
+			// 26.x lists have no built-in click-to-select (see MentionRulesScreen)
+			@Override
+			public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+				if (event.button() == 0 && isMouseOver(event.x(), event.y())) {
+					SoundList.this.setSelected(this);
+					return true;
+				}
+				return false;
+			}
 		}
 
 		private class Row extends Entry {

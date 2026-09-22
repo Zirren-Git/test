@@ -115,6 +115,28 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 		volumeSlider.setMessage(volumeLabel());
 		addRenderableWidget(volumeSlider);
 
+		// --- matching options: case · whole-word · where to listen ---------
+		Button caseButton = Button.builder(caseLabel(), b -> {
+			rule.caseSensitive = !rule.caseSensitive;
+			b.setMessage(caseLabel());
+		}).pos(this.width / 2 - 100, 160).size(98, 20).build();
+		caseButton.setTooltip(Tooltip.create(Component.translatable("chatterbox.rules.case.tooltip")));
+		addRenderableWidget(caseButton);
+
+		Button matchButton = Button.builder(matchLabel(), b -> {
+			rule.wholeWord = !rule.wholeWord;
+			b.setMessage(matchLabel());
+		}).pos(this.width / 2 + 2, 160).size(98, 20).build();
+		matchButton.setTooltip(Tooltip.create(Component.translatable("chatterbox.rules.match.tooltip")));
+		addRenderableWidget(matchButton);
+
+		Button scopeButton = Button.builder(scopeLabel(), b -> {
+			rule.scope = MentionRule.nextScope(rule.scope);
+			b.setMessage(scopeLabel());
+		}).pos(this.width / 2 - 100, 182).size(200, 20).build();
+		scopeButton.setTooltip(Tooltip.create(Component.translatable("chatterbox.rules.scope.tooltip")));
+		addRenderableWidget(scopeButton);
+
 		// --- bottom row: save · preview · (delete) · cancel --------------
 		if (existing) {
 			int x0 = this.width / 2 - 148;
@@ -198,6 +220,21 @@ public class MentionRuleEditScreen extends ChatterBoxScreen {
 
 	private Component soundLabel() {
 		return cycleLabel("chatterbox.rules.sound", Instruments.friendly(rule.sound));
+	}
+
+	private Component caseLabel() {
+		return cycleLabel("chatterbox.rules.case",
+				Lang.tr(rule.caseSensitive ? "chatterbox.rules.case.sensitive" : "chatterbox.rules.case.ignore"));
+	}
+
+	private Component matchLabel() {
+		return cycleLabel("chatterbox.rules.match",
+				Lang.tr(rule.wholeWord ? "chatterbox.rules.match.word" : "chatterbox.rules.match.anywhere"));
+	}
+
+	private Component scopeLabel() {
+		return cycleLabel("chatterbox.rules.scope",
+				Lang.tr("chatterbox.rules.scope." + MentionRule.normalizeScope(rule.scope)));
 	}
 
 	private Component volumeLabel() {

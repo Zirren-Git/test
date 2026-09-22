@@ -29,6 +29,16 @@ public class MentionRule {
 	public float pitch = 1.0f;
 	public boolean enabled = true;
 	public boolean caseSensitive = false;
+	/** Whole-word matching (default) or anywhere in the message. */
+	public boolean wholeWord = true;
+	/** Which messages can trigger this rule: {@link #SCOPE_ALL}, {@link #SCOPE_CHAT_DM}, {@link #SCOPE_CHAT} or {@link #SCOPE_DM}. */
+	public String scope = SCOPE_ALL;
+
+	/** Scope values: which kinds of messages a rule listens to. */
+	public static final String SCOPE_ALL = "all";
+	public static final String SCOPE_CHAT_DM = "chat_dm";
+	public static final String SCOPE_CHAT = "chat";
+	public static final String SCOPE_DM = "dm";
 
 	// --- melody alert (Tune Maker) ---
 	/** Melody steps: 0–24 = note-block note, -1 = rest. Non-empty (any note ≥ 0) = melody alert. */
@@ -67,6 +77,22 @@ public class MentionRule {
 		return count;
 	}
 
+	/** @return the scope value, or {@link #SCOPE_ALL} if unknown/missing (old configs). */
+	public static String normalizeScope(String scope) {
+		if (SCOPE_CHAT_DM.equals(scope) || SCOPE_CHAT.equals(scope) || SCOPE_DM.equals(scope)) return scope;
+		return SCOPE_ALL;
+	}
+
+	/** Cycle order for the edit screen: all → chat+DMs → chat → DM → all. */
+	public static String nextScope(String scope) {
+		return switch (normalizeScope(scope)) {
+			case SCOPE_ALL -> SCOPE_CHAT_DM;
+			case SCOPE_CHAT_DM -> SCOPE_CHAT;
+			case SCOPE_CHAT -> SCOPE_DM;
+			default -> SCOPE_ALL;
+		};
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -77,6 +103,8 @@ public class MentionRule {
 				&& Float.compare(pitch, that.pitch) == 0
 				&& enabled == that.enabled
 				&& caseSensitive == that.caseSensitive
+				&& wholeWord == that.wholeWord
+				&& Objects.equals(normalizeScope(scope), normalizeScope(that.scope))
 				&& Arrays.equals(tune, that.tune)
 				&& Objects.equals(tuneInstrument, that.tuneInstrument)
 				&& tuneTempo == that.tuneTempo;
@@ -84,7 +112,7 @@ public class MentionRule {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(word, sound, volume, pitch, enabled, caseSensitive,
-				Arrays.hashCode(tune), tuneInstrument, tuneTempo);
+		return Objects.hash(word, sound, volume, pitch, enabled, caseSensitive, wholeWord,
+				normalizeScope(scope), Arrays.hashCode(tune), tuneInstrument, tuneTempo);
 	}
 }

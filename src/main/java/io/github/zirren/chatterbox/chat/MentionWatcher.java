@@ -3,7 +3,6 @@ package io.github.zirren.chatterbox.chat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 
@@ -27,11 +26,12 @@ public final class MentionWatcher {
 		List<MentionRule> matches = new ArrayList<>();
 		for (MentionRule rule : config.mentionRules) {
 			if (!rule.enabled || rule.word == null || rule.word.isEmpty()) continue;
+			if (!watches(rule, entry.folder)) continue;
 			String word = rule.word;
 			if (word.equalsIgnoreCase("{you}") && username != null) {
 				word = username;
 			}
-			if (matches(entry.text, word, rule.caseSensitive)) {
+			if (matches(entry.text, word, rule.caseSensitive, rule.wholeWord)) {
 				matches.add(rule);
 			}
 		}
@@ -46,21 +46,24 @@ public final class MentionWatcher {
 		}
 	}
 
-	private static boolean matches(String text, String word, boolean caseSensitive) {
+	/** True if this rule listens to messages of the given folder. */
+	private static boolean watches(MentionRule rule, Folder folder) {
+		return switch (MentionRule.normalizeScope(rule.scope)) {
+			case MentionRule.SCOPE_CHAT -> folder == Folder.CHAT;
+			case MentionRule.SCOPE_DM -> folder == Folder.DM;
+			case MentionRule.SCOPE_CHAT_DM -> folder == Folder.CHAT || folder == Folder.DM;
+			default -> true;
+		};
+	}
+
+	private static boolean matches(String text, String word, boolean caseSensitive, boolean wholeWord) {
 		if (word.isEmpty()) return false;
 		if (!caseSensitive) {
 			text = text.toLowerCase(Locale.ROOT);
 			word = word.toLowerCase(Locale.ROOT);
 		}
-		if (word.length() > 2 && text.length() > 200) {
-			// fast path
-			if (!text.contains(word)) return false;
-		}
-		// whole-word match
-		return Pattern.compile("(?:" + Pattern.quote(word) + ")",
-						caseSensitive ? 0 : Pattern.CASE_INSENSITIVE)
-				.matcher(text)
-				.find() && isWholeWord(text, word, caseSensitive);
+		if (!text.contains(word)) return false;
+		return !wholeWord || isWholeWord(text, word, caseSensitive);
 	}
 
 	private static boolean isWholeWord(String text, String word, boolean caseSensitive) {

@@ -21,8 +21,12 @@ public final class MessageClassifier {
 	// Fallback patterns for non-vanilla servers (Bukkit/Spigot/Paper etc.)
 	private static final Pattern WHISPER_IN = Pattern.compile("^(.+?)\\s+whispers(?:\\s+to\\s+you)?:\\s*(.*)$", Pattern.CASE_INSENSITIVE);
 	private static final Pattern WHISPER_OUT = Pattern.compile("^You\\s+whisper(?:ed)?\\s+to\\s+(.+?):\\s*(.*)$", Pattern.CASE_INSENSITIVE);
+	// Paper/Spigot /msg format: "[Name -> you] text" / "[you -> Name] text"
+	private static final Pattern BRACKET_WHISPER = Pattern.compile("^\\[([^\\[\\]]+?)\\s*->\\s*([^\\[\\]]+)\\]\\s*(.*)$");
 	private static final Pattern CHAT_LINE = Pattern.compile("^<([^>]{1,32})>\\s?(.*)$");
-	private static final Pattern JOIN_LEAVE = Pattern.compile("^\\S{1,32}\\s+(joined|left|quit)\\s+the game", Pattern.CASE_INSENSITIVE);
+	// "Bob joined the game", "Bob has joined the server", "» Bob left the game"…
+	// The optional leading token covers decorative prefixes like "»" or "[+]".
+	private static final Pattern JOIN_LEAVE = Pattern.compile("^(?:[^\\w\\s]{1,8}\\s+)?\\S{1,32}\\s+(?:has\\s+)?(?:joined|left|quit)\\s+the\\s+(?:game|server)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern[] DEATH_PATTERNS = {
 			Pattern.compile("^\\S{1,32}\\s+(?:died|drowned|starved to death|froze to death|withered away|suffocated in a wall|experienced kinetic energy|went up in flames|went off with a bang|was struck by lightning|discovered the floor was lava|removed an elytra while flying|tried to swim in lava|walked into a cactus(?: while trying to escape .+)?|fell (?:from a high place|out of the water|into a patch of fire|into a magma block|too far and was finished by .+|between two blocks))", Pattern.CASE_INSENSITIVE),
@@ -45,10 +49,11 @@ public final class MessageClassifier {
 	 * @param playerSource true if the chat hud received it through the player-chat pipeline
 	 *                     (authoritative - the decorated component may not match any format)
 	 * @param sender       sender profile for chat messages, if known
+	 * @param localName    the local player's username, for recognising bracket-whisper formats
 	 * @param commandSentAt epoch millis when the local player last sent a command, or 0
 	 */
 	public static Result classify(Component component, boolean chatMessage, boolean playerSource, @Nullable GameProfile sender,
-			@Nullable String chatSenderName, long commandSentAt, boolean commandFeedbackEnabled) {
+			@Nullable String chatSenderName, @Nullable String localName, long commandSentAt, boolean commandFeedbackEnabled) {
 		String plain = component.getString();
 
 		// 1. Player chat: signed-chat context or the hud's player pipeline.
@@ -96,6 +101,22 @@ public final class MessageClassifier {
 		if (mOut.matches()) {
 			return new Result(Folder.DM, mOut.group(1), null, mOut.group(2), true);
 		}
+		// Paper/Spigot "[A -> B] text" whispers: only our own conversations count
+		// (one side must be "you" or our name); social-spy relay of other
+		// people's mail is left for the server folder.
+		Matcher mBracket = BRACKET_WHISPER.matcher(plain);
+		if (mBracket.matches()) {
+			String from = mBracket.group(1).trim();
+			String to = mBracket.group(2).trim();
+			boolean toMe = isMe(to, localName);
+			boolean fromMe = isMe(from, localName);
+			if (toMe && !fromMe) {
+				return new Result(Folder.DM, from, from, mBracket.group(3), false);
+			}
+			if (fromMe && !toMe) {
+				return new Result(Folder.DM, to, null, mBracket.group(3), true);
+			}
+		}
 
 		// 4. "<Name> message" chat formatting - BEFORE join/death, so that
 		//    "<Bob> left the game" stays player chat and not a join message
@@ -138,6 +159,12 @@ public final class MessageClassifier {
 	private static String chatLineName(String plain) {
 		Matcher m = CHAT_LINE.matcher(plain);
 		return m.matches() ? m.group(1) : null;
+	}
+
+	/** True if a bracket-whisper side refers to the local player. */
+	private static boolean isMe(String side, @Nullable String localName) {
+		if (side.equalsIgnoreCase("you")) return true;
+		return localName != null && side.equalsIgnoreCase(localName);
 	}
 
 	private static String argString(TranslatableContents contents, int index) {

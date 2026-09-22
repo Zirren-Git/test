@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.mojang.authlib.GameProfile;
 import org.jspecify.annotations.Nullable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.chat.GuiMessageSource;
 import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.network.chat.Component;
@@ -107,8 +108,17 @@ public final class ChatStore {
 
 	private void handleIncoming(Component message, boolean chatMessage, boolean playerSource, GameProfile sender,
 			String chatSenderName, GuiMessageSource source, @Nullable GuiMessageTag tag) {
+		String localName = null;
+		try {
+			if (Minecraft.getInstance().getUser() != null) {
+				localName = Minecraft.getInstance().getUser().getName();
+			}
+		} catch (Throwable ignored) {
+			// username unavailable (title screen etc.) - bracket whispers just
+			// won't be recognised until we join a world
+		}
 		MessageClassifier.Result result = MessageClassifier.classify(message, chatMessage, playerSource, sender,
-				chatSenderName, lastCommandSentAt, Config.get().commandFeedbackFolder);
+				chatSenderName, localName, lastCommandSentAt, Config.get().commandFeedbackFolder);
 
 		if (result.folder() == Folder.DM && result.dmPartner() != null) {
 			addDmPartner(result.dmPartner());
