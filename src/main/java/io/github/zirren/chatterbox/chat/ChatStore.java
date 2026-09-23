@@ -114,7 +114,8 @@ public final class ChatStore {
 			String chatSenderName, GuiMessageSource source, @Nullable GuiMessageTag tag) {
 		String localName = localName();
 		MessageClassifier.Result result = MessageClassifier.classify(message, chatMessage, playerSource, sender,
-				chatSenderName, localName, lastCommandSentAt, Config.get().commandFeedbackFolder);
+				chatSenderName, localName, lastCommandSentAt, Config.get().commandFeedbackFolder,
+				Config.get().sortRules);
 
 		if (result.folder() == Folder.DM && result.dmPartner() != null) {
 			GroupChat.Tag groupTag = GroupChat.parseTag(result.dmContent());

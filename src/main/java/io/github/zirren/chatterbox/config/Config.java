@@ -15,6 +15,8 @@ import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import org.jspecify.annotations.Nullable;
 
+import io.github.zirren.chatterbox.chat.Folder;
+
 /**
  * ChatterBox configuration, stored as JSON in {@code config/chatterbox.json}.
  */
@@ -72,6 +74,10 @@ public final class Config {
 	// --- Group chats ---
 	/** Group chats with other ChatterBox players (see {@link GroupChat}). */
 	public List<GroupChat> groups = new ArrayList<>();
+
+	// --- Message sorting ---
+	/** User-defined sorting rules; checked before the built-in detection. */
+	public List<SortRule> sortRules = new ArrayList<>();
 
 	// --- Sound picker ---
 	/** Whether the sound picker lists all sounds instead of just note block instruments. */
@@ -139,6 +145,11 @@ public final class Config {
 			if (!dup) cleanGroups.add(group);
 		}
 		groups = cleanGroups;
+		if (sortRules == null) sortRules = new ArrayList<>();
+		sortRules.removeIf(r -> r == null || r.pattern == null || r.pattern.isBlank());
+		for (SortRule rule : sortRules) {
+			if (Folder.byKey(rule.folder) == null) rule.folder = "server";
+		}
 		if (whisperCommand == null) whisperCommand = "msg";
 		whisperCommand = switch (whisperCommand.toLowerCase()) {
 			case "w", "tell" -> whisperCommand.toLowerCase();

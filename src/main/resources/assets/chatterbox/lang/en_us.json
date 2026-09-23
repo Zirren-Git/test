@@ -13,6 +13,19 @@
   "chatterbox.dm.all": "All DMs",
   "chatterbox.dm.empty": "No DMs yet. They appear here when someone whispers to you.",
   "chatterbox.tab.search": "Search chat",
+  "chatterbox.sorting.title": "Message sorting",
+  "chatterbox.sorting.empty": "No custom sorting rules. Add one to teach ChatterBox a message format the built-in detection doesn't know — for example a join message a server phrases unusually.",
+  "chatterbox.sorting.hint": "Click: select · Double-click: edit",
+  "chatterbox.sorting.pattern": "Text to match",
+  "chatterbox.sorting.pattern_hint": "e.g. joined the game",
+  "chatterbox.sorting.folder": "Folder",
+  "chatterbox.sorting.folder.tooltip": "Which folder matching messages go to. Rules never re-route normal player chat.",
+  "chatterbox.sorting.match": "Match",
+  "chatterbox.sorting.match.contains": "contains",
+  "chatterbox.sorting.match.regex": "regex",
+  "chatterbox.sorting.match.tooltip": "Contains: fires when the text appears anywhere in the message · Regex: a case-insensitive regular expression",
+  "chatterbox.sorting.note": "First matching rule wins · Checked before the built-in detection",
+  "chatterbox.sorting.regex_error": "Invalid regex:",
   "chatterbox.tab.chat": "Chat",
   "chatterbox.tab.layout": "Layout",
   "chatterbox.tab.folders": "Folders",
@@ -46,7 +59,6 @@
   "chatterbox.button.add": "Add",
   "chatterbox.on": "On",
   "chatterbox.off": "Off",
-
   "chatterbox.config.mc": "Minecraft %s",
   "chatterbox.config.chat": "Chat",
   "chatterbox.config.chat.title": "Chat",
@@ -55,7 +67,7 @@
   "chatterbox.config.layout.title": "Timestamps & Layout",
   "chatterbox.config.layout.tooltip": "Timestamps and the two-line message layout",
   "chatterbox.config.folders": "Folders & Tabs",
-  "chatterbox.config.folders.tooltip": "Which folder tabs are shown, and unread counters",
+  "chatterbox.config.folders.tooltip": "Folder tabs, unread counters and custom message sorting rules",
   "chatterbox.config.dm": "Direct Messages",
   "chatterbox.config.dm.title": "Direct Messages",
   "chatterbox.config.dm.tooltip": "Whisper colours, the whisper command and DM partners",
@@ -76,7 +88,6 @@
   "chatterbox.config.back": "Back",
   "chatterbox.config.general": "General",
   "chatterbox.config.timestamp": "Timestamps",
-
   "chatterbox.config.timestamps": "Timestamps",
   "chatterbox.config.timestamps.none": "Off",
   "chatterbox.config.timestamps.short": "[HH:mm]",
@@ -116,7 +127,6 @@
   "chatterbox.config.queue_mode.lines": "Line by line",
   "chatterbox.config.queue_mode.joined": "Join into one message",
   "chatterbox.config.queue_mode.tooltip": "How Shift+Enter lines are sent",
-
   "chatterbox.rules.title": "Mention Sounds",
   "chatterbox.rules.add": "Add rule",
   "chatterbox.rules.empty": "No rules yet. Add one to play a sound — or a melody — when a word or username appears in chat.",
@@ -155,7 +165,6 @@
   "chatterbox.rules.scope.chat_dm": "chat + DMs",
   "chatterbox.rules.scope.chat": "chat only",
   "chatterbox.rules.scope.dm": "DMs only",
-
   "chatterbox.tune.title": "Tune Maker",
   "chatterbox.tune.instrument": "Instrument: %s",
   "chatterbox.tune.instrument.tooltip": "The note-block instrument your melody is played with",
@@ -171,13 +180,11 @@
   "chatterbox.tune.step": "Step %s",
   "chatterbox.tune.note": "note %s",
   "chatterbox.tune.hint": "Click: place a note · click again: clear · scroll: octaves · numbers: audition",
-
   "chatterbox.sounds.title": "Pick a sound",
   "chatterbox.sounds.preview": "▶",
   "chatterbox.sounds.scope": "Showing: %s",
   "chatterbox.sounds.selected": "Selected: %s",
   "chatterbox.sounds.hint": "Click: preview · Click again: select",
-
   "chatterbox.shortcuts.title": "Shortcuts",
   "chatterbox.shortcuts.static": "Text shortcuts",
   "chatterbox.shortcuts.dynamic": "Live-value shortcuts",
@@ -186,7 +193,6 @@
   "chatterbox.shortcuts.token": "Token (without braces)",
   "chatterbox.shortcuts.replacement": "Replacement",
   "chatterbox.shortcuts.example": "Type {%s} in chat to send: %s",
-
   "chatterbox.partners.title": "DM partners",
   "chatterbox.partners.empty": "No DM partners yet.",
   "chatterbox.partners.remove": "✕",
@@ -210,5 +216,6 @@
   "chatterbox.groups.save": "Save",
   "chatterbox.groups.auto_note": "Group messages are sent as whispers. ChatterBox players see them grouped; others see a small [~tag].",
   "chatterbox.dm.add.hint": "Player name…",
-  "chatterbox.dm.add.add": "Add"
+  "chatterbox.dm.add.add": "Add",
+  "chatterbox.config.sorting_open": "Sorting rules"
 }
