@@ -1,0 +1,8 @@
+Compiled from "ObjectSelectionList.java"
+public abstract class net.minecraft.client.gui.components.ObjectSelectionList<E extends net.minecraft.client.gui.components.ObjectSelectionList$Entry<E>> extends net.minecraft.client.gui.components.AbstractSelectionList<E> {
+  private static final net.minecraft.network.chat.Component USAGE_NARRATION;
+  public net.minecraft.client.gui.components.ObjectSelectionList(net.minecraft.client.Minecraft, int, int, int, int);
+  public net.minecraft.client.gui.ComponentPath nextFocusPath(net.minecraft.client.gui.navigation.FocusNavigationEvent);
+  public void updateWidgetNarration(net.minecraft.client.gui.narration.NarrationElementOutput);
+  static {};
+}

@@ -1,0 +1,25 @@
+Compiled from "StringSplitter.java"
+public class net.minecraft.client.StringSplitter {
+  private final net.minecraft.client.StringSplitter$WidthProvider widthProvider;
+  public net.minecraft.client.StringSplitter(net.minecraft.client.StringSplitter$WidthProvider);
+  public float stringWidth(java.lang.String);
+  public float stringWidth(net.minecraft.network.chat.FormattedText);
+  public float stringWidth(net.minecraft.util.FormattedCharSequence);
+  public int plainIndexAtWidth(java.lang.String, int, net.minecraft.network.chat.Style);
+  public java.lang.String plainHeadByWidth(java.lang.String, int, net.minecraft.network.chat.Style);
+  public java.lang.String plainTailByWidth(java.lang.String, int, net.minecraft.network.chat.Style);
+  public net.minecraft.network.chat.FormattedText headByWidth(net.minecraft.network.chat.FormattedText, int, net.minecraft.network.chat.Style);
+  public int findLineBreak(java.lang.String, int, net.minecraft.network.chat.Style);
+  public static int getWordPosition(java.lang.String, int, int, boolean);
+  public void splitLines(java.lang.String, int, net.minecraft.network.chat.Style, boolean, net.minecraft.client.StringSplitter$LinePosConsumer);
+  public java.util.List<net.minecraft.network.chat.FormattedText> splitLines(java.lang.String, int, net.minecraft.network.chat.Style);
+  public java.util.List<net.minecraft.network.chat.FormattedText> splitLines(net.minecraft.network.chat.FormattedText, int, net.minecraft.network.chat.Style);
+  public void splitLines(net.minecraft.network.chat.FormattedText, int, net.minecraft.network.chat.Style, java.util.function.BiConsumer<net.minecraft.network.chat.FormattedText, java.lang.Boolean>);
+  private static java.util.Optional lambda$splitLines$2(java.util.List, net.minecraft.network.chat.Style, java.lang.String);
+  private static void lambda$splitLines$1(java.util.List, net.minecraft.network.chat.FormattedText, java.lang.Boolean);
+  private static void lambda$splitLines$0(java.util.List, java.lang.String, net.minecraft.network.chat.Style, int, int);
+  private boolean lambda$plainTailByWidth$0(org.apache.commons.lang3.mutable.MutableFloat, int, org.apache.commons.lang3.mutable.MutableInt, int, net.minecraft.network.chat.Style, int);
+  private boolean lambda$stringWidth$2(org.apache.commons.lang3.mutable.MutableFloat, int, net.minecraft.network.chat.Style, int);
+  private boolean lambda$stringWidth$1(org.apache.commons.lang3.mutable.MutableFloat, int, net.minecraft.network.chat.Style, int);
+  private boolean lambda$stringWidth$0(org.apache.commons.lang3.mutable.MutableFloat, int, net.minecraft.network.chat.Style, int);
+}

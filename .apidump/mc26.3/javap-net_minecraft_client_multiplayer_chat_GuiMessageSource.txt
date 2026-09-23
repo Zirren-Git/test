@@ -1,0 +1,12 @@
+Compiled from "GuiMessageSource.java"
+public final class net.minecraft.client.multiplayer.chat.GuiMessageSource extends java.lang.Enum<net.minecraft.client.multiplayer.chat.GuiMessageSource> {
+  public static final net.minecraft.client.multiplayer.chat.GuiMessageSource PLAYER;
+  public static final net.minecraft.client.multiplayer.chat.GuiMessageSource SYSTEM_SERVER;
+  public static final net.minecraft.client.multiplayer.chat.GuiMessageSource SYSTEM_CLIENT;
+  private static final net.minecraft.client.multiplayer.chat.GuiMessageSource[] $VALUES;
+  public static net.minecraft.client.multiplayer.chat.GuiMessageSource[] values();
+  public static net.minecraft.client.multiplayer.chat.GuiMessageSource valueOf(java.lang.String);
+  private net.minecraft.client.multiplayer.chat.GuiMessageSource();
+  private static net.minecraft.client.multiplayer.chat.GuiMessageSource[] $values();
+  static {};
+}

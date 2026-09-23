@@ -1,0 +1,983 @@
+name: Build
+
+on:
+  push:
+    branches: [main, arena/**]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apidump263:
+    name: API dump sources (MC 26.3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: contains(github.event.head_commit.message, '[apidump]')
+    concurrency:
+      group: apidump263
+      cancel-in-progress: false
+    env:
+      MC: "26.3"
+      API: "0.161.0+26.3"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve dependencies
+        run: |
+          ./gradlew -q dependencies -Pminecraft_version=$MC -Pfabric_api_version=$API > deps.log 2>&1 || true
+          tail -n 30 deps.log || true
+
+      - name: Generate sources
+        run: |
+          ./gradlew -q genSources -Pminecraft_version=$MC -Pfabric_api_version=$API > gensources.log 2>&1 || true
+          tail -n 30 gensources.log || true
+
+      - name: Locate jars
+        run: |
+          set -x
+          JAR=""
+          SRCS=""
+          for j in $(find "$HOME/.gradle/caches" -name "*.jar" 2>/dev/null); do
+            case "$j" in *sources*) continue;; esac
+            if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.class"; then JAR="$j"; fi
+          done
+          {
+            echo "loom cache dirs:"
+            find "$HOME/.gradle" -maxdepth 5 -type d -iname "*loom*" 2>/dev/null | head -20
+            echo "gensources log tail:"
+            tail -n 40 gensources.log 2>/dev/null || true
+            echo "all source-ish jars:"
+            find "$HOME/.gradle" "$PWD/.gradle" "$HOME/.cache" -name "*.jar" 2>/dev/null | grep -iE "sources|decompil" | head -40
+          } > .apidump/diagnostics.txt 2>&1
+          for j in $(find "$HOME" "$PWD" -name "*sources*.jar" 2>/dev/null); do
+            if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.java"; then SRCS="$j"; fi
+          done
+          AUTHLIB=""
+          for j in $(find "$HOME/.gradle/caches" -name "*.jar" 2>/dev/null); do
+            if unzip -l "$j" 2>/dev/null | grep -q "com/mojang/authlib/GameProfile.class"; then AUTHLIB="$j"; fi
+          done
+          echo "JAR=$JAR" >> "$GITHUB_ENV"
+          echo "SRCS=$SRCS" >> "$GITHUB_ENV"
+          echo "AUTHLIB=$AUTHLIB" >> "$GITHUB_ENV"
+          echo "JAR=$JAR"
+          echo "SRCS=$SRCS"
+          echo "AUTHLIB=$AUTHLIB"
+
+      - name: Dump
+        env:
+          OUT: .apidump/mc26.3
+        run: |
+          mkdir -p "$OUT"
+
+          {
+            echo "===== classes matching Chat ====="
+            unzip -l "$JAR" | grep -iE "chat" | awk '{print $4}' | grep "\.class" | grep -v '\$' | sort | head -80
+            echo "===== screens ====="
+            unzip -l "$JAR" | grep -E "net/minecraft/client/gui/screens/.*Screen.class" | awk '{print $4}' | grep -v '\$' | head -60
+            echo "===== input ====="
+            unzip -l "$JAR" | grep -E "net/minecraft/client/input/.*\.class" | awk '{print $4}' | grep -v '\$' | head -40
+          } > "$OUT/classes.txt" 2>&1
+
+          for c in \
+            net.minecraft.client.Minecraft \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.gui.Hud \
+            net.minecraft.client.gui.screens.ChatScreen \
+            net.minecraft.client.gui.components.ChatComponent \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
+            net.minecraft.client.gui.screens.Screen \
+            net.minecraft.client.gui.components.AbstractWidget \
+            net.minecraft.client.gui.components.Button \
+            net.minecraft.client.gui.components.EditBox \
+            net.minecraft.client.gui.components.Checkbox \
+            net.minecraft.client.gui.components.AbstractSliderButton \
+            net.minecraft.client.gui.components.AbstractSelectionList \
+            net.minecraft.client.gui.components.ObjectSelectionList \
+            net.minecraft.client.gui.components.OptionsList \
+            net.minecraft.client.gui.GuiGraphicsExtractor \
+            net.minecraft.client.gui.Font \
+            net.minecraft.client.StringSplitter \
+            net.minecraft.client.KeyMapping \
+            net.minecraft.client.input.KeyEvent \
+            net.minecraft.client.input.MouseButtonEvent \
+            net.minecraft.client.multiplayer.ClientPacketListener \
+            net.minecraft.client.multiplayer.PlayerInfo \
+            net.minecraft.client.multiplayer.chat.ChatListener \
+            net.minecraft.client.player.LocalPlayer \
+            net.minecraft.client.resources.sounds.SimpleSoundInstance \
+            net.minecraft.client.resources.sounds.SoundInstance \
+            net.minecraft.client.sounds.SoundManager \
+            net.minecraft.resources.Identifier \
+            net.minecraft.core.registries.BuiltInRegistries \
+            net.minecraft.core.Registry \
+            net.minecraft.network.chat.Component \
+            net.minecraft.network.chat.Style \
+            net.minecraft.network.chat.TextColor \
+            net.minecraft.network.chat.MutableComponent \
+            net.minecraft.network.chat.FormattedText \
+            net.minecraft.ChatFormatting \
+            net.minecraft.world.level.biome.Biome \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
+            'net.minecraft.client.gui.components.ChatComponent$DisplayMode' \
+            net.minecraft.client.gui.ActiveTextCollector \
+            com.mojang.blaze3d.platform.InputConstants \
+            'com.mojang.blaze3d.platform.InputConstants$Key' \
+            'com.mojang.blaze3d.platform.InputConstants$Type' \
+            net.minecraft.client.gui.components.ContainerObjectSelectionList \
+            net.minecraft.client.gui.components.Tooltip \
+            net.minecraft.client.input.CharacterEvent \
+            net.minecraft.client.User \
+            net.minecraft.client.multiplayer.ServerData \
+            net.minecraft.client.multiplayer.PlayerInfo \
+            net.minecraft.client.CommandHistory \
+            'net.minecraft.client.gui.screens.ChatScreen$ExitReason' \
+            'net.minecraft.client.gui.components.Checkbox$Builder' \
+            'net.minecraft.client.gui.components.Button$Builder' \
+            'net.minecraft.client.gui.components.Button$OnPress' \
+            net.minecraft.client.gui.components.CycleButton \
+            'net.minecraft.client.gui.components.CycleButton$Builder' \
+            net.minecraft.client.gui.layouts.HeaderAndFooterLayout \
+            net.minecraft.client.gui.components.AbstractButton \
+            net.minecraft.client.gui.components.CommandSuggestions \
+            'net.minecraft.client.KeyMapping$Category' \
+            net.minecraft.world.entity.Entity \
+            net.minecraft.world.entity.LivingEntity \
+            net.minecraft.world.entity.player.Player \
+            net.minecraft.world.level.Level \
+            net.minecraft.world.level.LevelAccessor \
+            net.minecraft.client.multiplayer.ClientLevel \
+            net.minecraft.resources.ResourceKey \
+            net.minecraft.core.Holder \
+            net.minecraft.network.chat.contents.TranslatableContents \
+            net.minecraft.client.input.InputWithModifiers \
+            net.minecraft.world.food.FoodData \
+            ; do
+            n=$(echo "$c" | tr '$' '_' | tr '.' '_')
+            javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true
+          done
+
+          if [ -n "$AUTHLIB" ]; then
+            javap -p -cp "$AUTHLIB" com.mojang.authlib.GameProfile > "$OUT/javap-com_mojang_authlib_GameProfile.txt" 2>&1 || true
+          fi
+
+          # bytecode disassembly of the critical classes (flow reconstruction)
+          for c in \
+            net.minecraft.client.gui.components.ChatComponent \
+            net.minecraft.client.gui.screens.ChatScreen \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.input.KeyEvent \
+            net.minecraft.client.gui.components.EditBox \
+            net.minecraft.client.CommandHistory \
+            net.minecraft.client.KeyMapping \
+            ; do
+            n=$(echo "$c" | tr '$' '_' | tr '.' '_')
+            javap -c -p -cp "$JAR" "$c" > "$OUT/bytecode-$n.txt" 2>&1 || true
+          done
+
+          for f in \
+            net/minecraft/client/gui/components/ChatComponent.java \
+            net/minecraft/client/gui/components/GuiMessage.java \
+            net/minecraft/client/gui/components/GuiMessageTag.java \
+            net/minecraft/client/gui/screens/ChatScreen.java \
+            net/minecraft/client/input/KeyEvent.java \
+            net/minecraft/client/input/MouseButtonEvent.java \
+            net/minecraft/client/KeyMapping.java \
+            net/minecraft/client/resources/sounds/SimpleSoundInstance.java \
+            net/minecraft/client/gui/components/Checkbox.java \
+            net/minecraft/client/gui/components/AbstractSliderButton.java \
+            net/minecraft/client/gui/components/EditBox.java \
+            net/minecraft/client/multiplayer/chat/ChatListener.java \
+            ; do
+            n=$(basename "$f" .java | tr '$' '_')
+            unzip -p "$SRCS" "$f" > "$OUT/src-$n.java" 2>/dev/null || echo "(not found)" > "$OUT/src-$n.java"
+          done
+
+          for f in \
+            net/minecraft/client/gui/GuiGraphicsExtractor.java \
+            net/minecraft/client/gui/screens/Screen.java \
+            net/minecraft/client/gui/components/AbstractWidget.java \
+            net/minecraft/client/gui/components/Button.java \
+            net/minecraft/client/gui/components/AbstractSelectionList.java \
+            net/minecraft/client/gui/components/ObjectSelectionList.java \
+            net/minecraft/client/Gui.java \
+            net/minecraft/client/gui/Hud.java \
+            net/minecraft/client/gui/Font.java \
+            net/minecraft/client/StringSplitter.java \
+            ; do
+            n=$(basename "$f" .java | tr '$' '_')
+            unzip -p "$SRCS" "$f" 2>/dev/null | grep -E "^\s*(public|protected|private).*\(" > "$OUT/sigs-$n.txt" || echo "(not found)" > "$OUT/sigs-$n.txt"
+          done
+
+          ls -la "$OUT"
+
+      - name: Commit dump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .apidump || true
+          if git diff --cached --quiet; then
+            echo "no dump changes"
+          else
+            git commit -m "apidump: MC 26.3 [skip ci]"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin ${GITHUB_REF_NAME} && git push && break
+              echo "retry $i"; sleep 10
+            done
+          fi
+
+  apidump262:
+    name: API dump signatures (MC 26.2)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: apidump263
+    if: always() && contains(github.event.head_commit.message, '[apidump]')
+    concurrency:
+      group: apidump262
+      cancel-in-progress: false
+    env:
+      MC: "26.2"
+      API: "0.161.0+26.2"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve dependencies
+        run: |
+          ./gradlew -q dependencies -Pminecraft_version=$MC -Pfabric_api_version=$API > deps.log 2>&1 || true
+          tail -n 30 deps.log || true
+
+      - name: Locate jar
+        run: |
+          set -x
+          JAR=""
+          for j in $(find "$HOME/.gradle/caches" -name "*.jar" 2>/dev/null); do
+            case "$j" in *sources*) continue;; esac
+            if unzip -l "$j" 2>/dev/null | grep -q "net/minecraft/client/gui/components/ChatComponent.class"; then JAR="$j"; fi
+          done
+          echo "JAR=$JAR" >> "$GITHUB_ENV"
+          echo "JAR=$JAR"
+
+      - name: Dump
+        env:
+          OUT: .apidump/mc26.2
+        run: |
+          mkdir -p "$OUT"
+          for c in \
+            net.minecraft.client.Minecraft \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.gui.Hud \
+            net.minecraft.client.gui.screens.ChatScreen \
+            net.minecraft.client.gui.components.ChatComponent \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
+            net.minecraft.client.gui.screens.Screen \
+            net.minecraft.client.gui.components.AbstractWidget \
+            net.minecraft.client.gui.components.Button \
+            net.minecraft.client.gui.components.EditBox \
+            net.minecraft.client.gui.components.Checkbox \
+            net.minecraft.client.gui.components.AbstractSliderButton \
+            net.minecraft.client.gui.components.AbstractSelectionList \
+            net.minecraft.client.gui.components.ObjectSelectionList \
+            net.minecraft.client.gui.components.OptionsList \
+            net.minecraft.client.gui.GuiGraphicsExtractor \
+            net.minecraft.client.gui.Font \
+            net.minecraft.client.StringSplitter \
+            net.minecraft.client.KeyMapping \
+            net.minecraft.client.input.KeyEvent \
+            net.minecraft.client.input.MouseButtonEvent \
+            net.minecraft.client.multiplayer.ClientPacketListener \
+            net.minecraft.client.multiplayer.PlayerInfo \
+            net.minecraft.client.multiplayer.chat.ChatListener \
+            net.minecraft.client.player.LocalPlayer \
+            net.minecraft.client.resources.sounds.SimpleSoundInstance \
+            net.minecraft.client.sounds.SoundManager \
+            net.minecraft.resources.Identifier \
+            net.minecraft.core.registries.BuiltInRegistries \
+            net.minecraft.network.chat.Component \
+            net.minecraft.network.chat.Style \
+            net.minecraft.network.chat.MutableComponent \
+            net.minecraft.ChatFormatting \
+            net.minecraft.client.gui.Gui \
+            net.minecraft.client.multiplayer.chat.GuiMessage \
+            'net.minecraft.client.multiplayer.chat.GuiMessage$Line' \
+            net.minecraft.client.multiplayer.chat.GuiMessageTag \
+            net.minecraft.client.multiplayer.chat.GuiMessageSource \
+            'net.minecraft.client.gui.components.ChatComponent$DisplayMode' \
+            net.minecraft.client.gui.ActiveTextCollector \
+            com.mojang.blaze3d.platform.InputConstants \
+            'com.mojang.blaze3d.platform.InputConstants$Key' \
+            'com.mojang.blaze3d.platform.InputConstants$Type' \
+            net.minecraft.client.gui.components.ContainerObjectSelectionList \
+            net.minecraft.client.gui.components.Tooltip \
+            net.minecraft.client.input.CharacterEvent \
+            net.minecraft.client.User \
+            net.minecraft.client.multiplayer.ServerData \
+            net.minecraft.client.multiplayer.PlayerInfo \
+            net.minecraft.client.CommandHistory \
+            'net.minecraft.client.gui.screens.ChatScreen$ExitReason' \
+            'net.minecraft.client.gui.components.Checkbox$Builder' \
+            'net.minecraft.client.gui.components.Button$Builder' \
+            'net.minecraft.client.gui.components.Button$OnPress' \
+            net.minecraft.client.gui.components.CycleButton \
+            'net.minecraft.client.gui.components.CycleButton$Builder' \
+            net.minecraft.client.gui.layouts.HeaderAndFooterLayout \
+            net.minecraft.client.gui.components.AbstractButton \
+            net.minecraft.client.gui.components.CommandSuggestions \
+            'net.minecraft.client.KeyMapping$Category' \
+            net.minecraft.world.entity.Entity \
+            net.minecraft.world.entity.LivingEntity \
+            net.minecraft.world.entity.player.Player \
+            net.minecraft.world.level.Level \
+            net.minecraft.world.level.LevelAccessor \
+            net.minecraft.client.multiplayer.ClientLevel \
+            net.minecraft.resources.ResourceKey \
+            net.minecraft.core.Holder \
+            net.minecraft.network.chat.contents.TranslatableContents \
+            net.minecraft.client.input.InputWithModifiers \
+            net.minecraft.world.food.FoodData \
+            ; do
+            n=$(echo "$c" | tr '$' '_' | tr '.' '_')
+            javap -p -cp "$JAR" "$c" > "$OUT/javap-$n.txt" 2>&1 || true
+          done
+          ls -la "$OUT"
+
+      - name: Commit dump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .apidump || true
+          if git diff --cached --quiet; then
+            echo "no dump changes"
+          else
+            git commit -m "apidump: MC 26.2 [skip ci]"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin ${GITHUB_REF_NAME} && git push && break
+              echo "retry $i"; sleep 10
+            done
+          fi
+
+  build:
+    name: Build MC ${{ matrix.mc }} / loader ${{ matrix.loader }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Minecraft 26.2
+          - { mc: "26.2", api: "0.161.0+26.2", dep: "~26.2", modmenu: "20.0.2", loader: "0.19.3" }
+          - { mc: "26.2", api: "0.161.0+26.2", dep: "~26.2", modmenu: "20.0.2", loader: "0.19.4" }
+          - { mc: "26.2", api: "0.161.0+26.2", dep: "~26.2", modmenu: "20.0.2", loader: "0.19.5" }
+          # Minecraft 26.3
+          - { mc: "26.3", api: "0.161.0+26.3", dep: "~26.3", modmenu: "21.0.0-beta.1", loader: "0.19.3" }
+          - { mc: "26.3", api: "0.161.0+26.3", dep: "~26.3", modmenu: "21.0.0-beta.1", loader: "0.19.4" }
+          - { mc: "26.3", api: "0.161.0+26.3", dep: "~26.3", modmenu: "21.0.0-beta.1", loader: "0.19.5" }
+    env:
+      MC: ${{ matrix.mc }}
+      API: ${{ matrix.api }}
+      DEP: ${{ matrix.dep }}
+      MODMENU: ${{ matrix.modmenu }}
+      LOADER: ${{ matrix.loader }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: |
+          set -o pipefail
+          if ! ./gradlew build --stacktrace \
+              -Pminecraft_version=$MC \
+              -Pminecraft_dep=$DEP \
+              -Pfabric_api_version=$API \
+              -Pmodmenu_version=$MODMENU \
+              -Ploader_version=$LOADER > build.log 2>&1; then
+            echo "BUILD FAILED - capturing errors"
+            mkdir -p .apidump
+            { echo "=== build errors: MC $MC loader $LOADER ==="; grep -E "error:|warning: \[|\.java:[0-9]+:[0-9]+" build.log | head -200; echo "=== tail ==="; tail -n 120 build.log; } > ".apidump/build-errors.txt"
+          cat ".apidump/build-errors.txt"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .apidump/build-errors.txt || true
+            git commit -m "build errors: MC $MC loader $LOADER [skip ci]" || true
+            git push || true
+            exit 1
+          fi
+
+      - name: Upload build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-mc${{ matrix.mc }}-loader${{ matrix.loader }}
+          path: build.log
+          if-no-files-found: ignore
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          ls build/libs
+          cp build/libs/*.jar dist/
+          ls dist
+
+      - name: Decompile list widget internals (diagnose invisible lists)
+        if: matrix.mc == '26.2' && matrix.loader == '0.19.3'
+        run: |
+          set -e
+          mkdir -p .apidump/decomp
+          # locate the mapped minecraft jar in the loom cache
+          MCJAR=""
+          for j in $(find "$HOME/.gradle/caches/fabric-loom" -name "*.jar" ! -name "*sources*" 2>/dev/null); do
+            if unzip -l "$j" 2>/dev/null | grep -q "components/AbstractSelectionList.class"; then MCJAR="$j"; break; fi
+          done
+          echo "minecraft jar: $MCJAR"
+          if [ -n "$MCJAR" ]; then
+            javap -c -p -classpath "$MCJAR" \
+              'net.minecraft.client.gui.components.AbstractSelectionList' \
+              'net.minecraft.client.gui.components.AbstractSelectionList$Entry' \
+              > .apidump/decomp/mc-AbstractSelectionList.txt
+            javap -c -p -classpath "$MCJAR" \
+              'net.minecraft.client.gui.components.AbstractWidget' \
+              'net.minecraft.client.gui.components.AbstractContainerWidget' \
+              > .apidump/decomp/mc-AbstractWidget.txt
+          fi
+          # compare with a known-working 26.2 mod that uses selection lists
+          if curl -sfL -o /tmp/modmenu.jar "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"; then
+            javap -c -p -classpath /tmp/modmenu.jar \
+              'com.terraformersmc.modmenu.gui.widget.DescriptionListWidget' \
+              'com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$MailableContactEntry' \
+              'com.terraformersmc.modmenu.gui.ModsScreen' \
+              > .apidump/decomp/modmenu-lists.txt 2>/dev/null || true
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f .apidump/decomp/*.txt
+          git commit -m "decomp: selection list internals MC $MC [skip ci]" || true
+          for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+
+      - name: Inspect remapped jar (mixin target names)
+        run: |
+          JAR=$(ls build/libs/*.jar 2>/dev/null | grep -v sources | head -1 || true)
+          if [ -z "$JAR" ]; then echo "no jar built"; exit 0; fi
+          mkdir -p inspect && cd inspect
+          unzip -o "../$JAR" 'io/github/zirren/chatterbox/mixin/*.class' 'io/github/zirren/chatterbox/chat/ChatDisplay.class' > /dev/null
+          echo "=== ChatterBox mixin constant-pool strings ==="
+          for c in io/github/zirren/chatterbox/mixin/*.class; do
+            echo "--- $c"
+            strings -a "$c" | grep -aE "net/minecraft|class_[0-9]+|method_[0-9]+|field_[0-9]+|openChatScreen|addMessage|logChatMessage|allMessages|chatScrollbarPos|commandSuggestions" | sort -u | head -30
+          done
+          echo "--- ChatDisplay (regular class references)"
+          strings -a io/github/zirren/chatterbox/chat/ChatDisplay.class | grep -aE "net/minecraft|class_[0-9]+" | sort -u | head -20
+          echo "=== ModMenu 20.0.2 (known-working 26.2 mod) for comparison ==="
+          if curl -sfL -o modmenu.jar "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"; then
+            unzip -o modmenu.jar '*.class' -d modmenu > /dev/null 2>&1 || true
+            find modmenu -iname '*mixin*.class' | head -2 | while read -r c; do
+              echo "--- $c"
+              strings -a "$c" | grep -aE "net/minecraft|class_[0-9]+|method_[0-9]+" | sort -u | head -15
+            done
+            echo "--- any modmenu class refs (shape check)"
+            find modmenu -name '*.class' | head -3 | while read -r c; do
+              echo "--- $c"
+              strings -a "$c" | grep -aE "net/minecraft|class_[0-9]+" | sort -u | head -10
+            done
+          else
+            echo "(modmenu download failed)"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chatterbox-mc${{ matrix.mc }}-loader${{ matrix.loader }}
+          path: dist/*.jar
+
+  smoke262:
+    name: Smoke test MC 26.2 / loader 0.19.3 (launches the game)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MC: "26.2"
+      API: "0.161.0+26.2"
+      DEP: "~26.2"
+      MODMENU: "20.0.2"
+      LOADER: "0.19.3"
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      SDL_VIDEODRIVER: "x11"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install virtual display + software GL
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers
+
+      - name: Launch game with the mod (selftest quits it)
+        run: |
+          set +e
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 600 ./gradlew runClient             -Pminecraft_version=$MC -Pminecraft_dep=$DEP             -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU             -Ploader_version=$LOADER > smoke-gradle.log 2>&1
+          code=$?
+          echo "gradle exit code: $code"
+          exit 0
+
+      - name: Check selftest results
+        run: |
+          LOG=run/logs/latest.log
+          REPORT=".apidump/smoke-mc$MC-loader$LOADER.txt"
+          mkdir -p .apidump
+          if [ ! -f "$LOG" ]; then
+            { echo "=== smoke test MC $MC loader $LOADER: game never produced a log ==="; tail -n 100 smoke-gradle.log; } > "$REPORT"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f "$REPORT"
+            git commit -m "smoke failure: no game log, MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            echo "::error::game never produced a log"
+            exit 1
+          fi
+          {
+            echo "=== smoke test MC $MC loader $LOADER ==="
+            echo "--- selftest lines ---"; grep -n "CHATTERBOX SELFTEST" "$LOG" || true
+            echo "--- error markers ---"; grep -nE "Crash report|MixinApplyError|Exception|FATAL" "$LOG" | head -60 || true
+            echo "--- game log tail ---"; tail -n 120 "$LOG"
+            echo "--- gradle log tail ---"; tail -n 60 smoke-gradle.log
+            if [ -n "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
+              echo "--- crash report ---"; head -n 150 run/crash-reports/*.txt
+            fi
+          } > "$REPORT"
+          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG" && [ -z "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
+            echo "SMOKE TEST PASSED"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f "$REPORT"
+            git commit -m "smoke failure: MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            echo "::error::selftest did not complete cleanly (log committed to $REPORT)"
+            exit 1
+          fi
+
+      - name: Upload game logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-log-mc26.2-loader0.19.3
+          path: |
+            run/logs/
+            run/crash-reports/
+            smoke-gradle.log
+          if-no-files-found: warn
+
+  smoke263:
+    name: Smoke test MC 26.3 / loader 0.19.5 (launches the game)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MC: "26.3"
+      API: "0.161.0+26.3"
+      DEP: "~26.3"
+      MODMENU: "21.0.0-beta.1"
+      LOADER: "0.19.5"
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      SDL_VIDEODRIVER: "x11"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install virtual display + software GL
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers
+
+      - name: Launch game with the mod (selftest quits it)
+        run: |
+          set +e
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 600 ./gradlew runClient             -Pminecraft_version=$MC -Pminecraft_dep=$DEP             -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU             -Ploader_version=$LOADER > smoke-gradle.log 2>&1
+          code=$?
+          echo "gradle exit code: $code"
+          exit 0
+
+      - name: Check selftest results
+        run: |
+          LOG=run/logs/latest.log
+          REPORT=".apidump/smoke-mc$MC-loader$LOADER.txt"
+          mkdir -p .apidump
+          if [ ! -f "$LOG" ]; then
+            { echo "=== smoke test MC $MC loader $LOADER: game never produced a log ==="; tail -n 100 smoke-gradle.log; } > "$REPORT"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f "$REPORT"
+            git commit -m "smoke failure: no game log, MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            echo "::error::game never produced a log"
+            exit 1
+          fi
+          {
+            echo "=== smoke test MC $MC loader $LOADER ==="
+            echo "--- selftest lines ---"; grep -n "CHATTERBOX SELFTEST" "$LOG" || true
+            echo "--- error markers ---"; grep -nE "Crash report|MixinApplyError|Exception|FATAL" "$LOG" | head -60 || true
+            echo "--- game log tail ---"; tail -n 120 "$LOG"
+            echo "--- gradle log tail ---"; tail -n 60 smoke-gradle.log
+            if [ -n "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
+              echo "--- crash report ---"; head -n 150 run/crash-reports/*.txt
+            fi
+          } > "$REPORT"
+          if grep -q "CHATTERBOX SELFTEST COMPLETE: FAILURES=0" "$LOG" && [ -z "$(ls run/crash-reports/*.txt 2>/dev/null)" ]; then
+            echo "SMOKE TEST PASSED"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f "$REPORT"
+            git commit -m "smoke failure: MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            echo "::error::selftest did not complete cleanly (log committed to $REPORT)"
+            exit 1
+          fi
+
+      - name: Upload game logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-log-mc26.3-loader0.19.5
+          path: |
+            run/logs/
+            run/crash-reports/
+            smoke-gradle.log
+          if-no-files-found: warn
+
+  prodboot:
+    name: Production jar boot test (real launcher, MC 26.2 / loader 0.19.3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      MC: "26.2"
+      DEP: "~26.2"
+      API: "0.161.0+26.2"
+      MODMENU: "20.0.2"
+      LOADER: "0.19.3"
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      SDL_VIDEODRIVER: "x11"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build the shipped jar
+        run: ./gradlew build -Pminecraft_version=$MC -Pminecraft_dep=$DEP -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU -Ploader_version=$LOADER
+
+      - name: Install virtual display + software GL
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers jq
+
+      - name: Create a real Fabric instance (like a launcher does)
+        run: |
+          curl -sfL -o fabric-installer.jar "https://maven.fabricmc.net/net/fabricmc/fabric-installer/1.1.1/fabric-installer-1.1.1.jar"
+          mkdir -p instance   # installer requires an existing game dir
+          java -jar fabric-installer.jar client -dir instance -mcversion "$MC" -loader "$LOADER" -noprofile
+          echo "--- instance layout ---"
+          find instance -maxdepth 3 -type d | sort
+          echo "--- launcher dir ---"
+          ls -la instance/.fabric/launcher/ || true
+
+      - name: Install mods (shipped jar + Fabric API + Mod Menu)
+        run: |
+          mkdir -p instance/mods
+          cp build/libs/chatterbox-*+mc26.2.jar instance/mods/
+          curl -sfL --retry 4 --retry-delay 5 --retry-all-errors -o "instance/mods/fabric-api-0.161.0+26.2.jar" "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.161.0+26.2/fabric-api-0.161.0+26.2.jar"
+          # terraformers maven is flaky - retry, then fall back to Modrinth
+          if ! curl -sfL --retry 4 --retry-delay 5 --retry-all-errors -o "instance/mods/modmenu-20.0.2.jar" "https://maven.terraformersmc.com/releases/com/terraformersmc/modmenu/20.0.2/modmenu-20.0.2.jar"; then
+            echo "terraformers maven failed - downloading modmenu $MODMENU from Modrinth"
+            url=$(curl -sf "https://api.modrinth.com/v2/project/modmenu/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" \
+              | jq -r "([.[] | select(.version_number==\"$MODMENU\")][0].files[0].url) // (.[0].files[0].url) // empty")
+            [ -n "$url" ]
+            curl -sfL --retry 4 --retry-delay 5 --retry-all-errors -o "instance/mods/modmenu-20.0.2.jar" "$url"
+          fi
+          ls -la instance/mods/
+
+      - name: Download the vanilla client + libraries (like a launcher does)
+        run: |
+          set -e
+          MANIFEST=$(curl -sfL https://piston-meta.mojang.com/mc/game/version_manifest_v2.json)
+          VURL=$(echo "$MANIFEST" | jq -r '.versions[] | select(.id=="'"$MC"'") | .url' | head -1)
+          echo "version json: $VURL"
+          curl -sfL -o version.json "$VURL"
+          mkdir -p "instance/versions/$MC"
+          curl -sfL -o "instance/versions/$MC/$MC.jar" "$(jq -r '.downloads.client.url' version.json)"
+          jq -r '.libraries[].downloads.artifact.path // empty' version.json | while read -r lib; do
+            [ -z "$lib" ] && continue
+            mkdir -p "instance/libraries-mc/$(dirname "$lib")"
+            curl -sfL -o "instance/libraries-mc/$lib" "https://libraries.minecraft.net/$lib"
+          done
+          mkdir -p instance/natives
+          jq -r '.libraries[].downloads.classifiers["natives-linux"].path // empty' version.json | while read -r lib; do
+            [ -z "$lib" ] && continue
+            curl -sfL -o /tmp/natives.zip "https://libraries.minecraft.net/$lib"
+            unzip -oq /tmp/natives.zip -d instance/natives
+          done
+          echo "client jar and $(find instance/libraries-mc -name '*.jar' | wc -l) libraries downloaded"
+
+      - name: Prepare game assets
+        run: |
+          set -e
+          ./gradlew downloadAssets -Pminecraft_version=$MC -Pminecraft_dep=$DEP -Pfabric_api_version=$API -Pmodmenu_version=$MODMENU -Ploader_version=$LOADER > /dev/null 2>&1 || true
+          ASSETS=$(find "$HOME/.gradle/caches/fabric-loom" -type d -name assets 2>/dev/null | head -1)
+          if [ -z "$ASSETS" ]; then
+            echo "loom assets cache not found - downloading directly"
+            ASSETS="$PWD/instance/assets"
+            AID=$(jq -r '.assetIndex.id' version.json)
+            mkdir -p "$ASSETS/indexes" "$ASSETS/objects"
+            curl -sfL -o "$ASSETS/indexes/$AID.json" "$(jq -r '.assetIndex.url' version.json)"
+            jq -r '.objects | to_entries[] | [.value.hash] | @tsv' "$ASSETS/indexes/$AID.json" \
+              | while read -r hash; do
+                  echo "https://resources.download.minecraft.net/${hash:0:2}/$hash $ASSETS/objects/${hash:0:2}/$hash"
+                done | xargs -P 16 -n 2 sh -c 'curl -sfL -o "$1" "$0"'
+          fi
+          echo "ASSETS_DIR=$ASSETS" >> "$GITHUB_ENV"
+          echo "ASSET_INDEX=$(jq -r '.assetIndex.id' version.json)" >> "$GITHUB_ENV"
+          echo "assets at: $ASSETS"
+
+      - name: Boot the production instance (baseline - must pass)
+        run: |
+          set -e
+          CP=$(find "$PWD/instance/libraries" "$PWD/instance/libraries-mc" -name '*.jar' | tr '\n' ':')"$PWD/instance/versions/$MC/$MC.jar"
+          echo "classpath jars: $(find instance/libraries instance/libraries-mc -name '*.jar' | wc -l)"
+          cat > run-game.sh <<EOF
+          #!/usr/bin/env bash
+          cd "$PWD/instance"
+          exec java -Xmx2G \
+            -Djava.library.path="$PWD/instance/natives" \
+            -cp "$CP" \
+            net.fabricmc.loader.impl.launch.knot.KnotClient \
+            --username Player --version "$MC" --gameDir . \
+            --assetsDir "$ASSETS_DIR" --assetIndex "$ASSET_INDEX" \
+            --accessToken 0 --userType legacy --clientId 0 --xuid 0
+          EOF
+          cat run-game.sh
+          set +e
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 240 bash run-game.sh > game-baseline.log 2>&1
+          code=$?
+          echo "$code" > game-exitcode.txt
+          echo "game exit code: $code (124 = ran until timeout = good)"
+          tail -n 30 game-baseline.log
+
+      - name: Check baseline boot
+        run: |
+          LOG=instance/logs/latest.log
+          REPORT=".apidump/prodboot.txt"
+          mkdir -p .apidump
+          {
+            echo "=== production boot test MC $MC loader $LOADER (baseline) ==="
+            echo "--- chatterbox markers ---"; grep -n "ChatterBox" "$LOG" || true
+            echo "--- mixin/refmap messages ---"; grep -niE "mixin|refmap" "$LOG" | head -40 || true
+            echo "--- errors ---"; grep -nE "ERROR|FATAL|Exception" "$LOG" | head -40 || true
+            echo "--- boot markers ---"; grep -nE "Backend library|Sound engine|Setting user|OpenAL|Reloading ResourceManager" "$LOG" | head -10 || true
+            echo "--- game output tail ---"; tail -n 80 game-baseline.log
+            if ls instance/crash-reports/*.txt >/dev/null 2>&1; then
+              echo "--- crash report ---"; head -n 200 instance/crash-reports/*.txt
+            fi
+          } > "$REPORT"
+          ok=1
+          grep -q "ChatterBox initialized" "$LOG" || { echo "::error::ChatterBox did not initialize in production mode"; ok=0; }
+          grep -q "Reloading ResourceManager: vanilla, chatterbox" "$LOG" || { echo "::error::game did not get past mod loading"; ok=0; }
+          ls instance/crash-reports/*.txt >/dev/null 2>&1 && { echo "::error::crash report produced"; ok=0; }
+          code=$(cat game-exitcode.txt 2>/dev/null || echo unknown)
+          [ "$code" = "124" ] || { echo "::error::game exited early (code $code) instead of surviving until the timeout"; ok=0; }
+          if [ $ok -ne 1 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f "$REPORT"
+            git commit -m "prodboot failure: baseline MC $MC loader $LOADER [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+            exit 1
+          fi
+          echo "PRODUCTION BOOT PASSED"
+
+      - name: Boot with other chat mods (advisory - report only)
+        run: |
+          set +e
+          # Fabric Language Kotlin pinned to the newest 1.13.x: 1.14+ requires
+          # loader >=0.19.5, but this test mirrors a loader 0.19.3 instance
+          flk=$(curl -sf "https://api.modrinth.com/v2/project/fabric-language-kotlin/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" \
+            | jq -r '[.[] | select(.version_number | startswith("1.13."))][0].files[0].url // empty')
+          if [ -n "$flk" ]; then
+            curl -sfL -o "instance/mods/fabric-language-kotlin.jar" "$flk" && echo "added fabric-language-kotlin (1.13.x)"
+          fi
+          for slug in appleskin betterf3 chat-heads chatanimation raised immediatelyfast entityculling modernfix jade xaeros-minimap xaeros-world-map sodium iris continuity falling-leaves mouse-tweaks gamma-utils ferrite-core lithium krypton reeses-sodium-options cloth-config yetanotherconfiglib betterstats searchables controlling highlighter pick-up-notifier immersive-hotbar make-bubbles-pop screenshot-viewer status-effect-bars subtle-effects camera-overhaul centered-crosshair geckolib spark c2me-fabric vmp-fabric packet-fixer scalablelux async-particles yacl forge-config-api-port puzzles-lib fzzy-config; do
+            url=$(curl -sf "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$MC%22%5D&loaders=%5B%22fabric%22%5D" | jq -r '.[0].files[0].url // empty' 2>/dev/null)
+            if [ -n "$url" ]; then
+              curl -sfL -o "instance/mods/$slug.jar" "$url" && echo "added $slug"
+            else
+              echo "skipped $slug (no $MC fabric build on Modrinth)"
+            fi
+          done
+          ls -la instance/mods/
+          xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" timeout -k 30 420 bash run-game.sh > game-chatmods.log 2>&1
+          code=$?
+          echo "game exit code: $code (124 = ran until timeout = good)"
+          LOG=instance/logs/latest.log
+          REPORT=".apidump/prodboot-chatmods.txt"
+          {
+            echo "=== production boot test with other chat mods ==="
+            ls instance/mods/
+            echo "--- chatterbox markers ---"; grep -n "ChatterBox" "$LOG" || true
+            echo "--- errors ---"; grep -nE "ERROR|FATAL|Exception" "$LOG" | head -40 || true
+            echo "--- game output tail ---"; tail -n 80 game-chatmods.log
+            if ls instance/crash-reports/*.txt >/dev/null 2>&1; then
+              echo "--- crash report ---"; head -n 200 instance/crash-reports/*.txt
+            fi
+          } > "$REPORT"
+          if grep -q "ChatterBox initialized" "$LOG" && ! ls instance/crash-reports/*.txt >/dev/null 2>&1; then
+            echo "CHAT-MODS BOOT PASSED (advisory)"
+          else
+            echo "::warning::chat-mods boot had problems - report committed for inspection"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -f "$REPORT"
+            git commit -m "prodboot advisory: chat-mods run MC $MC [skip ci]" || true
+            for i in 1 2 3 4 5; do git pull --rebase origin ${GITHUB_REF_NAME} && git push && break; sleep 10; done
+          fi
+
+      - name: Upload production boot logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prodboot-logs
+          path: |
+            game-*.log
+            instance/logs/
+            instance/crash-reports/
+            .apidump/prodboot*.txt
+          if-no-files-found: warn
+
+  release:
+    name: GitHub Release
+    needs: [build, smoke262, smoke263, prodboot]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/arena/'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -x
+          ls -la artifacts/ || true
+          TAG="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
+          # publish the loader 0.19.5 builds (which run on 0.19.3-0.19.5)
+          JARS=$(ls artifacts/*mc26.2*loader0.19.5*.jar artifacts/*mc26.3*loader0.19.5*.jar 2>/dev/null || ls artifacts/*.jar)
+          # checksum sidecars so users can verify their download is not truncated
+          for f in $JARS; do sha256sum "$f" | awk '{print $1}' > "$f.sha256"; done
+          # release notes with the checksum table visible on the release page
+          NOTES=$(mktemp --suffix=.md)
+          {
+            echo "ChatterBox $TAG - chat folders, DMs, group chats, custom sorting rules, mention sounds + Tune Maker + rule options, search, logs, pins, compression, drafts, queue, timestamps, ModMenu config. For Minecraft 26.2 & 26.3, Fabric Loader 0.19.3-0.19.5, Java 25."
+            echo ""
+            echo "## Download integrity"
+            echo ""
+            echo "If the game crashes with \`zip END header not found\` mentioning chatterbox, your jar download was truncated/corrupted - the mod never ran. Delete every chatterbox jar from your mods folder (including any \" (1)\" copies Windows made), re-download, and verify the size and SHA-256 against this table (PowerShell: \`Get-FileHash <file> -Algorithm SHA256\`):"
+            echo ""
+            echo "| file | size (bytes) | sha256 |"
+            echo "|---|---|---|"
+            for f in $JARS; do echo "| \`$(basename "$f")\` | $(stat -c%s "$f") | \`$(cat "$f.sha256")\` |"; done
+          } > "$NOTES"
+          cat "$NOTES"
+          FILES="$JARS $(for f in $JARS; do echo "$f.sha256"; done)"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" $FILES --clobber
+            gh release edit "$TAG" --notes-file "$NOTES"
+          else
+            gh release create "$TAG" $FILES --target "$GITHUB_SHA" \
+              --title "ChatterBox $TAG" \
+              --notes-file "$NOTES"
+          fi
+
+  verify-release:
+    name: Verify release download integrity
+    needs: release
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/arena/'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Downloads the published jars with an authenticated request (this repo
+      # is private - anonymous release URLs return 404) and validates them
+      # end to end: full ZIP structure check (unzip -t) + sha256 vs sidecar.
+      - name: Download the published release and validate it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          TAG="v$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
+          echo "verifying release $TAG"
+
+          verify() {
+            cd "$GITHUB_WORKSPACE"
+            rm -rf dl && mkdir dl
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.jar' --pattern '*.jar.sha256' --dir dl --clobber
+            ls -la dl
+            cd dl
+            for j in *.jar; do
+              echo "=== $j ==="
+              unzip -t "$j" > /dev/null && echo "ZIP OK: $j" || { echo "::warning::$j is not a valid zip on this attempt"; return 1; }
+              expected=$(cat "$j.sha256" | tr -d '[:space:]')
+              actual=$(sha256sum "$j" | awk '{print $1}')
+              if [ "$expected" != "$actual" ]; then
+                echo "::warning::sha256 mismatch for $j: expected $expected, got $actual"
+                return 1
+              fi
+              echo "SHA256 OK: $j $actual"
+            done
+          }
+
+          # This job starts seconds after the release is published; the CDN can
+          # briefly serve a truncated copy of a brand-new asset (the same
+          # read-your-writes race users hit downloading right after a release),
+          # so retry the whole download+validation before declaring failure.
+          n=0
+          until verify; do
+            n=$((n+1))
+            if [ "$n" -ge 3 ]; then
+              echo "::error::release assets failed validation after $((n+1)) attempts"
+              exit 1
+            fi
+            echo "download/validation failed - retrying in 30s (attempt $((n+2)) of 4)..."
+            sleep 30
+          done
+          echo "RELEASE ASSETS VERIFIED - the published jars are intact"

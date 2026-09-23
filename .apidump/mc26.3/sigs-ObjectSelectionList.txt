@@ -1,0 +1,7 @@
+	private static final Component USAGE_NARRATION = Component.translatable("narration.selection.usage");
+	public ObjectSelectionList(final Minecraft minecraft, final int width, final int height, final int y, final int itemHeight) {
+	public @Nullable ComponentPath nextFocusPath(final FocusNavigationEvent navigationEvent) {
+	public void updateWidgetNarration(final NarrationElementOutput output) {
+		public abstract Component getNarration();
+		public boolean mouseClicked(final MouseButtonEvent event, final boolean doubleClick) {
+		public void updateNarration(final NarrationElementOutput output) {

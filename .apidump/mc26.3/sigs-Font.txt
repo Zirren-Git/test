@@ -1,0 +1,35 @@
+	private final RandomSource random = RandomSource.create();
+	public Font(final Font.Provider provider) {
+	private GlyphSource getGlyphSource(final FontDescription fontLocation) {
+	public String bidirectionalShaping(final String text) {
+	public Font.PreparedText prepare8xTextOutline(final FormattedCharSequence str, final float x, final float y, final int outlineColor) {
+	public TextRenderable prepareBackground(final float x0, final float y0, final float x1, final float y1, final int color) {
+	private BakedGlyph getGlyph(final int codepoint, final Style style) {
+	public Font.PreparedText prepareText(String text, final float x, final float y, final int originalColor, final boolean drawShadow, final int backgroundColor) {
+	public Font.PreparedText prepareText(
+	public int width(final String str) {
+	public int width(final FormattedText text) {
+	public int width(final FormattedCharSequence text) {
+	public String plainSubstrByWidth(final String str, final int width, final boolean reverse) {
+	public String plainSubstrByWidth(final String str, final int width) {
+	public FormattedText substrByWidth(final FormattedText text, final int width) {
+	public int wordWrapHeight(final FormattedText input, final int textWidth) {
+	public List<FormattedCharSequence> split(final FormattedText input, final int maxWidth) {
+	public List<FormattedText> splitIgnoringLanguage(final FormattedText input, final int maxWidth) {
+	public boolean isBidirectional() {
+	public StringSplitter getSplitter() {
+		private final List<TextRenderable.Styled> glyphs = new ArrayList<>();
+		public PreparedTextBuilder(final float x, final float y, final int color, final boolean drawShadow, final boolean includeEmpty) {
+		public PreparedTextBuilder(final float x, final float y, final int color, final int backgroundColor, final boolean drawShadow, final boolean includeEmpty) {
+		private void markSize(final float left, final float top, final float right, final float bottom) {
+		private void markBackground(final float x, final float y, final float advance) {
+		private void addGlyph(final TextRenderable.Styled instance) {
+		private void addEffect(final TextRenderable effect) {
+		private void addEmptyGlyph(final EmptyArea empty) {
+		public boolean accept(final int position, final Style style, final int c) {
+		public boolean accept(final int position, final Style style, final BakedGlyph glyph) {
+		public void visit(final Font.GlyphVisitor visitor) {
+		public void discardEffects() {
+		private int getTextColor(final @Nullable TextColor textColor) {
+		private int getShadowColor(final Style style, final int textColor) {
+		public @Nullable ScreenRectangle bounds() {

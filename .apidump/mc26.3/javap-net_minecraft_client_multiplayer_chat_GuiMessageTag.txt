@@ -1,0 +1,32 @@
+Compiled from "GuiMessageTag.java"
+public final class net.minecraft.client.multiplayer.chat.GuiMessageTag extends java.lang.Record {
+  private final int indicatorColor;
+  private final net.minecraft.client.multiplayer.chat.GuiMessageTag$Icon icon;
+  private final net.minecraft.network.chat.Component text;
+  private final java.lang.String logTag;
+  private static final net.minecraft.network.chat.Component SYSTEM_TEXT;
+  private static final net.minecraft.network.chat.Component SYSTEM_TEXT_SINGLE_PLAYER;
+  private static final net.minecraft.network.chat.Component CHAT_NOT_SECURE_TEXT;
+  private static final net.minecraft.network.chat.Component CHAT_MODIFIED_TEXT;
+  private static final net.minecraft.network.chat.Component CHAT_ERROR_TEXT;
+  private static final int CHAT_NOT_SECURE_INDICATOR_COLOR;
+  private static final int CHAT_MODIFIED_INDICATOR_COLOR;
+  private static final net.minecraft.client.multiplayer.chat.GuiMessageTag SYSTEM;
+  private static final net.minecraft.client.multiplayer.chat.GuiMessageTag SYSTEM_SINGLE_PLAYER;
+  private static final net.minecraft.client.multiplayer.chat.GuiMessageTag CHAT_NOT_SECURE;
+  private static final net.minecraft.client.multiplayer.chat.GuiMessageTag CHAT_ERROR;
+  public net.minecraft.client.multiplayer.chat.GuiMessageTag(int, net.minecraft.client.multiplayer.chat.GuiMessageTag$Icon, net.minecraft.network.chat.Component, java.lang.String);
+  public static net.minecraft.client.multiplayer.chat.GuiMessageTag system();
+  public static net.minecraft.client.multiplayer.chat.GuiMessageTag systemSinglePlayer();
+  public static net.minecraft.client.multiplayer.chat.GuiMessageTag chatNotSecure();
+  public static net.minecraft.client.multiplayer.chat.GuiMessageTag chatModified(java.lang.String);
+  public static net.minecraft.client.multiplayer.chat.GuiMessageTag chatError();
+  public final java.lang.String toString();
+  public final int hashCode();
+  public final boolean equals(java.lang.Object);
+  public int indicatorColor();
+  public net.minecraft.client.multiplayer.chat.GuiMessageTag$Icon icon();
+  public net.minecraft.network.chat.Component text();
+  public java.lang.String logTag();
+  static {};
+}

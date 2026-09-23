@@ -1,0 +1,3031 @@
+Compiled from "DescriptionListWidget.java"
+public class com.terraformersmc.modmenu.gui.widget.DescriptionListWidget extends net.minecraft.client.gui.components.AbstractSelectionList<com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$DescriptionEntry> {
+  private static final net.minecraft.network.chat.Component HAS_UPDATE_TEXT;
+
+  private static final net.minecraft.network.chat.Component EXPERIMENTAL_TEXT;
+
+  private static final net.minecraft.network.chat.Component DOWNLOAD_TEXT;
+
+  private static final net.minecraft.network.chat.Component CHILD_HAS_UPDATE_TEXT;
+
+  private static final net.minecraft.network.chat.Component LINKS_TEXT;
+
+  private static final net.minecraft.network.chat.Component SOURCE_TEXT;
+
+  private static final net.minecraft.network.chat.Component LICENSE_TEXT;
+
+  private static final net.minecraft.network.chat.Component VIEW_CREDITS_TEXT;
+
+  private static final net.minecraft.network.chat.Component CREDITS_TEXT;
+
+  private final com.terraformersmc.modmenu.gui.ModsScreen parent;
+
+  private final net.minecraft.client.gui.Font textRenderer;
+
+  private com.terraformersmc.modmenu.util.mod.Mod selectedMod;
+
+  public com.terraformersmc.modmenu.gui.widget.DescriptionListWidget(net.minecraft.client.Minecraft, int, int, int, int, com.terraformersmc.modmenu.gui.widget.DescriptionListWidget, com.terraformersmc.modmenu.gui.ModsScreen);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: iload         4
+         6: iload         5
+         8: invokespecial #7                  // Method net/minecraft/client/gui/components/AbstractSelectionList."<init>":(Lnet/minecraft/client/Minecraft;IIII)V
+        11: aload_0
+        12: aconst_null
+        13: putfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+        16: aload_0
+        17: aload         7
+        19: putfield      #17                 // Field parent:Lcom/terraformersmc/modmenu/gui/ModsScreen;
+        22: aload_0
+        23: aload_1
+        24: getfield      #21                 // Field net/minecraft/client/Minecraft.font:Lnet/minecraft/client/gui/Font;
+        27: putfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+        30: aload         6
+        32: ifnull        53
+        35: aload_0
+        36: aload         6
+        38: getfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+        41: invokevirtual #30                 // Method updateSelectedMod:(Lcom/terraformersmc/modmenu/util/mod/Mod;)V
+        44: aload_0
+        45: aload         6
+        47: invokevirtual #34                 // Method scrollAmount:()D
+        50: invokevirtual #38                 // Method setScrollAmount:(D)V
+        53: aload         7
+        55: invokevirtual #42                 // Method com/terraformersmc/modmenu/gui/ModsScreen.getSelectedEntry:()Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        58: ifnull        73
+        61: aload_0
+        62: aload         7
+        64: invokevirtual #42                 // Method com/terraformersmc/modmenu/gui/ModsScreen.getSelectedEntry:()Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        67: invokevirtual #48                 // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        70: invokevirtual #30                 // Method updateSelectedMod:(Lcom/terraformersmc/modmenu/util/mod/Mod;)V
+        73: return
+
+  public com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$DescriptionEntry getSelected();
+    Code:
+         0: aconst_null
+         1: areturn
+
+  public int getRowWidth();
+    Code:
+         0: aload_0
+         1: getfield      #54                 // Field width:I
+         4: bipush        10
+         6: isub
+         7: ireturn
+
+  protected int scrollBarX();
+    Code:
+         0: aload_0
+         1: getfield      #54                 // Field width:I
+         4: bipush        6
+         6: isub
+         7: aload_0
+         8: invokevirtual #58                 // Method getX:()I
+        11: iadd
+        12: ireturn
+
+  public void updateWidgetNarration(net.minecraft.client.gui.narration.NarrationElementOutput);
+    Code:
+         0: aload_0
+         1: getfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+         4: ifnull        39
+         7: aload_1
+         8: getstatic     #62                 // Field net/minecraft/client/gui/narration/NarratedElementType.TITLE:Lnet/minecraft/client/gui/narration/NarratedElementType;
+        11: aload_0
+        12: getfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+        15: invokeinterface #68,  1           // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getTranslatedName:()Ljava/lang/String;
+        20: aload_0
+        21: getfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+        24: invokeinterface #74,  1           // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getPrefixedVersion:()Ljava/lang/String;
+        29: invokedynamic #77,  0             // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        34: invokeinterface #81,  3           // InterfaceMethod net/minecraft/client/gui/narration/NarrationElementOutput.add:(Lnet/minecraft/client/gui/narration/NarratedElementType;Ljava/lang/String;)V
+        39: return
+
+  private void rebuildUI();
+    Code:
+         0: aload_0
+         1: getfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+         4: ifnonnull     8
+         7: return
+         8: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+        11: dup
+        12: aload_0
+        13: getstatic     #89                 // Field net/minecraft/util/FormattedCharSequence.EMPTY:Lnet/minecraft/util/FormattedCharSequence;
+        16: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+        19: astore_1
+        20: aload_0
+        21: invokevirtual #98                 // Method getRowWidth:()I
+        24: iconst_5
+        25: isub
+        26: istore_2
+        27: aload_0
+        28: getfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+        31: astore_3
+        32: aload_3
+        33: invokeinterface #101,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getFormattedDescription:()Lnet/minecraft/network/chat/Component;
+        38: astore        4
+        40: aload         4
+        42: invokeinterface #105,  1          // InterfaceMethod net/minecraft/network/chat/Component.getString:()Ljava/lang/String;
+        47: invokevirtual #110                // Method java/lang/String.isEmpty:()Z
+        50: ifne          110
+        53: aload_0
+        54: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+        57: aload         4
+        59: iload_2
+        60: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+        63: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+        68: astore        5
+        70: aload         5
+        72: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        77: ifeq          110
+        80: aload         5
+        82: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        87: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+        90: astore        6
+        92: aload_0
+        93: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+        96: dup
+        97: aload_0
+        98: aload         6
+       100: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+       103: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       106: pop
+       107: goto          70
+       110: getstatic     #141                // Field com/terraformersmc/modmenu/config/ModMenuConfig.UPDATE_CHECKER:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       113: invokevirtual #147                // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       116: ifeq          556
+       119: getstatic     #152                // Field com/terraformersmc/modmenu/config/ModMenuConfig.DISABLE_UPDATE_CHECKER:Lcom/terraformersmc/modmenu/config/option/StringSetConfigOption;
+       122: invokevirtual #156                // Method com/terraformersmc/modmenu/config/option/StringSetConfigOption.getValue:()Ljava/util/Set;
+       125: aload_3
+       126: invokeinterface #161,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+       131: invokeinterface #164,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+       136: ifne          556
+       139: aload_3
+       140: invokeinterface #170,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getUpdateInfo:()Lcom/terraformersmc/modmenu/api/UpdateInfo;
+       145: astore        5
+       147: aload         5
+       149: ifnull        459
+       152: aload         5
+       154: invokeinterface #174,  1          // InterfaceMethod com/terraformersmc/modmenu/api/UpdateInfo.isUpdateAvailable:()Z
+       159: ifeq          459
+       162: aload_0
+       163: aload_1
+       164: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       167: pop
+       168: iconst_0
+       169: istore        6
+       171: aload_0
+       172: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       175: getstatic     #179                // Field HAS_UPDATE_TEXT:Lnet/minecraft/network/chat/Component;
+       178: iload_2
+       179: bipush        11
+       181: isub
+       182: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       185: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       190: astore        7
+       192: aload         7
+       194: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       199: ifeq          250
+       202: aload         7
+       204: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       209: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       212: astore        8
+       214: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       217: dup
+       218: aload_0
+       219: aload         8
+       221: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+       224: astore        9
+       226: iload         6
+       228: ifne          237
+       231: aload         9
+       233: invokevirtual #183                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry.setUpdateTextEntry:()Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry;
+       236: pop
+       237: aload_0
+       238: aload         9
+       240: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       243: pop
+       244: iinc          6, 1
+       247: goto          192
+       250: aload_0
+       251: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       254: getstatic     #187                // Field EXPERIMENTAL_TEXT:Lnet/minecraft/network/chat/Component;
+       257: iload_2
+       258: bipush        16
+       260: isub
+       261: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       264: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       269: astore        7
+       271: aload         7
+       273: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       278: ifeq          313
+       281: aload         7
+       283: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       288: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       291: astore        8
+       293: aload_0
+       294: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       297: dup
+       298: aload_0
+       299: aload         8
+       301: bipush        8
+       303: invokespecial #190                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;I)V
+       306: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       309: pop
+       310: goto          271
+       313: aload         5
+       315: invokeinterface #193,  1          // InterfaceMethod com/terraformersmc/modmenu/api/UpdateInfo.getUpdateMessage:()Lnet/minecraft/network/chat/Component;
+       320: astore        7
+       322: aload         5
+       324: invokeinterface #196,  1          // InterfaceMethod com/terraformersmc/modmenu/api/UpdateInfo.getDownloadLink:()Ljava/lang/String;
+       329: astore        8
+       331: aload         7
+       333: ifnonnull     344
+       336: getstatic     #199                // Field DOWNLOAD_TEXT:Lnet/minecraft/network/chat/Component;
+       339: astore        7
+       341: goto          370
+       344: aload         8
+       346: ifnull        370
+       349: aload         7
+       351: invokeinterface #202,  1          // InterfaceMethod net/minecraft/network/chat/Component.copy:()Lnet/minecraft/network/chat/MutableComponent;
+       356: getstatic     #206                // Field net/minecraft/ChatFormatting.BLUE:Lnet/minecraft/ChatFormatting;
+       359: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+       362: getstatic     #218                // Field net/minecraft/ChatFormatting.UNDERLINE:Lnet/minecraft/ChatFormatting;
+       365: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+       368: astore        7
+       370: aload_0
+       371: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       374: aload         7
+       376: iload_2
+       377: bipush        16
+       379: isub
+       380: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       383: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       388: astore        9
+       390: aload         9
+       392: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       397: ifeq          459
+       400: aload         9
+       402: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       407: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       410: astore        10
+       412: aload         8
+       414: ifnull        439
+       417: aload_0
+       418: new           #221                // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$LinkEntry
+       421: dup
+       422: aload_0
+       423: aload         10
+       425: aload         8
+       427: bipush        8
+       429: invokespecial #223                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$LinkEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;Ljava/lang/String;I)V
+       432: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       435: pop
+       436: goto          456
+       439: aload_0
+       440: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       443: dup
+       444: aload_0
+       445: aload         10
+       447: bipush        8
+       449: invokespecial #190                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;I)V
+       452: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       455: pop
+       456: goto          390
+       459: aload_3
+       460: invokeinterface #226,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getChildHasUpdate:()Z
+       465: ifeq          556
+       468: aload_0
+       469: aload_1
+       470: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       473: pop
+       474: iconst_0
+       475: istore        6
+       477: aload_0
+       478: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       481: getstatic     #229                // Field CHILD_HAS_UPDATE_TEXT:Lnet/minecraft/network/chat/Component;
+       484: iload_2
+       485: bipush        11
+       487: isub
+       488: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       491: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       496: astore        7
+       498: aload         7
+       500: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       505: ifeq          556
+       508: aload         7
+       510: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       515: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       518: astore        8
+       520: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       523: dup
+       524: aload_0
+       525: aload         8
+       527: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+       530: astore        9
+       532: iload         6
+       534: ifne          543
+       537: aload         9
+       539: invokevirtual #183                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry.setUpdateTextEntry:()Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry;
+       542: pop
+       543: aload_0
+       544: aload         9
+       546: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       549: pop
+       550: iinc          6, 1
+       553: goto          498
+       556: aload_3
+       557: invokeinterface #232,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getLinks:()Ljava/util/Map;
+       562: astore        5
+       564: aload_3
+       565: invokeinterface #236,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getSource:()Ljava/lang/String;
+       570: astore        6
+       572: aload         5
+       574: invokeinterface #239,  1          // InterfaceMethod java/util/Map.isEmpty:()Z
+       579: ifeq          587
+       582: aload         6
+       584: ifnull        752
+       587: getstatic     #242                // Field com/terraformersmc/modmenu/config/ModMenuConfig.HIDE_MOD_LINKS:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       590: invokevirtual #147                // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       593: ifne          752
+       596: aload_0
+       597: aload_1
+       598: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       601: pop
+       602: aload_0
+       603: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       606: getstatic     #245                // Field LINKS_TEXT:Lnet/minecraft/network/chat/Component;
+       609: iload_2
+       610: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       613: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       618: astore        7
+       620: aload         7
+       622: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       627: ifeq          660
+       630: aload         7
+       632: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       637: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       640: astore        8
+       642: aload_0
+       643: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       646: dup
+       647: aload_0
+       648: aload         8
+       650: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+       653: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       656: pop
+       657: goto          620
+       660: aload         6
+       662: ifnull        738
+       665: bipush        8
+       667: istore        7
+       669: aload_0
+       670: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       673: getstatic     #248                // Field SOURCE_TEXT:Lnet/minecraft/network/chat/Component;
+       676: iload_2
+       677: bipush        16
+       679: isub
+       680: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       683: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       688: astore        8
+       690: aload         8
+       692: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       697: ifeq          738
+       700: aload         8
+       702: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       707: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       710: astore        9
+       712: aload_0
+       713: new           #221                // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$LinkEntry
+       716: dup
+       717: aload_0
+       718: aload         9
+       720: aload         6
+       722: iload         7
+       724: invokespecial #223                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$LinkEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;Ljava/lang/String;I)V
+       727: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       730: pop
+       731: bipush        16
+       733: istore        7
+       735: goto          690
+       738: aload         5
+       740: aload_0
+       741: iload_2
+       742: invokedynamic #251,  0            // InvokeDynamic #1:accept:(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;I)Ljava/util/function/BiConsumer;
+       747: invokeinterface #255,  2          // InterfaceMethod java/util/Map.forEach:(Ljava/util/function/BiConsumer;)V
+       752: aload_3
+       753: invokeinterface #259,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getLicense:()Ljava/util/Set;
+       758: astore        7
+       760: getstatic     #262                // Field com/terraformersmc/modmenu/config/ModMenuConfig.HIDE_MOD_LICENSE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       763: invokevirtual #147                // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       766: ifne          950
+       769: aload         7
+       771: invokeinterface #265,  1          // InterfaceMethod java/util/Set.isEmpty:()Z
+       776: ifne          950
+       779: aload_0
+       780: aload_1
+       781: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       784: pop
+       785: aload_0
+       786: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       789: getstatic     #266                // Field LICENSE_TEXT:Lnet/minecraft/network/chat/Component;
+       792: iload_2
+       793: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       796: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       801: astore        8
+       803: aload         8
+       805: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       810: ifeq          843
+       813: aload         8
+       815: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       820: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       823: astore        9
+       825: aload_0
+       826: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       829: dup
+       830: aload_0
+       831: aload         9
+       833: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+       836: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       839: pop
+       840: goto          803
+       843: aload         7
+       845: invokeinterface #269,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+       850: astore        8
+       852: aload         8
+       854: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       859: ifeq          950
+       862: aload         8
+       864: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       869: checkcast     #111                // class java/lang/String
+       872: astore        9
+       874: bipush        8
+       876: istore        10
+       878: aload_0
+       879: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       882: aload         9
+       884: invokestatic  #270                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       887: iload_2
+       888: bipush        16
+       890: isub
+       891: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       894: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       899: astore        11
+       901: aload         11
+       903: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       908: ifeq          947
+       911: aload         11
+       913: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       918: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+       921: astore        12
+       923: aload_0
+       924: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+       927: dup
+       928: aload_0
+       929: aload         12
+       931: iload         10
+       933: invokespecial #190                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;I)V
+       936: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       939: pop
+       940: bipush        16
+       942: istore        10
+       944: goto          901
+       947: goto          852
+       950: getstatic     #274                // Field com/terraformersmc/modmenu/config/ModMenuConfig.HIDE_MOD_CREDITS:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       953: invokevirtual #147                // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       956: ifne          1457
+       959: ldc_w         #277                // String minecraft
+       962: aload_3
+       963: invokeinterface #161,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+       968: invokevirtual #278                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       971: ifeq          1041
+       974: aload_0
+       975: aload_1
+       976: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+       979: pop
+       980: aload_0
+       981: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+       984: getstatic     #281                // Field VIEW_CREDITS_TEXT:Lnet/minecraft/network/chat/Component;
+       987: iload_2
+       988: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+       991: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       996: astore        8
+       998: aload         8
+      1000: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1005: ifeq          1038
+      1008: aload         8
+      1010: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      1015: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+      1018: astore        9
+      1020: aload_0
+      1021: new           #284                // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$MojangCreditsEntry
+      1024: dup
+      1025: aload_0
+      1026: aload         9
+      1028: invokespecial #286                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$MojangCreditsEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+      1031: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1034: pop
+      1035: goto          998
+      1038: goto          1457
+      1041: ldc_w         #287                // String java
+      1044: aload_3
+      1045: invokeinterface #161,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+      1050: invokevirtual #278                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      1053: ifne          1457
+      1056: aload_3
+      1057: invokeinterface #289,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getCredits:()Ljava/util/SortedMap;
+      1062: astore        8
+      1064: aload         8
+      1066: invokeinterface #293,  1          // InterfaceMethod java/util/SortedMap.isEmpty:()Z
+      1071: ifne          1457
+      1074: aload_0
+      1075: aload_1
+      1076: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1079: pop
+      1080: aload_0
+      1081: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+      1084: getstatic     #296                // Field CREDITS_TEXT:Lnet/minecraft/network/chat/Component;
+      1087: iload_2
+      1088: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+      1091: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      1096: astore        9
+      1098: aload         9
+      1100: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1105: ifeq          1138
+      1108: aload         9
+      1110: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      1115: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+      1118: astore        10
+      1120: aload_0
+      1121: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+      1124: dup
+      1125: aload_0
+      1126: aload         10
+      1128: invokespecial #95                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;)V
+      1131: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1134: pop
+      1135: goto          1098
+      1138: aload         8
+      1140: invokeinterface #299,  1          // InterfaceMethod java/util/SortedMap.entrySet:()Ljava/util/Set;
+      1145: invokeinterface #269,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      1150: astore        9
+      1152: aload         9
+      1154: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1159: ifeq          1457
+      1162: bipush        8
+      1164: istore        10
+      1166: aload         9
+      1168: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      1173: checkcast     #302                // class java/util/Map$Entry
+      1176: astore        11
+      1178: aload_0
+      1179: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+      1182: aload_0
+      1183: aload         11
+      1185: invokeinterface #304,  1          // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+      1190: checkcast     #111                // class java/lang/String
+      1193: invokevirtual #307                // Method creditsRoleText:(Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+      1196: iload_2
+      1197: bipush        16
+      1199: isub
+      1200: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+      1203: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      1208: astore        12
+      1210: aload         12
+      1212: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1217: ifeq          1256
+      1220: aload         12
+      1222: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      1227: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+      1230: astore        13
+      1232: aload_0
+      1233: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+      1236: dup
+      1237: aload_0
+      1238: aload         13
+      1240: iload         10
+      1242: invokespecial #190                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;I)V
+      1245: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1248: pop
+      1249: bipush        16
+      1251: istore        10
+      1253: goto          1210
+      1256: aload         11
+      1258: invokeinterface #311,  1          // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+      1263: checkcast     #165                // class java/util/Set
+      1266: invokeinterface #269,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      1271: astore        12
+      1273: aload         12
+      1275: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1280: ifeq          1438
+      1283: aload         12
+      1285: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      1290: checkcast     #111                // class java/lang/String
+      1293: astore        13
+      1295: bipush        16
+      1297: istore        10
+      1299: aload_0
+      1300: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+      1303: aload         13
+      1305: invokestatic  #270                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+      1308: iload_2
+      1309: bipush        24
+      1311: isub
+      1312: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+      1315: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      1320: astore        14
+      1322: aload         14
+      1324: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1329: ifeq          1435
+      1332: aload         14
+      1334: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      1339: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+      1342: astore        15
+      1344: aload_3
+      1345: aload         13
+      1347: invokeinterface #313,  2          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getContact:(Ljava/lang/String;)Lnet/fabricmc/loader/api/metadata/ContactInformation;
+      1352: astore        16
+      1354: aload         16
+      1356: ifnull        1411
+      1359: aload         16
+      1361: ldc_w         #317                // String email
+      1364: invokeinterface #319,  2          // InterfaceMethod net/fabricmc/loader/api/metadata/ContactInformation.get:(Ljava/lang/String;)Ljava/util/Optional;
+      1369: invokevirtual #325                // Method java/util/Optional.isPresent:()Z
+      1372: ifeq          1411
+      1375: aload_0
+      1376: new           #330                // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$MailableContactEntry
+      1379: dup
+      1380: aload_0
+      1381: aload         15
+      1383: aload         16
+      1385: ldc_w         #317                // String email
+      1388: invokeinterface #319,  2          // InterfaceMethod net/fabricmc/loader/api/metadata/ContactInformation.get:(Ljava/lang/String;)Ljava/util/Optional;
+      1393: invokevirtual #332                // Method java/util/Optional.get:()Ljava/lang/Object;
+      1396: checkcast     #111                // class java/lang/String
+      1399: iload         10
+      1401: invokespecial #334                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$MailableContactEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;Ljava/lang/String;I)V
+      1404: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1407: pop
+      1408: goto          1428
+      1411: aload_0
+      1412: new           #87                 // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry
+      1415: dup
+      1416: aload_0
+      1417: aload         15
+      1419: iload         10
+      1421: invokespecial #190                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;I)V
+      1424: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1427: pop
+      1428: bipush        24
+      1430: istore        10
+      1432: goto          1322
+      1435: goto          1273
+      1438: aload         9
+      1440: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1445: ifeq          1454
+      1448: aload_0
+      1449: aload_1
+      1450: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+      1453: pop
+      1454: goto          1152
+      1457: return
+
+  public void updateSelectedMod(com.terraformersmc.modmenu.util.mod.Mod);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: putfield      #13                 // Field selectedMod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+         5: aload_0
+         6: invokevirtual #335                // Method clearEntries:()V
+         9: aload_0
+        10: ldc2_w        #341                // double -1.7976931348623157E308d
+        13: invokevirtual #38                 // Method setScrollAmount:(D)V
+        16: aload_0
+        17: invokevirtual #343                // Method rebuildUI:()V
+        20: return
+
+  public void extractListItems(net.minecraft.client.gui.GuiGraphicsExtractor, int, int, float);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #346                // Method enableScissor:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;)V
+         5: aload_0
+         6: aload_1
+         7: iload_2
+         8: iload_3
+         9: fload         4
+        11: invokespecial #350                // Method net/minecraft/client/gui/components/AbstractSelectionList.extractListItems:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V
+        14: aload_1
+        15: invokevirtual #354                // Method net/minecraft/client/gui/GuiGraphicsExtractor.disableScissor:()V
+        18: return
+
+  private net.minecraft.network.chat.Component creditsRoleText(java.lang.String);
+    Code:
+         0: aload_1
+         1: ldc_w         #359                // String [ -]
+         4: ldc_w         #361                // String _
+         7: invokevirtual #363                // Method java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        10: invokevirtual #366                // Method java/lang/String.toLowerCase:()Ljava/lang/String;
+        13: astore_2
+        14: aload_1
+        15: ldc_w         #369                // String r
+        18: invokevirtual #371                // Method java/lang/String.endsWith:(Ljava/lang/String;)Z
+        21: ifeq          33
+        24: aload_1
+        25: invokedynamic #375,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        30: goto          34
+        33: aload_1
+        34: astore_3
+        35: aload_2
+        36: invokedynamic #378,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        41: aload_3
+        42: invokestatic  #379                // InterfaceMethod net/minecraft/network/chat/Component.translatableWithFallback:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        45: ldc_w         #383                // String :
+        48: invokestatic  #270                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        51: invokevirtual #385                // Method net/minecraft/network/chat/MutableComponent.append:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+        54: areturn
+
+  public net.minecraft.client.gui.components.AbstractSelectionList$Entry getSelected();
+    Code:
+         0: aload_0
+         1: invokevirtual #389                // Method getSelected:()Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry;
+         4: areturn
+
+  static net.minecraft.client.Minecraft access$000(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget);
+    Code:
+         0: aload_0
+         1: getfield      #1                  // Field minecraft:Lnet/minecraft/client/Minecraft;
+         4: areturn
+
+  static net.minecraft.client.Minecraft access$100(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget);
+    Code:
+         0: aload_0
+         1: getfield      #1                  // Field minecraft:Lnet/minecraft/client/Minecraft;
+         4: areturn
+
+  static net.minecraft.client.Minecraft access$200(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget);
+    Code:
+         0: aload_0
+         1: getfield      #1                  // Field minecraft:Lnet/minecraft/client/Minecraft;
+         4: areturn
+
+  static net.minecraft.client.Minecraft access$300(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget);
+    Code:
+         0: aload_0
+         1: getfield      #1                  // Field minecraft:Lnet/minecraft/client/Minecraft;
+         4: areturn
+
+  static net.minecraft.client.Minecraft access$400(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget);
+    Code:
+         0: aload_0
+         1: getfield      #1                  // Field minecraft:Lnet/minecraft/client/Minecraft;
+         4: areturn
+
+  private void lambda$rebuildUI$0(int, java.lang.String, java.lang.String);
+    Code:
+         0: bipush        8
+         2: istore        4
+         4: aload_0
+         5: getfield      #27                 // Field textRenderer:Lnet/minecraft/client/gui/Font;
+         8: aload_2
+         9: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        12: getstatic     #206                // Field net/minecraft/ChatFormatting.BLUE:Lnet/minecraft/ChatFormatting;
+        15: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        18: getstatic     #218                // Field net/minecraft/ChatFormatting.UNDERLINE:Lnet/minecraft/ChatFormatting;
+        21: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        24: iload_1
+        25: bipush        16
+        27: isub
+        28: invokevirtual #116                // Method net/minecraft/client/gui/Font.split:(Lnet/minecraft/network/chat/FormattedText;I)Ljava/util/List;
+        31: invokeinterface #122,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+        36: astore        5
+        38: aload         5
+        40: invokeinterface #128,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        45: ifeq          85
+        48: aload         5
+        50: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        55: checkcast     #90                 // class net/minecraft/util/FormattedCharSequence
+        58: astore        6
+        60: aload_0
+        61: new           #221                // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$LinkEntry
+        64: dup
+        65: aload_0
+        66: aload         6
+        68: aload_3
+        69: iload         4
+        71: invokespecial #223                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$LinkEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;Ljava/lang/String;I)V
+        74: invokevirtual #137                // Method addEntry:(Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+        77: pop
+        78: bipush        16
+        80: istore        4
+        82: goto          38
+        85: return
+
+  static {};
+    Code:
+         0: ldc_w         #395                // String modmenu.hasUpdate
+         3: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+         6: putstatic     #179                // Field HAS_UPDATE_TEXT:Lnet/minecraft/network/chat/Component;
+         9: ldc_w         #397                // String modmenu.experimental
+        12: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        15: getstatic     #399                // Field net/minecraft/ChatFormatting.GOLD:Lnet/minecraft/ChatFormatting;
+        18: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        21: putstatic     #187                // Field EXPERIMENTAL_TEXT:Lnet/minecraft/network/chat/Component;
+        24: ldc_w         #402                // String modmenu.downloadLink
+        27: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        30: getstatic     #206                // Field net/minecraft/ChatFormatting.BLUE:Lnet/minecraft/ChatFormatting;
+        33: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        36: getstatic     #218                // Field net/minecraft/ChatFormatting.UNDERLINE:Lnet/minecraft/ChatFormatting;
+        39: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        42: putstatic     #199                // Field DOWNLOAD_TEXT:Lnet/minecraft/network/chat/Component;
+        45: ldc_w         #404                // String modmenu.childHasUpdate
+        48: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        51: putstatic     #229                // Field CHILD_HAS_UPDATE_TEXT:Lnet/minecraft/network/chat/Component;
+        54: ldc_w         #406                // String modmenu.links
+        57: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        60: putstatic     #245                // Field LINKS_TEXT:Lnet/minecraft/network/chat/Component;
+        63: ldc_w         #408                // String modmenu.source
+        66: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        69: getstatic     #206                // Field net/minecraft/ChatFormatting.BLUE:Lnet/minecraft/ChatFormatting;
+        72: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        75: getstatic     #218                // Field net/minecraft/ChatFormatting.UNDERLINE:Lnet/minecraft/ChatFormatting;
+        78: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+        81: putstatic     #248                // Field SOURCE_TEXT:Lnet/minecraft/network/chat/Component;
+        84: ldc_w         #410                // String modmenu.license
+        87: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        90: putstatic     #266                // Field LICENSE_TEXT:Lnet/minecraft/network/chat/Component;
+        93: ldc_w         #412                // String modmenu.viewCredits
+        96: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        99: getstatic     #206                // Field net/minecraft/ChatFormatting.BLUE:Lnet/minecraft/ChatFormatting;
+       102: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+       105: getstatic     #218                // Field net/minecraft/ChatFormatting.UNDERLINE:Lnet/minecraft/ChatFormatting;
+       108: invokevirtual #212                // Method net/minecraft/network/chat/MutableComponent.withStyle:(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;
+       111: putstatic     #281                // Field VIEW_CREDITS_TEXT:Lnet/minecraft/network/chat/Component;
+       114: ldc_w         #414                // String modmenu.credits
+       117: invokestatic  #392                // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       120: putstatic     #296                // Field CREDITS_TEXT:Lnet/minecraft/network/chat/Component;
+       123: return
+}
+Compiled from "DescriptionListWidget.java"
+public class com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$MailableContactEntry extends com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$DescriptionEntry {
+  private final java.lang.String email;
+
+  final com.terraformersmc.modmenu.gui.widget.DescriptionListWidget this$0;
+
+  public com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$MailableContactEntry(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget, net.minecraft.util.FormattedCharSequence, java.lang.String, int);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: dup
+         3: invokestatic  #1                  // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+         6: pop
+         7: putfield      #7                  // Field this$0:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        10: aload_0
+        11: aload_1
+        12: aload_2
+        13: iload         4
+        15: invokespecial #13                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry."<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;I)V
+        18: aload_0
+        19: aload_3
+        20: putfield      #19                 // Field email:Ljava/lang/String;
+        23: return
+
+  public com.terraformersmc.modmenu.gui.widget.DescriptionListWidget$MailableContactEntry(com.terraformersmc.modmenu.gui.widget.DescriptionListWidget, net.minecraft.util.FormattedCharSequence, java.lang.String);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: aload_3
+         4: iconst_0
+         5: invokespecial #23                 // Method "<init>":(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lnet/minecraft/util/FormattedCharSequence;Ljava/lang/String;I)V
+         8: return
+
+  public void extractContent(net.minecraft.client.gui.GuiGraphicsExtractor, int, int, boolean, float);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: iload         4
+         6: fload         5
+         8: invokespecial #26                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry.extractContent:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIZF)V
+        11: aload_1
+        12: aload_0
+        13: getfield      #7                  // Field this$0:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        16: getfield      #30                 // Field com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.textRenderer:Lnet/minecraft/client/gui/Font;
+        19: ldc           #36                 // String
+        21: invokestatic  #38                 // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        24: ldc           #44                 // String ✉
+        26: invokestatic  #38                 // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+        29: invokevirtual #46                 // Method net/minecraft/network/chat/MutableComponent.append:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;
+        32: aload_0
+        33: invokevirtual #52                 // Method getContentX:()I
+        36: aload_0
+        37: getfield      #56                 // Field indent:I
+        40: iadd
+        41: aload_0
+        42: getfield      #7                  // Field this$0:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        45: getfield      #30                 // Field com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.textRenderer:Lnet/minecraft/client/gui/Font;
+        48: aload_0
+        49: getfield      #60                 // Field text:Lnet/minecraft/util/FormattedCharSequence;
+        52: invokevirtual #64                 // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/util/FormattedCharSequence;)I
+        55: iadd
+        56: iconst_1
+        57: iadd
+        58: aload_0
+        59: invokevirtual #70                 // Method getContentY:()I
+        62: ldc           #73                 // int -5592406
+        64: invokevirtual #74                 // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+        67: return
+
+  public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent, boolean);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #79                 // Method net/minecraft/client/input/MouseButtonEvent.x:()D
+         5: aload_1
+         6: invokevirtual #85                 // Method net/minecraft/client/input/MouseButtonEvent.y:()D
+         9: invokevirtual #88                 // Method isMouseOver:(DD)Z
+        12: ifeq          51
+        15: aload_0
+        16: getfield      #7                  // Field this$0:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        19: invokestatic  #92                 // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.access$400:(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;)Lnet/minecraft/client/Minecraft;
+        22: getfield      #96                 // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+        25: new           #102                // class net/minecraft/client/gui/screens/ConfirmLinkScreen
+        28: dup
+        29: aload_0
+        30: invokedynamic #104,  0            // InvokeDynamic #0:accept:(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget$MailableContactEntry;)Lit/unimi/dsi/fastutil/booleans/BooleanConsumer;
+        35: aload_0
+        36: getfield      #19                 // Field email:Ljava/lang/String;
+        39: invokedynamic #108,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        44: iconst_0
+        45: invokespecial #112                // Method net/minecraft/client/gui/screens/ConfirmLinkScreen."<init>":(Lit/unimi/dsi/fastutil/booleans/BooleanConsumer;Ljava/lang/String;Z)V
+        48: invokevirtual #115                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+        51: aload_0
+        52: aload_1
+        53: iload_2
+        54: invokespecial #121                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget$DescriptionEntry.mouseClicked:(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z
+        57: ireturn
+
+  private void lambda$mouseClicked$0(boolean);
+    Code:
+         0: iload_1
+         1: ifeq          19
+         4: invokestatic  #125                // Method net/minecraft/util/Util.getPlatform:()Lnet/minecraft/util/Util$OS;
+         7: aload_0
+         8: getfield      #19                 // Field email:Ljava/lang/String;
+        11: invokedynamic #108,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+        16: invokevirtual #131                // Method net/minecraft/util/Util$OS.openUri:(Ljava/lang/String;)V
+        19: aload_0
+        20: getfield      #7                  // Field this$0:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        23: invokestatic  #137                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.access$300:(Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;)Lnet/minecraft/client/Minecraft;
+        26: getfield      #96                 // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+        29: aload_0
+        30: getfield      #7                  // Field this$0:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        33: getfield      #140                // Field com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.parent:Lcom/terraformersmc/modmenu/gui/ModsScreen;
+        36: invokevirtual #115                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+        39: return
+}
+Compiled from "ModsScreen.java"
+public class com.terraformersmc.modmenu.gui.ModsScreen extends net.minecraft.client.gui.screens.Screen {
+  private static final net.minecraft.resources.Identifier FILTERS_SPRITE_ENABLED;
+
+  private static final net.minecraft.resources.Identifier FILTERS_SPRITE_DISABLED;
+
+  private static final net.minecraft.resources.Identifier FILTERS_SPRITE_FOCUSED;
+
+  private static final net.minecraft.resources.Identifier CONFIGURE_SPRITE_ENABLED;
+
+  private static final net.minecraft.resources.Identifier CONFIGURE_SPRITE_DISABLED;
+
+  private static final net.minecraft.resources.Identifier CONFIGURE_SPRITE_FOCUSED;
+
+  private static final org.slf4j.Logger LOGGER;
+
+  private final net.minecraft.client.gui.screens.Screen previousScreen;
+
+  private com.terraformersmc.modmenu.gui.widget.entries.ModListEntry selected;
+
+  private com.terraformersmc.modmenu.util.mod.ModBadgeRenderer modBadgeRenderer;
+
+  private double scrollPercent;
+
+  private boolean keepFilterOptionsShown;
+
+  private boolean init;
+
+  private boolean filterOptionsShown;
+
+  private static final int RIGHT_PANE_Y;
+
+  private int paneWidth;
+
+  private int rightPaneX;
+
+  private int searchBoxX;
+
+  private int filtersX;
+
+  private int filtersWidth;
+
+  private int searchRowWidth;
+
+  public final java.util.Set<java.lang.String> showModChildren;
+
+  private net.minecraft.client.gui.components.EditBox searchBox;
+
+  private net.minecraft.client.gui.components.SpriteIconButton filtersButton;
+
+  private net.minecraft.client.gui.components.AbstractWidget sortingButton;
+
+  private net.minecraft.client.gui.components.AbstractWidget librariesButton;
+
+  private com.terraformersmc.modmenu.gui.widget.ModListWidget modList;
+
+  private net.minecraft.client.gui.components.SpriteIconButton configureButton;
+
+  private net.minecraft.client.gui.components.AbstractWidget websiteButton;
+
+  private net.minecraft.client.gui.components.AbstractWidget issuesButton;
+
+  private com.terraformersmc.modmenu.gui.widget.DescriptionListWidget descriptionListWidget;
+
+  public final java.util.Map<java.lang.String, java.lang.Boolean> modHasConfigScreen;
+
+  public final java.util.Map<java.lang.String, java.lang.Throwable> modScreenErrors;
+
+  private static final net.minecraft.network.chat.Component SEND_FEEDBACK_TEXT;
+
+  private static final net.minecraft.network.chat.Component REPORT_BUGS_TEXT;
+
+  static final boolean $assertionsDisabled;
+
+  public com.terraformersmc.modmenu.gui.ModsScreen(net.minecraft.client.gui.screens.Screen);
+    Code:
+         0: aload_0
+         1: getstatic     #1                  // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.TITLE:Lnet/minecraft/network/chat/Component;
+         4: invokespecial #7                  // Method net/minecraft/client/gui/screens/Screen."<init>":(Lnet/minecraft/network/chat/Component;)V
+         7: aload_0
+         8: dconst_0
+         9: putfield      #13                 // Field scrollPercent:D
+        12: aload_0
+        13: iconst_0
+        14: putfield      #19                 // Field keepFilterOptionsShown:Z
+        17: aload_0
+        18: iconst_0
+        19: putfield      #23                 // Field init:Z
+        22: aload_0
+        23: iconst_0
+        24: putfield      #26                 // Field filterOptionsShown:Z
+        27: aload_0
+        28: new           #29                 // class java/util/HashSet
+        31: dup
+        32: invokespecial #31                 // Method java/util/HashSet."<init>":()V
+        35: putfield      #34                 // Field showModChildren:Ljava/util/Set;
+        38: aload_0
+        39: new           #38                 // class java/util/HashMap
+        42: dup
+        43: invokespecial #40                 // Method java/util/HashMap."<init>":()V
+        46: putfield      #41                 // Field modHasConfigScreen:Ljava/util/Map;
+        49: aload_0
+        50: new           #38                 // class java/util/HashMap
+        53: dup
+        54: invokespecial #40                 // Method java/util/HashMap."<init>":()V
+        57: putfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+        60: aload_0
+        61: aload_1
+        62: putfield      #48                 // Field previousScreen:Lnet/minecraft/client/gui/screens/Screen;
+        65: return
+
+  protected void init();
+    Code:
+         0: getstatic     #52                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.CONFIG_MODE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+         3: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+         6: ifeq          14
+         9: bipush        48
+        11: goto          16
+        14: bipush        67
+        16: istore_1
+        17: aload_0
+        18: aload_0
+        19: getfield      #64                 // Field width:I
+        22: iconst_2
+        23: idiv
+        24: bipush        8
+        26: isub
+        27: putfield      #68                 // Field paneWidth:I
+        30: aload_0
+        31: aload_0
+        32: getfield      #64                 // Field width:I
+        35: aload_0
+        36: getfield      #68                 // Field paneWidth:I
+        39: isub
+        40: putfield      #71                 // Field rightPaneX:I
+        43: aload_0
+        44: new           #74                 // class com/terraformersmc/modmenu/gui/widget/ModListWidget
+        47: dup
+        48: aload_0
+        49: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+        52: aload_0
+        53: getfield      #68                 // Field paneWidth:I
+        56: aload_0
+        57: getfield      #80                 // Field height:I
+        60: iload_1
+        61: isub
+        62: bipush        36
+        64: isub
+        65: iload_1
+        66: getstatic     #83                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.COMPACT_LIST:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+        69: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+        72: ifeq          80
+        75: bipush        23
+        77: goto          82
+        80: bipush        36
+        82: aload_0
+        83: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        86: aload_0
+        87: invokespecial #90                 // Method com/terraformersmc/modmenu/gui/widget/ModListWidget."<init>":(Lnet/minecraft/client/Minecraft;IIIILcom/terraformersmc/modmenu/gui/widget/ModListWidget;Lcom/terraformersmc/modmenu/gui/ModsScreen;)V
+        90: putfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        93: aload_0
+        94: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        97: iconst_0
+        98: invokevirtual #93                 // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.setX:(I)V
+       101: getstatic     #52                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.CONFIG_MODE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       104: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       107: ifeq          114
+       110: iconst_0
+       111: goto          116
+       114: bipush        22
+       116: istore_2
+       117: aload_0
+       118: getfield      #68                 // Field paneWidth:I
+       121: bipush        32
+       123: isub
+       124: iload_2
+       125: isub
+       126: istore_3
+       127: getstatic     #52                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.CONFIG_MODE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       130: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       133: ifeq          146
+       136: sipush        200
+       139: iload_3
+       140: invokestatic  #97                 // Method java/lang/Math.min:(II)I
+       143: goto          147
+       146: iload_3
+       147: istore        4
+       149: aload_0
+       150: aload_0
+       151: getfield      #68                 // Field paneWidth:I
+       154: iconst_2
+       155: idiv
+       156: iload         4
+       158: iconst_2
+       159: idiv
+       160: isub
+       161: iload_2
+       162: iconst_2
+       163: idiv
+       164: isub
+       165: putfield      #103                // Field searchBoxX:I
+       168: aload_0
+       169: new           #106                // class net/minecraft/client/gui/components/EditBox
+       172: dup
+       173: aload_0
+       174: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       177: aload_0
+       178: getfield      #103                // Field searchBoxX:I
+       181: bipush        22
+       183: iload         4
+       185: bipush        20
+       187: aload_0
+       188: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+       191: getstatic     #116                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.SEARCH:Lnet/minecraft/network/chat/Component;
+       194: invokespecial #119                // Method net/minecraft/client/gui/components/EditBox."<init>":(Lnet/minecraft/client/gui/Font;IIIILnet/minecraft/client/gui/components/EditBox;Lnet/minecraft/network/chat/Component;)V
+       197: putfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+       200: aload_0
+       201: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+       204: aload_0
+       205: invokedynamic #122,  0            // InvokeDynamic #0:accept:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Ljava/util/function/Consumer;
+       210: invokevirtual #126                // Method net/minecraft/client/gui/components/EditBox.setResponder:(Ljava/util/function/Consumer;)V
+       213: getstatic     #130                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SORTING:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+       216: invokevirtual #134                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getButtonText:()Lnet/minecraft/network/chat/Component;
+       219: astore        5
+       221: getstatic     #140                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SHOW_LIBRARIES:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+       224: invokevirtual #134                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getButtonText:()Lnet/minecraft/network/chat/Component;
+       227: astore        6
+       229: aload_0
+       230: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       233: aload         5
+       235: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       238: bipush        28
+       240: iadd
+       241: istore        7
+       243: aload_0
+       244: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       247: aload         6
+       249: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       252: bipush        20
+       254: iadd
+       255: istore        8
+       257: aload_0
+       258: iload         8
+       260: iload         7
+       262: iadd
+       263: iconst_2
+       264: iadd
+       265: putfield      #148                // Field filtersWidth:I
+       268: aload_0
+       269: aload_0
+       270: getfield      #103                // Field searchBoxX:I
+       273: iload         4
+       275: iadd
+       276: bipush        22
+       278: iadd
+       279: putfield      #151                // Field searchRowWidth:I
+       282: aload_0
+       283: iconst_1
+       284: invokevirtual #154                // Method updateFiltersX:(Z)Z
+       287: pop
+       288: getstatic     #52                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.CONFIG_MODE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       291: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       294: ifne          378
+       297: aload_0
+       298: getstatic     #158                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.TOGGLE_FILTER_OPTIONS:Lnet/minecraft/network/chat/Component;
+       301: aload_0
+       302: invokedynamic #161,  0            // InvokeDynamic #1:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       307: iconst_1
+       308: invokestatic  #165                // Method net/minecraft/client/gui/components/SpriteIconButton.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;Z)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       311: bipush        20
+       313: bipush        20
+       315: invokevirtual #171                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.size:(II)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       318: getstatic     #158                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.TOGGLE_FILTER_OPTIONS:Lnet/minecraft/network/chat/Component;
+       321: invokevirtual #177                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.tooltip:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       324: new           #181                // class net/minecraft/client/gui/components/WidgetSprites
+       327: dup
+       328: getstatic     #183                // Field FILTERS_SPRITE_ENABLED:Lnet/minecraft/resources/Identifier;
+       331: getstatic     #187                // Field FILTERS_SPRITE_DISABLED:Lnet/minecraft/resources/Identifier;
+       334: getstatic     #190                // Field FILTERS_SPRITE_FOCUSED:Lnet/minecraft/resources/Identifier;
+       337: invokespecial #193                // Method net/minecraft/client/gui/components/WidgetSprites."<init>":(Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;)V
+       340: bipush        20
+       342: bipush        20
+       344: invokevirtual #196                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.sprite:(Lnet/minecraft/client/gui/components/WidgetSprites;II)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       347: invokevirtual #200                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.build:()Lnet/minecraft/client/gui/components/SpriteIconButton;
+       350: putfield      #204                // Field filtersButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       353: aload_0
+       354: getfield      #204                // Field filtersButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       357: aload_0
+       358: getfield      #68                 // Field paneWidth:I
+       361: iconst_2
+       362: idiv
+       363: iload         4
+       365: iconst_2
+       366: idiv
+       367: iadd
+       368: bipush        10
+       370: isub
+       371: iconst_2
+       372: iadd
+       373: bipush        22
+       375: invokevirtual #208                // Method net/minecraft/client/gui/components/SpriteIconButton.setPosition:(II)V
+       378: aload_0
+       379: aload         5
+       381: aload_0
+       382: invokedynamic #212,  0            // InvokeDynamic #2:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       387: invokestatic  #213                // Method net/minecraft/client/gui/components/Button.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;
+       390: aload_0
+       391: getfield      #218                // Field filtersX:I
+       394: bipush        45
+       396: invokevirtual #221                // Method net/minecraft/client/gui/components/Button$Builder.pos:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       399: iload         7
+       401: bipush        20
+       403: invokevirtual #227                // Method net/minecraft/client/gui/components/Button$Builder.size:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       406: invokevirtual #229                // Method net/minecraft/client/gui/components/Button$Builder.build:()Lnet/minecraft/client/gui/components/Button;
+       409: putfield      #232                // Field sortingButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       412: aload_0
+       413: aload         6
+       415: aload_0
+       416: invokedynamic #236,  0            // InvokeDynamic #3:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       421: invokestatic  #213                // Method net/minecraft/client/gui/components/Button.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;
+       424: aload_0
+       425: getfield      #218                // Field filtersX:I
+       428: iload         7
+       430: iadd
+       431: iconst_2
+       432: iadd
+       433: bipush        45
+       435: invokevirtual #221                // Method net/minecraft/client/gui/components/Button$Builder.pos:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       438: iload         8
+       440: bipush        20
+       442: invokevirtual #227                // Method net/minecraft/client/gui/components/Button$Builder.size:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       445: invokevirtual #229                // Method net/minecraft/client/gui/components/Button$Builder.build:()Lnet/minecraft/client/gui/components/Button;
+       448: putfield      #237                // Field librariesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       451: getstatic     #240                // Field com/terraformersmc/modmenu/config/ModMenuConfig.HIDE_CONFIG_BUTTONS:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       454: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       457: ifne          526
+       460: aload_0
+       461: getstatic     #243                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.CONFIGURE:Lnet/minecraft/network/chat/Component;
+       464: aload_0
+       465: invokedynamic #246,  0            // InvokeDynamic #4:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       470: iconst_1
+       471: invokestatic  #165                // Method net/minecraft/client/gui/components/SpriteIconButton.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;Z)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       474: bipush        20
+       476: bipush        20
+       478: invokevirtual #171                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.size:(II)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       481: new           #181                // class net/minecraft/client/gui/components/WidgetSprites
+       484: dup
+       485: getstatic     #247                // Field CONFIGURE_SPRITE_ENABLED:Lnet/minecraft/resources/Identifier;
+       488: getstatic     #250                // Field CONFIGURE_SPRITE_DISABLED:Lnet/minecraft/resources/Identifier;
+       491: getstatic     #253                // Field CONFIGURE_SPRITE_FOCUSED:Lnet/minecraft/resources/Identifier;
+       494: invokespecial #193                // Method net/minecraft/client/gui/components/WidgetSprites."<init>":(Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;)V
+       497: bipush        20
+       499: bipush        20
+       501: invokevirtual #196                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.sprite:(Lnet/minecraft/client/gui/components/WidgetSprites;II)Lnet/minecraft/client/gui/components/SpriteIconButton$Builder;
+       504: invokevirtual #200                // Method net/minecraft/client/gui/components/SpriteIconButton$Builder.build:()Lnet/minecraft/client/gui/components/SpriteIconButton;
+       507: putfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       510: aload_0
+       511: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       514: aload_0
+       515: getfield      #64                 // Field width:I
+       518: bipush        24
+       520: isub
+       521: bipush        48
+       523: invokevirtual #208                // Method net/minecraft/client/gui/components/SpriteIconButton.setPosition:(II)V
+       526: aload_0
+       527: getfield      #68                 // Field paneWidth:I
+       530: iconst_2
+       531: idiv
+       532: iconst_2
+       533: isub
+       534: istore        9
+       536: iload         9
+       538: sipush        200
+       541: invokestatic  #97                 // Method java/lang/Math.min:(II)I
+       544: istore        10
+       546: aload_0
+       547: getstatic     #259                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.WEBSITE:Lnet/minecraft/network/chat/Component;
+       550: aload_0
+       551: invokedynamic #262,  0            // InvokeDynamic #5:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       556: invokestatic  #213                // Method net/minecraft/client/gui/components/Button.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;
+       559: aload_0
+       560: getfield      #71                 // Field rightPaneX:I
+       563: iload         9
+       565: iconst_2
+       566: idiv
+       567: iadd
+       568: iload         10
+       570: iconst_2
+       571: idiv
+       572: isub
+       573: bipush        84
+       575: invokevirtual #221                // Method net/minecraft/client/gui/components/Button$Builder.pos:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       578: iload         9
+       580: sipush        200
+       583: invokestatic  #97                 // Method java/lang/Math.min:(II)I
+       586: bipush        20
+       588: invokevirtual #227                // Method net/minecraft/client/gui/components/Button$Builder.size:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       591: invokevirtual #229                // Method net/minecraft/client/gui/components/Button$Builder.build:()Lnet/minecraft/client/gui/components/Button;
+       594: putfield      #263                // Field websiteButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       597: aload_0
+       598: getstatic     #266                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.ISSUES:Lnet/minecraft/network/chat/Component;
+       601: aload_0
+       602: invokedynamic #269,  0            // InvokeDynamic #6:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       607: invokestatic  #213                // Method net/minecraft/client/gui/components/Button.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;
+       610: aload_0
+       611: getfield      #71                 // Field rightPaneX:I
+       614: iload         9
+       616: iadd
+       617: iconst_4
+       618: iadd
+       619: iload         9
+       621: iconst_2
+       622: idiv
+       623: iadd
+       624: iload         10
+       626: iconst_2
+       627: idiv
+       628: isub
+       629: bipush        84
+       631: invokevirtual #221                // Method net/minecraft/client/gui/components/Button$Builder.pos:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       634: iload         9
+       636: sipush        200
+       639: invokestatic  #97                 // Method java/lang/Math.min:(II)I
+       642: bipush        20
+       644: invokevirtual #227                // Method net/minecraft/client/gui/components/Button$Builder.size:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       647: invokevirtual #229                // Method net/minecraft/client/gui/components/Button$Builder.build:()Lnet/minecraft/client/gui/components/Button;
+       650: putfield      #270                // Field issuesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       653: aload_0
+       654: new           #273                // class com/terraformersmc/modmenu/gui/widget/DescriptionListWidget
+       657: dup
+       658: aload_0
+       659: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       662: aload_0
+       663: getfield      #68                 // Field paneWidth:I
+       666: aload_0
+       667: getfield      #80                 // Field height:I
+       670: bipush        48
+       672: isub
+       673: bipush        96
+       675: isub
+       676: bipush        108
+       678: aload_0
+       679: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       682: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       685: pop
+       686: bipush        9
+       688: iconst_1
+       689: iadd
+       690: aload_0
+       691: getfield      #281                // Field descriptionListWidget:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+       694: aload_0
+       695: invokespecial #285                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget."<init>":(Lnet/minecraft/client/Minecraft;IIIILcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;Lcom/terraformersmc/modmenu/gui/ModsScreen;)V
+       698: putfield      #281                // Field descriptionListWidget:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+       701: aload_0
+       702: getfield      #281                // Field descriptionListWidget:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+       705: aload_0
+       706: getfield      #71                 // Field rightPaneX:I
+       709: invokevirtual #288                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.setX:(I)V
+       712: getstatic     #289                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.MODS_FOLDER:Lnet/minecraft/network/chat/Component;
+       715: invokedynamic #292,  0            // InvokeDynamic #7:onPress:()Lnet/minecraft/client/gui/components/Button$OnPress;
+       720: invokestatic  #213                // Method net/minecraft/client/gui/components/Button.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;
+       723: aload_0
+       724: getfield      #64                 // Field width:I
+       727: iconst_2
+       728: idiv
+       729: sipush        154
+       732: isub
+       733: aload_0
+       734: getfield      #80                 // Field height:I
+       737: bipush        28
+       739: isub
+       740: invokevirtual #221                // Method net/minecraft/client/gui/components/Button$Builder.pos:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       743: sipush        150
+       746: bipush        20
+       748: invokevirtual #227                // Method net/minecraft/client/gui/components/Button$Builder.size:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       751: invokevirtual #229                // Method net/minecraft/client/gui/components/Button$Builder.build:()Lnet/minecraft/client/gui/components/Button;
+       754: astore        11
+       756: getstatic     #295                // Field net/minecraft/network/chat/CommonComponents.GUI_DONE:Lnet/minecraft/network/chat/Component;
+       759: aload_0
+       760: invokedynamic #300,  0            // InvokeDynamic #8:onPress:(Lcom/terraformersmc/modmenu/gui/ModsScreen;)Lnet/minecraft/client/gui/components/Button$OnPress;
+       765: invokestatic  #213                // Method net/minecraft/client/gui/components/Button.builder:(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;
+       768: aload_0
+       769: getfield      #64                 // Field width:I
+       772: iconst_2
+       773: idiv
+       774: iconst_4
+       775: iadd
+       776: aload_0
+       777: getfield      #80                 // Field height:I
+       780: bipush        28
+       782: isub
+       783: invokevirtual #221                // Method net/minecraft/client/gui/components/Button$Builder.pos:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       786: sipush        150
+       789: bipush        20
+       791: invokevirtual #227                // Method net/minecraft/client/gui/components/Button$Builder.size:(II)Lnet/minecraft/client/gui/components/Button$Builder;
+       794: invokevirtual #229                // Method net/minecraft/client/gui/components/Button$Builder.build:()Lnet/minecraft/client/gui/components/Button;
+       797: astore        12
+       799: aload_0
+       800: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+       803: invokevirtual #301                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.finalizeInit:()V
+       806: aload_0
+       807: aload_0
+       808: getfield      #19                 // Field keepFilterOptionsShown:Z
+       811: ifeq          825
+       814: aload_0
+       815: getfield      #26                 // Field filterOptionsShown:Z
+       818: ifeq          825
+       821: iconst_1
+       822: goto          826
+       825: iconst_0
+       826: invokevirtual #304                // Method setFilterOptionsShown:(Z)V
+       829: aload_0
+       830: aload_0
+       831: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+       834: invokevirtual #308                // Method addWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       837: pop
+       838: aload_0
+       839: aload_0
+       840: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+       843: invokevirtual #312                // Method setInitialFocus:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V
+       846: aload_0
+       847: getfield      #204                // Field filtersButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       850: ifnull        862
+       853: aload_0
+       854: aload_0
+       855: getfield      #204                // Field filtersButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       858: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       861: pop
+       862: aload_0
+       863: aload_0
+       864: getfield      #232                // Field sortingButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       867: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       870: pop
+       871: aload_0
+       872: aload_0
+       873: getfield      #237                // Field librariesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       876: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       879: pop
+       880: aload_0
+       881: aload_0
+       882: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+       885: invokevirtual #308                // Method addWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       888: pop
+       889: aload_0
+       890: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       893: ifnull        905
+       896: aload_0
+       897: aload_0
+       898: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       901: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       904: pop
+       905: aload_0
+       906: aload_0
+       907: getfield      #263                // Field websiteButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       910: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       913: pop
+       914: aload_0
+       915: aload_0
+       916: getfield      #270                // Field issuesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       919: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       922: pop
+       923: aload_0
+       924: aload_0
+       925: getfield      #281                // Field descriptionListWidget:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+       928: invokevirtual #308                // Method addWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       931: pop
+       932: aload_0
+       933: aload         11
+       935: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       938: pop
+       939: aload_0
+       940: aload         12
+       942: invokevirtual #316                // Method addRenderableWidget:(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+       945: pop
+       946: aload_0
+       947: iconst_1
+       948: putfield      #23                 // Field init:Z
+       951: aload_0
+       952: iconst_1
+       953: putfield      #19                 // Field keepFilterOptionsShown:Z
+       956: return
+
+  public boolean keyPressed(net.minecraft.client.input.KeyEvent);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: invokespecial #319                // Method net/minecraft/client/gui/screens/Screen.keyPressed:(Lnet/minecraft/client/input/KeyEvent;)Z
+         5: ifne          19
+         8: aload_0
+         9: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+        12: aload_1
+        13: invokevirtual #323                // Method net/minecraft/client/gui/components/EditBox.keyPressed:(Lnet/minecraft/client/input/KeyEvent;)Z
+        16: ifeq          23
+        19: iconst_1
+        20: goto          24
+        23: iconst_0
+        24: ireturn
+
+  public boolean charTyped(net.minecraft.client.input.CharacterEvent);
+    Code:
+         0: aload_0
+         1: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+         4: aload_1
+         5: invokevirtual #324                // Method net/minecraft/client/gui/components/EditBox.charTyped:(Lnet/minecraft/client/input/CharacterEvent;)Z
+         8: ireturn
+
+  public void extractRenderState(net.minecraft.client.gui.GuiGraphicsExtractor, int, int, float);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: fload         4
+         6: invokespecial #328                // Method net/minecraft/client/gui/screens/Screen.extractRenderState:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V
+         9: aload_0
+        10: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        13: astore        5
+        15: aload         5
+        17: ifnull        32
+        20: aload_0
+        21: getfield      #281                // Field descriptionListWidget:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        24: aload_1
+        25: iload_2
+        26: iload_3
+        27: fload         4
+        29: invokevirtual #336                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.extractRenderState:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V
+        32: aload_0
+        33: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        36: aload_1
+        37: iload_2
+        38: iload_3
+        39: fload         4
+        41: invokevirtual #337                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.extractRenderState:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V
+        44: aload_0
+        45: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+        48: aload_1
+        49: iload_2
+        50: iload_3
+        51: fload         4
+        53: invokevirtual #338                // Method net/minecraft/client/gui/components/EditBox.extractRenderState:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V
+        56: aload_1
+        57: aload_0
+        58: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+        61: aload_0
+        62: getfield      #339                // Field title:Lnet/minecraft/network/chat/Component;
+        65: aload_0
+        66: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        69: invokevirtual #342                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.getWidth:()I
+        72: iconst_2
+        73: idiv
+        74: bipush        8
+        76: iconst_m1
+        77: invokevirtual #346                // Method net/minecraft/client/gui/GuiGraphicsExtractor.centeredText:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+        80: ldc_w         #352                // int -5592406
+        83: istore        6
+        85: getstatic     #353                // Field com/terraformersmc/modmenu/config/ModMenuConfig.DISABLE_DRAG_AND_DROP:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+        88: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+        91: ifne          168
+        94: aload_1
+        95: aload_0
+        96: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+        99: getstatic     #356                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.DROP_INFO_LINE_1:Lnet/minecraft/network/chat/Component;
+       102: aload_0
+       103: getfield      #64                 // Field width:I
+       106: aload_0
+       107: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+       110: invokevirtual #342                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.getWidth:()I
+       113: iconst_2
+       114: idiv
+       115: isub
+       116: bipush        24
+       118: aload_0
+       119: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       122: getfield      #359                // Field net/minecraft/client/Minecraft.font:Lnet/minecraft/client/gui/Font;
+       125: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       128: pop
+       129: bipush        9
+       131: isub
+       132: iconst_1
+       133: isub
+       134: iload         6
+       136: invokevirtual #346                // Method net/minecraft/client/gui/GuiGraphicsExtractor.centeredText:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+       139: aload_1
+       140: aload_0
+       141: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       144: getstatic     #362                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.DROP_INFO_LINE_2:Lnet/minecraft/network/chat/Component;
+       147: aload_0
+       148: getfield      #64                 // Field width:I
+       151: aload_0
+       152: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+       155: invokevirtual #342                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.getWidth:()I
+       158: iconst_2
+       159: idiv
+       160: isub
+       161: bipush        25
+       163: iload         6
+       165: invokevirtual #346                // Method net/minecraft/client/gui/GuiGraphicsExtractor.centeredText:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V
+       168: getstatic     #52                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.CONFIG_MODE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       171: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       174: ifne          409
+       177: aload_0
+       178: iconst_1
+       179: iconst_0
+       180: invokevirtual #365                // Method computeModCountText:(ZZ)Lnet/minecraft/network/chat/Component;
+       183: astore        7
+       185: getstatic     #52                 // Field com/terraformersmc/modmenu/config/ModMenuConfig.CONFIG_MODE:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       188: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       191: ifne          409
+       194: aload_0
+       195: iconst_0
+       196: invokevirtual #154                // Method updateFiltersX:(Z)Z
+       199: ifeq          409
+       202: aload_0
+       203: getfield      #26                 // Field filterOptionsShown:Z
+       206: ifeq          309
+       209: aload_0
+       210: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       213: aload         7
+       215: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       218: aload_0
+       219: getfield      #218                // Field filtersX:I
+       222: iconst_5
+       223: isub
+       224: if_icmpgt     253
+       227: aload_1
+       228: aload_0
+       229: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       232: aload         7
+       234: invokeinterface #369,  1          // InterfaceMethod net/minecraft/network/chat/Component.getVisualOrderText:()Lnet/minecraft/util/FormattedCharSequence;
+       239: aload_0
+       240: getfield      #103                // Field searchBoxX:I
+       243: bipush        52
+       245: iconst_m1
+       246: iconst_1
+       247: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       250: goto          409
+       253: aload_1
+       254: aload_0
+       255: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       258: aload_0
+       259: iconst_0
+       260: iconst_0
+       261: invokevirtual #365                // Method computeModCountText:(ZZ)Lnet/minecraft/network/chat/Component;
+       264: invokeinterface #369,  1          // InterfaceMethod net/minecraft/network/chat/Component.getVisualOrderText:()Lnet/minecraft/util/FormattedCharSequence;
+       269: aload_0
+       270: getfield      #103                // Field searchBoxX:I
+       273: bipush        46
+       275: iconst_m1
+       276: iconst_1
+       277: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       280: aload_1
+       281: aload_0
+       282: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       285: aload_0
+       286: iconst_0
+       287: invokevirtual #379                // Method computeLibraryCountText:(Z)Lnet/minecraft/network/chat/Component;
+       290: invokeinterface #369,  1          // InterfaceMethod net/minecraft/network/chat/Component.getVisualOrderText:()Lnet/minecraft/util/FormattedCharSequence;
+       295: aload_0
+       296: getfield      #103                // Field searchBoxX:I
+       299: bipush        57
+       301: iconst_m1
+       302: iconst_1
+       303: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       306: goto          409
+       309: aload_0
+       310: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       313: aload         7
+       315: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       318: aload_0
+       319: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+       322: invokevirtual #342                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.getWidth:()I
+       325: iconst_5
+       326: isub
+       327: if_icmpgt     356
+       330: aload_1
+       331: aload_0
+       332: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       335: aload         7
+       337: invokeinterface #369,  1          // InterfaceMethod net/minecraft/network/chat/Component.getVisualOrderText:()Lnet/minecraft/util/FormattedCharSequence;
+       342: aload_0
+       343: getfield      #103                // Field searchBoxX:I
+       346: bipush        52
+       348: iconst_m1
+       349: iconst_1
+       350: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       353: goto          409
+       356: aload_1
+       357: aload_0
+       358: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       361: aload_0
+       362: iconst_0
+       363: iconst_0
+       364: invokevirtual #365                // Method computeModCountText:(ZZ)Lnet/minecraft/network/chat/Component;
+       367: invokeinterface #369,  1          // InterfaceMethod net/minecraft/network/chat/Component.getVisualOrderText:()Lnet/minecraft/util/FormattedCharSequence;
+       372: aload_0
+       373: getfield      #103                // Field searchBoxX:I
+       376: bipush        46
+       378: iconst_m1
+       379: iconst_1
+       380: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       383: aload_1
+       384: aload_0
+       385: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       388: aload_0
+       389: iconst_0
+       390: invokevirtual #379                // Method computeLibraryCountText:(Z)Lnet/minecraft/network/chat/Component;
+       393: invokeinterface #369,  1          // InterfaceMethod net/minecraft/network/chat/Component.getVisualOrderText:()Lnet/minecraft/util/FormattedCharSequence;
+       398: aload_0
+       399: getfield      #103                // Field searchBoxX:I
+       402: bipush        57
+       404: iconst_m1
+       405: iconst_1
+       406: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       409: aload         5
+       411: ifnull        921
+       414: aload         5
+       416: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+       419: astore        7
+       421: aload_0
+       422: getfield      #71                 // Field rightPaneX:I
+       425: istore        8
+       427: ldc_w         #389                // String java
+       430: aload         7
+       432: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+       437: invokevirtual #397                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       440: ifeq          457
+       443: aload         7
+       445: aload_1
+       446: iload         8
+       448: bipush        48
+       450: bipush        32
+       452: bipush        32
+       454: invokestatic  #403                // Method com/terraformersmc/modmenu/util/DrawingUtil.drawRandomVersionBackground:(Lcom/terraformersmc/modmenu/util/mod/Mod;Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIII)V
+       457: aload_1
+       458: getstatic     #409                // Field net/minecraft/client/renderer/RenderPipelines.GUI_TEXTURED:Lcom/mojang/blaze3d/pipeline/RenderPipeline;
+       461: aload_0
+       462: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+       465: invokevirtual #415                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getIconTexture:()Lnet/minecraft/resources/Identifier;
+       468: iload         8
+       470: bipush        48
+       472: fconst_0
+       473: fconst_0
+       474: bipush        32
+       476: bipush        32
+       478: bipush        32
+       480: bipush        32
+       482: iconst_m1
+       483: invokevirtual #419                // Method net/minecraft/client/gui/GuiGraphicsExtractor.blit:(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIIII)V
+       486: aload_0
+       487: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       490: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       493: pop
+       494: bipush        9
+       496: iconst_1
+       497: iadd
+       498: istore        9
+       500: bipush        36
+       502: istore        10
+       504: aload         7
+       506: invokeinterface #423,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getTranslatedName:()Ljava/lang/String;
+       511: invokestatic  #426                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       514: astore        11
+       516: aload         11
+       518: astore        12
+       520: aload_0
+       521: getfield      #64                 // Field width:I
+       524: iload         8
+       526: iload         10
+       528: iadd
+       529: isub
+       530: istore        13
+       532: aload_0
+       533: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       536: aload         11
+       538: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       541: iload         13
+       543: if_icmple     592
+       546: ldc_w         #430                // String ...
+       549: invokestatic  #432                // InterfaceMethod net/minecraft/network/chat/FormattedText.of:(Ljava/lang/String;)Lnet/minecraft/network/chat/FormattedText;
+       552: astore        14
+       554: iconst_2
+       555: anewarray     #433                // class net/minecraft/network/chat/FormattedText
+       558: dup
+       559: iconst_0
+       560: aload_0
+       561: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       564: aload         11
+       566: iload         13
+       568: aload_0
+       569: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       572: aload         14
+       574: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       577: isub
+       578: invokevirtual #438                // Method net/minecraft/client/gui/Font.substrByWidth:(Lnet/minecraft/network/chat/FormattedText;I)Lnet/minecraft/network/chat/FormattedText;
+       581: aastore
+       582: dup
+       583: iconst_1
+       584: aload         14
+       586: aastore
+       587: invokestatic  #442                // InterfaceMethod net/minecraft/network/chat/FormattedText.composite:([Lnet/minecraft/network/chat/FormattedText;)Lnet/minecraft/network/chat/FormattedText;
+       590: astore        12
+       592: aload_1
+       593: aload_0
+       594: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       597: invokestatic  #446                // Method net/minecraft/locale/Language.getInstance:()Lnet/minecraft/locale/Language;
+       600: aload         12
+       602: invokevirtual #452                // Method net/minecraft/locale/Language.getVisualOrder:(Lnet/minecraft/network/chat/FormattedText;)Lnet/minecraft/util/FormattedCharSequence;
+       605: iload         8
+       607: iload         10
+       609: iadd
+       610: bipush        49
+       612: iconst_m1
+       613: iconst_1
+       614: invokevirtual #375                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V
+       617: iload_2
+       618: iload         8
+       620: iload         10
+       622: iadd
+       623: if_icmple     684
+       626: iload_3
+       627: bipush        49
+       629: if_icmple     684
+       632: iload_3
+       633: bipush        49
+       635: aload_0
+       636: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       639: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+       642: pop
+       643: bipush        9
+       645: iadd
+       646: if_icmpge     684
+       649: iload_2
+       650: iload         8
+       652: iload         10
+       654: iadd
+       655: aload_0
+       656: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       659: aload         12
+       661: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       664: iadd
+       665: if_icmpge     684
+       668: aload_1
+       669: aload         7
+       671: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+       676: invokestatic  #456                // Method com/terraformersmc/modmenu/util/ModMenuScreenTexts.modIdTooltip:(Ljava/lang/String;)Lnet/minecraft/network/chat/Component;
+       679: iload_2
+       680: iload_3
+       681: invokevirtual #460                // Method net/minecraft/client/gui/GuiGraphicsExtractor.setTooltipForNextFrame:(Lnet/minecraft/network/chat/Component;II)V
+       684: aload_0
+       685: getfield      #23                 // Field init:Z
+       688: ifne          710
+       691: aload_0
+       692: getfield      #464                // Field modBadgeRenderer:Lcom/terraformersmc/modmenu/util/mod/ModBadgeRenderer;
+       695: ifnull        710
+       698: aload_0
+       699: getfield      #464                // Field modBadgeRenderer:Lcom/terraformersmc/modmenu/util/mod/ModBadgeRenderer;
+       702: invokevirtual #468                // Method com/terraformersmc/modmenu/util/mod/ModBadgeRenderer.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+       705: aload         7
+       707: if_acmpeq     761
+       710: aload_0
+       711: new           #469                // class com/terraformersmc/modmenu/util/mod/ModBadgeRenderer
+       714: dup
+       715: iload         8
+       717: iload         10
+       719: iadd
+       720: aload_0
+       721: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       724: getfield      #359                // Field net/minecraft/client/Minecraft.font:Lnet/minecraft/client/gui/Font;
+       727: aload         12
+       729: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+       732: iadd
+       733: iconst_2
+       734: iadd
+       735: bipush        48
+       737: aload_0
+       738: getfield      #64                 // Field width:I
+       741: bipush        28
+       743: isub
+       744: aload         5
+       746: getfield      #471                // Field com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.mod:Lcom/terraformersmc/modmenu/util/mod/Mod;
+       749: aload_0
+       750: invokespecial #475                // Method com/terraformersmc/modmenu/util/mod/ModBadgeRenderer."<init>":(IIILcom/terraformersmc/modmenu/util/mod/Mod;Lcom/terraformersmc/modmenu/gui/ModsScreen;)V
+       753: putfield      #464                // Field modBadgeRenderer:Lcom/terraformersmc/modmenu/util/mod/ModBadgeRenderer;
+       756: aload_0
+       757: iconst_0
+       758: putfield      #23                 // Field init:Z
+       761: getstatic     #478                // Field com/terraformersmc/modmenu/config/ModMenuConfig.HIDE_BADGES:Lcom/terraformersmc/modmenu/config/option/BooleanConfigOption;
+       764: invokevirtual #58                 // Method com/terraformersmc/modmenu/config/option/BooleanConfigOption.getValue:()Z
+       767: ifne          780
+       770: aload_0
+       771: getfield      #464                // Field modBadgeRenderer:Lcom/terraformersmc/modmenu/util/mod/ModBadgeRenderer;
+       774: aload_1
+       775: iload_2
+       776: iload_3
+       777: invokevirtual #481                // Method com/terraformersmc/modmenu/util/mod/ModBadgeRenderer.draw:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;II)V
+       780: aload         7
+       782: invokeinterface #485,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.isReal:()Z
+       787: ifeq          819
+       790: aload_1
+       791: aload_0
+       792: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+       795: aload         7
+       797: invokeinterface #488,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getPrefixedVersion:()Ljava/lang/String;
+       802: iload         8
+       804: iload         10
+       806: iadd
+       807: bipush        50
+       809: iload         9
+       811: iadd
+       812: ldc_w         #352                // int -5592406
+       815: iconst_1
+       816: invokevirtual #491                // Method net/minecraft/client/gui/GuiGraphicsExtractor.text:(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V
+       819: aload         7
+       821: invokeinterface #494,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getAuthors:()Ljava/util/List;
+       826: astore        15
+       828: aload         15
+       830: invokeinterface #498,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+       835: ifne          921
+       838: aload         15
+       840: invokeinterface #503,  1          // InterfaceMethod java/util/List.size:()I
+       845: iconst_1
+       846: if_icmple     865
+       849: ldc_w         #505                // String ,
+       852: invokestatic  #507                // Method com/google/common/base/Joiner.on:(Ljava/lang/String;)Lcom/google/common/base/Joiner;
+       855: aload         15
+       857: invokevirtual #513                // Method com/google/common/base/Joiner.join:(Ljava/lang/Iterable;)Ljava/lang/String;
+       860: astore        14
+       862: goto          877
+       865: aload         15
+       867: invokeinterface #517,  1          // InterfaceMethod java/util/List.getFirst:()Ljava/lang/Object;
+       872: checkcast     #398                // class java/lang/String
+       875: astore        14
+       877: aload_1
+       878: ldc_w         #521                // String modmenu.authorPrefix
+       881: iconst_1
+       882: anewarray     #523                // class java/lang/Object
+       885: dup
+       886: iconst_0
+       887: aload         14
+       889: aastore
+       890: invokestatic  #525                // Method net/minecraft/client/resources/language/I18n.get:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       893: iload         8
+       895: iload         10
+       897: iadd
+       898: bipush        50
+       900: iload         9
+       902: iconst_2
+       903: imul
+       904: iadd
+       905: aload_0
+       906: getfield      #68                 // Field paneWidth:I
+       909: iload         10
+       911: isub
+       912: iconst_4
+       913: isub
+       914: iconst_1
+       915: ldc_w         #352                // int -5592406
+       918: invokestatic  #531                // Method com/terraformersmc/modmenu/util/DrawingUtil.drawWrappedString:(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Ljava/lang/String;IIIII)V
+       921: return
+
+  private net.minecraft.network.chat.Component computeModCountText(boolean, boolean);
+    Code:
+         0: aload_0
+         1: getstatic     #535                // Field com/terraformersmc/modmenu/ModMenu.ROOT_MODS:Ljava/util/Map;
+         4: invokeinterface #540,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+         9: invokeinterface #546,  1          // InterfaceMethod java/util/Collection.stream:()Ljava/util/stream/Stream;
+        14: invokedynamic #552,  0            // InvokeDynamic #9:test:()Ljava/util/function/Predicate;
+        19: invokeinterface #556,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+        24: invokedynamic #562,  0            // InvokeDynamic #10:apply:()Ljava/util/function/Function;
+        29: invokeinterface #566,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        34: invokestatic  #570                // Method java/util/stream/Collectors.toSet:()Ljava/util/stream/Collector;
+        37: invokeinterface #576,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+        42: checkcast     #580                // class java/util/Set
+        45: iload_2
+        46: invokevirtual #582                // Method formatModCount:(Ljava/util/Set;Z)[I
+        49: astore_3
+        50: iload_1
+        51: ifeq          171
+        54: iload_2
+        55: ifne          171
+        58: getstatic     #140                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SHOW_LIBRARIES:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+        61: invokevirtual #586                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getValue:()Ljava/lang/Enum;
+        64: checkcast     #589                // class com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility
+        67: astore        4
+        69: aload_0
+        70: getstatic     #535                // Field com/terraformersmc/modmenu/ModMenu.ROOT_MODS:Ljava/util/Map;
+        73: invokeinterface #540,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+        78: invokeinterface #546,  1          // InterfaceMethod java/util/Collection.stream:()Ljava/util/stream/Stream;
+        83: aload_0
+        84: aload         4
+        86: invokedynamic #591,  0            // InvokeDynamic #11:test:(Lcom/terraformersmc/modmenu/gui/ModsScreen;Lcom/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility;)Ljava/util/function/Predicate;
+        91: invokeinterface #556,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+        96: invokedynamic #562,  0            // InvokeDynamic #10:apply:()Ljava/util/function/Function;
+       101: invokeinterface #566,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+       106: invokestatic  #570                // Method java/util/stream/Collectors.toSet:()Ljava/util/stream/Collector;
+       109: invokeinterface #576,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+       114: checkcast     #580                // class java/util/Set
+       117: iconst_0
+       118: invokevirtual #582                // Method formatModCount:(Ljava/util/Set;Z)[I
+       121: astore        5
+       123: aload         5
+       125: arraylength
+       126: iconst_1
+       127: if_icmpne     137
+       130: aload         5
+       132: iconst_0
+       133: iaload
+       134: ifne          151
+       137: aload         5
+       139: arraylength
+       140: iconst_2
+       141: if_icmpne     171
+       144: aload         5
+       146: iconst_1
+       147: iaload
+       148: ifeq          171
+       151: ldc_w         #594                // String modmenu.showingModsLibraries
+       154: iconst_2
+       155: anewarray     #596                // class "[I"
+       158: dup
+       159: iconst_0
+       160: aload_3
+       161: aastore
+       162: dup
+       163: iconst_1
+       164: aload         5
+       166: aastore
+       167: invokestatic  #598                // Method com/terraformersmc/modmenu/util/TranslationUtil.translateNumeric:(Ljava/lang/String;[[I)Lnet/minecraft/network/chat/Component;
+       170: areturn
+       171: ldc_w         #604                // String modmenu.showingMods
+       174: iconst_1
+       175: anewarray     #596                // class "[I"
+       178: dup
+       179: iconst_0
+       180: aload_3
+       181: aastore
+       182: invokestatic  #598                // Method com/terraformersmc/modmenu/util/TranslationUtil.translateNumeric:(Ljava/lang/String;[[I)Lnet/minecraft/network/chat/Component;
+       185: areturn
+
+  private net.minecraft.network.chat.Component computeLibraryCountText(boolean);
+    Code:
+         0: getstatic     #140                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SHOW_LIBRARIES:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+         3: invokevirtual #586                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getValue:()Ljava/lang/Enum;
+         6: checkcast     #589                // class com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility
+         9: astore_2
+        10: iload_1
+        11: ifne          81
+        14: aload_0
+        15: getstatic     #535                // Field com/terraformersmc/modmenu/ModMenu.ROOT_MODS:Ljava/util/Map;
+        18: invokeinterface #540,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+        23: invokeinterface #546,  1          // InterfaceMethod java/util/Collection.stream:()Ljava/util/stream/Stream;
+        28: aload_0
+        29: aload_2
+        30: invokedynamic #606,  0            // InvokeDynamic #12:test:(Lcom/terraformersmc/modmenu/gui/ModsScreen;Lcom/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility;)Ljava/util/function/Predicate;
+        35: invokeinterface #556,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+        40: invokedynamic #562,  0            // InvokeDynamic #10:apply:()Ljava/util/function/Function;
+        45: invokeinterface #566,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        50: invokestatic  #570                // Method java/util/stream/Collectors.toSet:()Ljava/util/stream/Collector;
+        53: invokeinterface #576,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+        58: checkcast     #580                // class java/util/Set
+        61: iconst_0
+        62: invokevirtual #582                // Method formatModCount:(Ljava/util/Set;Z)[I
+        65: astore_3
+        66: ldc_w         #607                // String modmenu.showingLibraries
+        69: iconst_1
+        70: anewarray     #596                // class "[I"
+        73: dup
+        74: iconst_0
+        75: aload_3
+        76: aastore
+        77: invokestatic  #598                // Method com/terraformersmc/modmenu/util/TranslationUtil.translateNumeric:(Ljava/lang/String;[[I)Lnet/minecraft/network/chat/Component;
+        80: areturn
+        81: invokestatic  #609                // InterfaceMethod net/minecraft/network/chat/Component.empty:()Lnet/minecraft/network/chat/MutableComponent;
+        84: areturn
+
+  private int[] formatModCount(java.util.Set<java.lang.String>, boolean);
+    Code:
+         0: aload_0
+         1: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+         4: aload_1
+         5: invokevirtual #613                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.getDisplayedCountFor:(Ljava/util/Set;)I
+         8: istore_3
+         9: aload_1
+        10: invokeinterface #617,  1          // InterfaceMethod java/util/Set.size:()I
+        15: istore        4
+        17: iload_3
+        18: iload         4
+        20: if_icmpeq     27
+        23: iload_2
+        24: ifeq          36
+        27: iconst_1
+        28: newarray       int
+        30: dup
+        31: iconst_0
+        32: iload         4
+        34: iastore
+        35: areturn
+        36: iconst_2
+        37: newarray       int
+        39: dup
+        40: iconst_0
+        41: iload_3
+        42: iastore
+        43: dup
+        44: iconst_1
+        45: iload         4
+        47: iastore
+        48: areturn
+
+  public void onClose();
+    Code:
+         0: aload_0
+         1: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+         4: invokevirtual #618                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.close:()V
+         7: aload_0
+         8: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+        11: getfield      #621                // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+        14: aload_0
+        15: getfield      #48                 // Field previousScreen:Lnet/minecraft/client/gui/screens/Screen;
+        18: invokevirtual #625                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+        21: return
+
+  private void setFilterOptionsShown(boolean);
+    Code:
+         0: aload_0
+         1: iload_1
+         2: putfield      #26                 // Field filterOptionsShown:Z
+         5: aload_0
+         6: getfield      #232                // Field sortingButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+         9: iload_1
+        10: putfield      #631                // Field net/minecraft/client/gui/components/AbstractWidget.visible:Z
+        13: aload_0
+        14: getfield      #237                // Field librariesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+        17: iload_1
+        18: putfield      #631                // Field net/minecraft/client/gui/components/AbstractWidget.visible:Z
+        21: return
+
+  public com.terraformersmc.modmenu.gui.widget.entries.ModListEntry getSelectedEntry();
+    Code:
+         0: aload_0
+         1: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+         4: areturn
+
+  public void updateSelectedEntry(com.terraformersmc.modmenu.gui.widget.entries.ModListEntry);
+    Code:
+         0: aload_1
+         1: ifnonnull     5
+         4: return
+         5: aload_0
+         6: aload_1
+         7: putfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        10: aload_0
+        11: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        14: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        17: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+        22: astore_2
+        23: aload_0
+        24: getfield      #281                // Field descriptionListWidget:Lcom/terraformersmc/modmenu/gui/widget/DescriptionListWidget;
+        27: aload_0
+        28: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        31: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        34: invokevirtual #636                // Method com/terraformersmc/modmenu/gui/widget/DescriptionListWidget.updateSelectedMod:(Lcom/terraformersmc/modmenu/util/mod/Mod;)V
+        37: aload_0
+        38: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+        41: ifnull        147
+        44: aload_0
+        45: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+        48: aload_0
+        49: aload_2
+        50: invokevirtual #640                // Method getModHasConfigScreen:(Ljava/lang/String;)Z
+        53: putfield      #644                // Field net/minecraft/client/gui/components/SpriteIconButton.active:Z
+        56: aload_0
+        57: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+        60: aload_0
+        61: aload_2
+        62: invokevirtual #640                // Method getModHasConfigScreen:(Ljava/lang/String;)Z
+        65: ifne          81
+        68: aload_0
+        69: getfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+        72: aload_2
+        73: invokeinterface #647,  2          // InterfaceMethod java/util/Map.containsKey:(Ljava/lang/Object;)Z
+        78: ifeq          85
+        81: iconst_1
+        82: goto          86
+        85: iconst_0
+        86: putfield      #650                // Field net/minecraft/client/gui/components/SpriteIconButton.visible:Z
+        89: aload_0
+        90: getfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+        93: aload_2
+        94: invokeinterface #647,  2          // InterfaceMethod java/util/Map.containsKey:(Ljava/lang/Object;)Z
+        99: ifeq          134
+       102: aload_0
+       103: getfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+       106: aload_2
+       107: invokeinterface #651,  2          // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+       112: checkcast     #653                // class java/lang/Throwable
+       115: astore_3
+       116: aload_0
+       117: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       120: aload_2
+       121: aload_3
+       122: invokestatic  #655                // Method com/terraformersmc/modmenu/util/ModMenuScreenTexts.configureError:(Ljava/lang/String;Ljava/lang/Throwable;)Lnet/minecraft/network/chat/Component;
+       125: invokestatic  #659                // Method net/minecraft/client/gui/components/Tooltip.create:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/client/gui/components/Tooltip;
+       128: invokevirtual #665                // Method net/minecraft/client/gui/components/SpriteIconButton.setTooltip:(Lnet/minecraft/client/gui/components/Tooltip;)V
+       131: goto          147
+       134: aload_0
+       135: getfield      #256                // Field configureButton:Lnet/minecraft/client/gui/components/SpriteIconButton;
+       138: getstatic     #243                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.CONFIGURE:Lnet/minecraft/network/chat/Component;
+       141: invokestatic  #659                // Method net/minecraft/client/gui/components/Tooltip.create:(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/client/gui/components/Tooltip;
+       144: invokevirtual #665                // Method net/minecraft/client/gui/components/SpriteIconButton.setTooltip:(Lnet/minecraft/client/gui/components/Tooltip;)V
+       147: aload_2
+       148: ldc_w         #669                // String minecraft
+       151: invokevirtual #397                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+       154: istore_3
+       155: aload_0
+       156: getfield      #263                // Field websiteButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       159: iload_3
+       160: ifeq          169
+       163: getstatic     #670                // Field SEND_FEEDBACK_TEXT:Lnet/minecraft/network/chat/Component;
+       166: goto          172
+       169: getstatic     #259                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.WEBSITE:Lnet/minecraft/network/chat/Component;
+       172: invokevirtual #673                // Method net/minecraft/client/gui/components/AbstractWidget.setMessage:(Lnet/minecraft/network/chat/Component;)V
+       175: aload_0
+       176: getfield      #270                // Field issuesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       179: iload_3
+       180: ifeq          189
+       183: getstatic     #676                // Field REPORT_BUGS_TEXT:Lnet/minecraft/network/chat/Component;
+       186: goto          192
+       189: getstatic     #266                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.ISSUES:Lnet/minecraft/network/chat/Component;
+       192: invokevirtual #673                // Method net/minecraft/client/gui/components/AbstractWidget.setMessage:(Lnet/minecraft/network/chat/Component;)V
+       195: aload_0
+       196: getfield      #263                // Field websiteButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       199: iconst_1
+       200: putfield      #631                // Field net/minecraft/client/gui/components/AbstractWidget.visible:Z
+       203: aload_0
+       204: getfield      #263                // Field websiteButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       207: iload_3
+       208: ifne          226
+       211: aload_0
+       212: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+       215: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+       218: invokeinterface #679,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getWebsite:()Ljava/lang/String;
+       223: ifnull        230
+       226: iconst_1
+       227: goto          231
+       230: iconst_0
+       231: putfield      #682                // Field net/minecraft/client/gui/components/AbstractWidget.active:Z
+       234: aload_0
+       235: getfield      #270                // Field issuesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       238: iconst_1
+       239: putfield      #631                // Field net/minecraft/client/gui/components/AbstractWidget.visible:Z
+       242: aload_0
+       243: getfield      #270                // Field issuesButton:Lnet/minecraft/client/gui/components/AbstractWidget;
+       246: iload_3
+       247: ifne          265
+       250: aload_0
+       251: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+       254: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+       257: invokeinterface #683,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getIssueTracker:()Ljava/lang/String;
+       262: ifnull        269
+       265: iconst_1
+       266: goto          270
+       269: iconst_0
+       270: putfield      #682                // Field net/minecraft/client/gui/components/AbstractWidget.active:Z
+       273: return
+
+  public void updateScrollPercent(double);
+    Code:
+         0: aload_0
+         1: dload_1
+         2: putfield      #13                 // Field scrollPercent:D
+         5: return
+
+  public java.lang.String getSearchInput();
+    Code:
+         0: aload_0
+         1: getfield      #112                // Field searchBox:Lnet/minecraft/client/gui/components/EditBox;
+         4: invokevirtual #686                // Method net/minecraft/client/gui/components/EditBox.getValue:()Ljava/lang/String;
+         7: areturn
+
+  private boolean updateFiltersX(boolean);
+    Code:
+         0: aload_0
+         1: getfield      #148                // Field filtersWidth:I
+         4: aload_0
+         5: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+         8: aload_0
+         9: iconst_1
+        10: iload_1
+        11: invokevirtual #365                // Method computeModCountText:(ZZ)Lnet/minecraft/network/chat/Component;
+        14: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+        17: iadd
+        18: bipush        20
+        20: iadd
+        21: aload_0
+        22: getfield      #151                // Field searchRowWidth:I
+        25: if_icmplt     113
+        28: aload_0
+        29: getfield      #148                // Field filtersWidth:I
+        32: aload_0
+        33: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+        36: aload_0
+        37: iconst_0
+        38: iload_1
+        39: invokevirtual #365                // Method computeModCountText:(ZZ)Lnet/minecraft/network/chat/Component;
+        42: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+        45: iadd
+        46: bipush        20
+        48: iadd
+        49: aload_0
+        50: getfield      #151                // Field searchRowWidth:I
+        53: if_icmpge     83
+        56: aload_0
+        57: getfield      #148                // Field filtersWidth:I
+        60: aload_0
+        61: getfield      #108                // Field font:Lnet/minecraft/client/gui/Font;
+        64: aload_0
+        65: iload_1
+        66: invokevirtual #379                // Method computeLibraryCountText:(Z)Lnet/minecraft/network/chat/Component;
+        69: invokevirtual #143                // Method net/minecraft/client/gui/Font.width:(Lnet/minecraft/network/chat/FormattedText;)I
+        72: iadd
+        73: bipush        20
+        75: iadd
+        76: aload_0
+        77: getfield      #151                // Field searchRowWidth:I
+        80: if_icmplt     113
+        83: aload_0
+        84: aload_0
+        85: getfield      #68                 // Field paneWidth:I
+        88: iconst_2
+        89: idiv
+        90: aload_0
+        91: getfield      #148                // Field filtersWidth:I
+        94: iconst_2
+        95: idiv
+        96: isub
+        97: putfield      #218                // Field filtersX:I
+       100: aload_0
+       101: getfield      #26                 // Field filterOptionsShown:Z
+       104: ifne          111
+       107: iconst_1
+       108: goto          112
+       111: iconst_0
+       112: ireturn
+       113: aload_0
+       114: aload_0
+       115: getfield      #151                // Field searchRowWidth:I
+       118: aload_0
+       119: getfield      #148                // Field filtersWidth:I
+       122: isub
+       123: iconst_1
+       124: iadd
+       125: putfield      #218                // Field filtersX:I
+       128: iconst_1
+       129: ireturn
+
+  public void onFilesDrop(java.util.List<java.nio.file.Path>);
+    Code:
+         0: invokestatic  #688                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+         3: invokeinterface #693,  1          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getGameDir:()Ljava/nio/file/Path;
+         8: ldc_w         #697                // String mods
+        11: invokeinterface #699,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+        16: astore_2
+        17: aload_1
+        18: invokeinterface #705,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+        23: invokedynamic #706,  0            // InvokeDynamic #13:test:()Ljava/util/function/Predicate;
+        28: invokeinterface #556,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+        33: invokeinterface #707,  1          // InterfaceMethod java/util/stream/Stream.toList:()Ljava/util/List;
+        38: astore_3
+        39: aload_3
+        40: invokeinterface #498,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+        45: ifeq          49
+        48: return
+        49: aload_3
+        50: invokeinterface #705,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+        55: invokedynamic #710,  0            // InvokeDynamic #14:apply:()Ljava/util/function/Function;
+        60: invokeinterface #566,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        65: invokedynamic #711,  0            // InvokeDynamic #15:apply:()Ljava/util/function/Function;
+        70: invokeinterface #566,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+        75: ldc_w         #505                // String ,
+        78: invokestatic  #712                // Method java/util/stream/Collectors.joining:(Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+        81: invokeinterface #576,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+        86: checkcast     #398                // class java/lang/String
+        89: astore        4
+        91: getstatic     #716                // Field $assertionsDisabled:Z
+        94: ifne          112
+        97: aload_0
+        98: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       101: ifnonnull     112
+       104: new           #719                // class java/lang/AssertionError
+       107: dup
+       108: invokespecial #721                // Method java/lang/AssertionError."<init>":()V
+       111: athrow
+       112: aload_0
+       113: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       116: getfield      #621                // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+       119: new           #722                // class net/minecraft/client/gui/screens/ConfirmScreen
+       122: dup
+       123: aload_0
+       124: aload_3
+       125: aload_2
+       126: invokedynamic #724,  0            // InvokeDynamic #16:accept:(Lcom/terraformersmc/modmenu/gui/ModsScreen;Ljava/util/List;Ljava/nio/file/Path;)Lit/unimi/dsi/fastutil/booleans/BooleanConsumer;
+       131: getstatic     #727                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.DROP_CONFIRM:Lnet/minecraft/network/chat/Component;
+       134: aload         4
+       136: invokestatic  #426                // InterfaceMethod net/minecraft/network/chat/Component.literal:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       139: invokespecial #730                // Method net/minecraft/client/gui/screens/ConfirmScreen."<init>":(Lit/unimi/dsi/fastutil/booleans/BooleanConsumer;Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;)V
+       142: invokevirtual #625                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+       145: return
+
+  private static boolean isValidMod(java.nio.file.Path);
+    Code:
+         0: new           #733                // class java/util/jar/JarFile
+         3: dup
+         4: aload_0
+         5: invokeinterface #735,  1          // InterfaceMethod java/nio/file/Path.toFile:()Ljava/io/File;
+        10: invokespecial #739                // Method java/util/jar/JarFile."<init>":(Ljava/io/File;)V
+        13: astore_1
+        14: aload_1
+        15: ldc_w         #742                // String fabric.mod.json
+        18: invokevirtual #744                // Method java/util/jar/JarFile.getEntry:(Ljava/lang/String;)Ljava/util/zip/ZipEntry;
+        21: ifnull        28
+        24: iconst_1
+        25: goto          29
+        28: iconst_0
+        29: istore_2
+        30: getstatic     #748                // Field com/terraformersmc/modmenu/ModMenu.RUNNING_QUILT:Z
+        33: ifne          44
+        36: iload_2
+        37: istore_3
+        38: aload_1
+        39: invokevirtual #751                // Method java/util/jar/JarFile.close:()V
+        42: iload_3
+        43: ireturn
+        44: iload_2
+        45: ifne          58
+        48: aload_1
+        49: ldc_w         #752                // String quilt.mod.json
+        52: invokevirtual #744                // Method java/util/jar/JarFile.getEntry:(Ljava/lang/String;)Ljava/util/zip/ZipEntry;
+        55: ifnull        62
+        58: iconst_1
+        59: goto          63
+        62: iconst_0
+        63: istore_3
+        64: aload_1
+        65: invokevirtual #751                // Method java/util/jar/JarFile.close:()V
+        68: iload_3
+        69: ireturn
+        70: astore_2
+        71: aload_1
+        72: invokevirtual #751                // Method java/util/jar/JarFile.close:()V
+        75: goto          84
+        78: astore_3
+        79: aload_2
+        80: aload_3
+        81: invokevirtual #754                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+        84: aload_2
+        85: athrow
+        86: astore_1
+        87: iconst_0
+        88: ireturn
+      Exception table:
+         from    to  target type
+            14    38    70   Class java/lang/Throwable
+            44    64    70   Class java/lang/Throwable
+            71    75    78   Class java/lang/Throwable
+             0    42    86   Class java/io/IOException
+            44    68    86   Class java/io/IOException
+            70    86    86   Class java/io/IOException
+
+  private static java.nio.file.Path getModsFolder();
+    Code:
+         0: invokestatic  #688                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+         3: ldc_w         #760                // String modmenu
+         6: invokeinterface #762,  2          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getModContainer:(Ljava/lang/String;)Ljava/util/Optional;
+        11: invokevirtual #766                // Method java/util/Optional.orElseThrow:()Ljava/lang/Object;
+        14: checkcast     #771                // class net/fabricmc/loader/api/ModContainer
+        17: astore_0
+        18: aload_0
+        19: invokeinterface #773,  1          // InterfaceMethod net/fabricmc/loader/api/ModContainer.getContainingMod:()Ljava/util/Optional;
+        24: invokevirtual #777                // Method java/util/Optional.isPresent:()Z
+        27: ifeq          46
+        30: aload_0
+        31: invokeinterface #773,  1          // InterfaceMethod net/fabricmc/loader/api/ModContainer.getContainingMod:()Ljava/util/Optional;
+        36: invokevirtual #780                // Method java/util/Optional.get:()Ljava/lang/Object;
+        39: checkcast     #771                // class net/fabricmc/loader/api/ModContainer
+        42: astore_0
+        43: goto          18
+        46: aload_0
+        47: invokeinterface #782,  1          // InterfaceMethod net/fabricmc/loader/api/ModContainer.getOrigin:()Lnet/fabricmc/loader/api/metadata/ModOrigin;
+        52: invokeinterface #786,  1          // InterfaceMethod net/fabricmc/loader/api/metadata/ModOrigin.getKind:()Lnet/fabricmc/loader/api/metadata/ModOrigin$Kind;
+        57: getstatic     #792                // Field net/fabricmc/loader/api/metadata/ModOrigin$Kind.PATH:Lnet/fabricmc/loader/api/metadata/ModOrigin$Kind;
+        60: if_acmpne     88
+        63: aload_0
+        64: invokeinterface #782,  1          // InterfaceMethod net/fabricmc/loader/api/ModContainer.getOrigin:()Lnet/fabricmc/loader/api/metadata/ModOrigin;
+        69: invokeinterface #798,  1          // InterfaceMethod net/fabricmc/loader/api/metadata/ModOrigin.getPaths:()Ljava/util/List;
+        74: invokeinterface #517,  1          // InterfaceMethod java/util/List.getFirst:()Ljava/lang/Object;
+        79: checkcast     #700                // class java/nio/file/Path
+        82: invokeinterface #801,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+        87: areturn
+        88: invokestatic  #688                // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getInstance:()Lnet/fabricmc/loader/api/FabricLoader;
+        91: invokeinterface #693,  1          // InterfaceMethod net/fabricmc/loader/api/FabricLoader.getGameDir:()Ljava/nio/file/Path;
+        96: ldc_w         #697                // String mods
+        99: invokeinterface #699,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+       104: areturn
+
+  public boolean getModHasConfigScreen(java.lang.String);
+    Code:
+         0: aload_0
+         1: getfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+         4: aload_1
+         5: invokeinterface #647,  2          // InterfaceMethod java/util/Map.containsKey:(Ljava/lang/Object;)Z
+        10: ifeq          15
+        13: iconst_0
+        14: ireturn
+        15: aload_0
+        16: getfield      #41                 // Field modHasConfigScreen:Ljava/util/Map;
+        19: aload_1
+        20: invokedynamic #804,  0            // InvokeDynamic #17:apply:()Ljava/util/function/Function;
+        25: invokeinterface #805,  3          // InterfaceMethod java/util/Map.computeIfAbsent:(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+        30: checkcast     #809                // class java/lang/Boolean
+        33: invokevirtual #811                // Method java/lang/Boolean.booleanValue:()Z
+        36: ireturn
+
+  public void safelyOpenConfigScreen(java.lang.String);
+    Code:
+         0: aload_1
+         1: aload_0
+         2: invokestatic  #814                // Method com/terraformersmc/modmenu/ModMenu.getConfigScreen:(Ljava/lang/String;Lnet/minecraft/client/gui/screens/Screen;)Lnet/minecraft/client/gui/screens/Screen;
+         5: astore_2
+         6: aload_2
+         7: ifnull        42
+        10: getstatic     #716                // Field $assertionsDisabled:Z
+        13: ifne          31
+        16: aload_0
+        17: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+        20: ifnonnull     31
+        23: new           #719                // class java/lang/AssertionError
+        26: dup
+        27: invokespecial #721                // Method java/lang/AssertionError."<init>":()V
+        30: athrow
+        31: aload_0
+        32: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+        35: getfield      #621                // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+        38: aload_2
+        39: invokevirtual #625                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+        42: goto          103
+        45: astore_2
+        46: getstatic     #820                // Field LOGGER:Lorg/slf4j/Logger;
+        49: ldc_w         #824                // String The \'{}\' mod config screen is not available because {} is missing.
+        52: aload_1
+        53: aload_2
+        54: invokevirtual #826                // Method java/lang/NoClassDefFoundError.getLocalizedMessage:()Ljava/lang/String;
+        57: invokeinterface #829,  4          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        62: aload_0
+        63: getfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+        66: aload_1
+        67: aload_2
+        68: invokeinterface #835,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+        73: pop
+        74: goto          103
+        77: astore_2
+        78: getstatic     #820                // Field LOGGER:Lorg/slf4j/Logger;
+        81: ldc_w         #839                // String Error from mod \'{}\'
+        84: aload_1
+        85: aload_2
+        86: invokeinterface #841,  4          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        91: aload_0
+        92: getfield      #45                 // Field modScreenErrors:Ljava/util/Map;
+        95: aload_1
+        96: aload_2
+        97: invokeinterface #835,  3          // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       102: pop
+       103: return
+      Exception table:
+         from    to  target type
+             0    42    45   Class java/lang/NoClassDefFoundError
+             0    42    77   Class java/lang/Throwable
+
+  private void lambda$onFilesDrop$0(java.util.List, java.nio.file.Path, boolean);
+    Code:
+         0: iload_3
+         1: ifeq          141
+         4: iconst_1
+         5: istore        4
+         7: aload_1
+         8: invokeinterface #844,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+        13: astore        5
+        15: aload         5
+        17: invokeinterface #848,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        22: ifeq          114
+        25: aload         5
+        27: invokeinterface #853,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        32: checkcast     #700                // class java/nio/file/Path
+        35: astore        6
+        37: aload         6
+        39: aload_2
+        40: aload         6
+        42: invokeinterface #856,  1          // InterfaceMethod java/nio/file/Path.getFileName:()Ljava/nio/file/Path;
+        47: invokeinterface #859,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+        52: iconst_0
+        53: anewarray     #862                // class java/nio/file/CopyOption
+        56: invokestatic  #864                // Method java/nio/file/Files.copy:(Ljava/nio/file/Path;Ljava/nio/file/Path;[Ljava/nio/file/CopyOption;)Ljava/nio/file/Path;
+        59: pop
+        60: goto          111
+        63: astore        7
+        65: getstatic     #820                // Field LOGGER:Lorg/slf4j/Logger;
+        68: ldc_w         #870                // String Failed to copy mod from {} to {}
+        71: aload         6
+        73: aload_2
+        74: aload         6
+        76: invokeinterface #856,  1          // InterfaceMethod java/nio/file/Path.getFileName:()Ljava/nio/file/Path;
+        81: invokeinterface #859,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/nio/file/Path;)Ljava/nio/file/Path;
+        86: invokeinterface #829,  4          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+        91: aload_0
+        92: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+        95: aload         6
+        97: invokeinterface #872,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+       102: invokestatic  #875                // Method net/minecraft/client/gui/components/toasts/SystemToast.onPackCopyFailure:(Lnet/minecraft/client/Minecraft;Ljava/lang/String;)V
+       105: iconst_0
+       106: istore        4
+       108: goto          114
+       111: goto          15
+       114: iload         4
+       116: ifeq          141
+       119: aload_0
+       120: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       123: getfield      #621                // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+       126: invokevirtual #881                // Method net/minecraft/client/gui/Gui.toastManager:()Lnet/minecraft/client/gui/components/toasts/ToastManager;
+       129: getstatic     #885                // Field net/minecraft/client/gui/components/toasts/SystemToast$SystemToastId.PERIODIC_NOTIFICATION:Lnet/minecraft/client/gui/components/toasts/SystemToast$SystemToastId;
+       132: getstatic     #891                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.DROP_SUCCESSFUL_LINE_1:Lnet/minecraft/network/chat/Component;
+       135: getstatic     #894                // Field com/terraformersmc/modmenu/util/ModMenuScreenTexts.DROP_SUCCESSFUL_LINE_2:Lnet/minecraft/network/chat/Component;
+       138: invokestatic  #897                // Method net/minecraft/client/gui/components/toasts/SystemToast.add:(Lnet/minecraft/client/gui/components/toasts/ToastManager;Lnet/minecraft/client/gui/components/toasts/SystemToast$SystemToastId;Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/Component;)V
+       141: aload_0
+       142: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+       145: getfield      #621                // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+       148: aload_0
+       149: invokevirtual #625                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+       152: return
+      Exception table:
+         from    to  target type
+            37    60    63   Class java/io/IOException
+
+  private boolean lambda$computeLibraryCountText$0(com.terraformersmc.modmenu.config.ModMenuConfig$LibraryVisibility, com.terraformersmc.modmenu.util.mod.Mod);
+    Code:
+         0: aload_2
+         1: invokeinterface #901,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.isHidden:()Z
+         6: ifne          48
+         9: aload_2
+        10: invokeinterface #904,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getBadges:()Ljava/util/Set;
+        15: getstatic     #908                // Field com/terraformersmc/modmenu/util/mod/Mod$Badge.LIBRARY:Lcom/terraformersmc/modmenu/util/mod/Mod$Badge;
+        18: invokeinterface #914,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+        23: ifeq          48
+        26: aload_1
+        27: aload_2
+        28: aload_0
+        29: aload_2
+        30: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+        35: invokevirtual #640                // Method getModHasConfigScreen:(Ljava/lang/String;)Z
+        38: invokevirtual #917                // Method com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility.hideMod:(Lcom/terraformersmc/modmenu/util/mod/Mod;Z)Z
+        41: ifne          48
+        44: iconst_1
+        45: goto          49
+        48: iconst_0
+        49: ireturn
+
+  private boolean lambda$computeModCountText$1(com.terraformersmc.modmenu.config.ModMenuConfig$LibraryVisibility, com.terraformersmc.modmenu.util.mod.Mod);
+    Code:
+         0: aload_2
+         1: invokeinterface #901,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.isHidden:()Z
+         6: ifne          48
+         9: aload_2
+        10: invokeinterface #904,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getBadges:()Ljava/util/Set;
+        15: getstatic     #908                // Field com/terraformersmc/modmenu/util/mod/Mod$Badge.LIBRARY:Lcom/terraformersmc/modmenu/util/mod/Mod$Badge;
+        18: invokeinterface #914,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+        23: ifeq          48
+        26: aload_1
+        27: aload_2
+        28: aload_0
+        29: aload_2
+        30: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+        35: invokevirtual #640                // Method getModHasConfigScreen:(Ljava/lang/String;)Z
+        38: invokevirtual #917                // Method com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility.hideMod:(Lcom/terraformersmc/modmenu/util/mod/Mod;Z)Z
+        41: ifne          48
+        44: iconst_1
+        45: goto          49
+        48: iconst_0
+        49: ireturn
+
+  private static boolean lambda$computeModCountText$0(com.terraformersmc.modmenu.util.mod.Mod);
+    Code:
+         0: aload_0
+         1: invokeinterface #901,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.isHidden:()Z
+         6: ifne          30
+         9: aload_0
+        10: invokeinterface #904,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getBadges:()Ljava/util/Set;
+        15: getstatic     #908                // Field com/terraformersmc/modmenu/util/mod/Mod$Badge.LIBRARY:Lcom/terraformersmc/modmenu/util/mod/Mod$Badge;
+        18: invokeinterface #914,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+        23: ifne          30
+        26: iconst_1
+        27: goto          31
+        30: iconst_0
+        31: ireturn
+
+  private void lambda$init$8(net.minecraft.client.gui.components.Button);
+    Code:
+         0: aload_0
+         1: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+         4: getfield      #621                // Field net/minecraft/client/Minecraft.gui:Lnet/minecraft/client/gui/Gui;
+         7: aload_0
+         8: getfield      #48                 // Field previousScreen:Lnet/minecraft/client/gui/screens/Screen;
+        11: invokevirtual #625                // Method net/minecraft/client/gui/Gui.setScreen:(Lnet/minecraft/client/gui/screens/Screen;)V
+        14: return
+
+  private static void lambda$init$7(net.minecraft.client.gui.components.Button);
+    Code:
+         0: invokestatic  #921                // Method net/minecraft/util/Util.getPlatform:()Lnet/minecraft/util/Util$OS;
+         3: invokestatic  #927                // Method getModsFolder:()Ljava/nio/file/Path;
+         6: invokeinterface #930,  1          // InterfaceMethod java/nio/file/Path.toUri:()Ljava/net/URI;
+        11: invokevirtual #934                // Method net/minecraft/util/Util$OS.openUri:(Ljava/net/URI;)V
+        14: return
+
+  private void lambda$init$6(net.minecraft.client.gui.components.Button);
+    Code:
+         0: aload_0
+         1: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+         4: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+         7: checkcast     #384                // class com/terraformersmc/modmenu/gui/widget/entries/ModListEntry
+        10: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        13: astore_2
+        14: aload_0
+        15: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        18: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        21: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+        26: ldc_w         #669                // String minecraft
+        29: invokevirtual #397                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        32: istore_3
+        33: iload_3
+        34: ifeq          48
+        37: aload_0
+        38: getstatic     #940                // Field net/minecraft/util/CommonLinks.SNAPSHOT_BUGS_FEEDBACK:Ljava/net/URI;
+        41: iconst_1
+        42: invokestatic  #946                // Method net/minecraft/client/gui/screens/ConfirmLinkScreen.confirmLinkNow:(Lnet/minecraft/client/gui/screens/Screen;Ljava/net/URI;Z)V
+        45: goto          68
+        48: aload_2
+        49: invokeinterface #683,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getIssueTracker:()Ljava/lang/String;
+        54: astore        4
+        56: aload         4
+        58: ifnull        68
+        61: aload_0
+        62: aload         4
+        64: iconst_0
+        65: invokestatic  #952                // Method net/minecraft/client/gui/screens/ConfirmLinkScreen.confirmLinkNow:(Lnet/minecraft/client/gui/screens/Screen;Ljava/lang/String;Z)V
+        68: return
+
+  private void lambda$init$5(net.minecraft.client.gui.components.Button);
+    Code:
+         0: aload_0
+         1: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+         4: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+         7: checkcast     #384                // class com/terraformersmc/modmenu/gui/widget/entries/ModListEntry
+        10: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        13: astore_2
+        14: aload_0
+        15: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+        18: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        21: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+        26: ldc_w         #669                // String minecraft
+        29: invokevirtual #397                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+        32: istore_3
+        33: iload_3
+        34: ifeq          69
+        37: invokestatic  #955                // Method net/minecraft/SharedConstants.getCurrentVersion:()Lnet/minecraft/WorldVersion;
+        40: invokeinterface #961,  1          // InterfaceMethod net/minecraft/WorldVersion.stable:()Z
+        45: ifeq          54
+        48: getstatic     #966                // Field net/minecraft/util/CommonLinks.RELEASE_FEEDBACK:Ljava/net/URI;
+        51: goto          57
+        54: getstatic     #969                // Field net/minecraft/util/CommonLinks.SNAPSHOT_FEEDBACK:Ljava/net/URI;
+        57: astore        4
+        59: aload_0
+        60: aload         4
+        62: iconst_1
+        63: invokestatic  #946                // Method net/minecraft/client/gui/screens/ConfirmLinkScreen.confirmLinkNow:(Lnet/minecraft/client/gui/screens/Screen;Ljava/net/URI;Z)V
+        66: goto          89
+        69: aload_2
+        70: invokeinterface #679,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getWebsite:()Ljava/lang/String;
+        75: astore        4
+        77: aload         4
+        79: ifnull        89
+        82: aload_0
+        83: aload         4
+        85: iconst_0
+        86: invokestatic  #952                // Method net/minecraft/client/gui/screens/ConfirmLinkScreen.confirmLinkNow:(Lnet/minecraft/client/gui/screens/Screen;Ljava/lang/String;Z)V
+        89: return
+
+  private void lambda$init$4(net.minecraft.client.gui.components.Button);
+    Code:
+         0: aload_0
+         1: getfield      #332                // Field selected:Lcom/terraformersmc/modmenu/gui/widget/entries/ModListEntry;
+         4: invokestatic  #275                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+         7: checkcast     #384                // class com/terraformersmc/modmenu/gui/widget/entries/ModListEntry
+        10: invokevirtual #383                // Method com/terraformersmc/modmenu/gui/widget/entries/ModListEntry.getMod:()Lcom/terraformersmc/modmenu/util/mod/Mod;
+        13: invokeinterface #391,  1          // InterfaceMethod com/terraformersmc/modmenu/util/mod/Mod.getId:()Ljava/lang/String;
+        18: astore_2
+        19: aload_0
+        20: aload_2
+        21: invokevirtual #640                // Method getModHasConfigScreen:(Ljava/lang/String;)Z
+        24: ifeq          35
+        27: aload_0
+        28: aload_2
+        29: invokevirtual #972                // Method safelyOpenConfigScreen:(Ljava/lang/String;)V
+        32: goto          40
+        35: aload_1
+        36: iconst_0
+        37: putfield      #976                // Field net/minecraft/client/gui/components/Button.active:Z
+        40: return
+
+  private void lambda$init$3(net.minecraft.client.gui.components.Button);
+    Code:
+         0: invokestatic  #977                // Method com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility.values:()[Lcom/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility;
+         3: astore_2
+         4: getstatic     #140                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SHOW_LIBRARIES:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+         7: invokevirtual #586                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getValue:()Ljava/lang/Enum;
+        10: checkcast     #589                // class com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility
+        13: invokevirtual #980                // Method com/terraformersmc/modmenu/config/ModMenuConfig$LibraryVisibility.ordinal:()I
+        16: istore_3
+        17: getstatic     #140                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SHOW_LIBRARIES:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+        20: aload_2
+        21: aload_2
+        22: arraylength
+        23: iload_3
+        24: iadd
+        25: aload_0
+        26: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+        29: invokevirtual #983                // Method net/minecraft/client/Minecraft.hasShiftDown:()Z
+        32: ifeq          39
+        35: iconst_m1
+        36: goto          40
+        39: iconst_1
+        40: iadd
+        41: aload_2
+        42: arraylength
+        43: irem
+        44: aaload
+        45: invokevirtual #986                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.setValue:(Ljava/lang/Enum;)V
+        48: invokestatic  #990                // Method com/terraformersmc/modmenu/config/ModMenuConfigManager.save:()V
+        51: aload_0
+        52: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        55: invokevirtual #995                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.reloadFilters:()V
+        58: aload_1
+        59: getstatic     #140                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SHOW_LIBRARIES:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+        62: invokevirtual #134                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getButtonText:()Lnet/minecraft/network/chat/Component;
+        65: invokevirtual #998                // Method net/minecraft/client/gui/components/Button.setMessage:(Lnet/minecraft/network/chat/Component;)V
+        68: return
+
+  private void lambda$init$2(net.minecraft.client.gui.components.Button);
+    Code:
+         0: getstatic     #130                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SORTING:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+         3: aload_0
+         4: getfield      #76                 // Field minecraft:Lnet/minecraft/client/Minecraft;
+         7: invokevirtual #983                // Method net/minecraft/client/Minecraft.hasShiftDown:()Z
+        10: ifeq          17
+        13: iconst_m1
+        14: goto          18
+        17: iconst_1
+        18: invokevirtual #999                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.cycleValue:(I)V
+        21: invokestatic  #990                // Method com/terraformersmc/modmenu/config/ModMenuConfigManager.save:()V
+        24: aload_0
+        25: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+        28: invokevirtual #995                // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.reloadFilters:()V
+        31: aload_1
+        32: getstatic     #130                // Field com/terraformersmc/modmenu/config/ModMenuConfig.SORTING:Lcom/terraformersmc/modmenu/config/option/EnumConfigOption;
+        35: invokevirtual #134                // Method com/terraformersmc/modmenu/config/option/EnumConfigOption.getButtonText:()Lnet/minecraft/network/chat/Component;
+        38: invokevirtual #998                // Method net/minecraft/client/gui/components/Button.setMessage:(Lnet/minecraft/network/chat/Component;)V
+        41: return
+
+  private void lambda$init$1(net.minecraft.client.gui.components.Button);
+    Code:
+         0: aload_0
+         1: aload_0
+         2: getfield      #26                 // Field filterOptionsShown:Z
+         5: ifne          12
+         8: iconst_1
+         9: goto          13
+        12: iconst_0
+        13: invokevirtual #304                // Method setFilterOptionsShown:(Z)V
+        16: return
+
+  private void lambda$init$0(java.lang.String);
+    Code:
+         0: aload_0
+         1: getfield      #86                 // Field modList:Lcom/terraformersmc/modmenu/gui/widget/ModListWidget;
+         4: aload_1
+         5: iconst_0
+         6: invokevirtual #1002               // Method com/terraformersmc/modmenu/gui/widget/ModListWidget.filter:(Ljava/lang/String;Z)V
+         9: return
+
+  static {};
+    Code:
+         0: ldc           #14                 // class com/terraformersmc/modmenu/gui/ModsScreen
+         2: invokevirtual #1005               // Method java/lang/Class.desiredAssertionStatus:()Z
+         5: ifne          12
+         8: iconst_1
+         9: goto          13
+        12: iconst_0
+        13: putstatic     #716                // Field $assertionsDisabled:Z
+        16: ldc_w         #760                // String modmenu
+        19: ldc_w         #1010               // String filters/enabled
+        22: invokestatic  #1012               // Method net/minecraft/resources/Identifier.fromNamespaceAndPath:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/resources/Identifier;
+        25: putstatic     #183                // Field FILTERS_SPRITE_ENABLED:Lnet/minecraft/resources/Identifier;
+        28: ldc_w         #760                // String modmenu
+        31: ldc_w         #1018               // String filters/disabled
+        34: invokestatic  #1012               // Method net/minecraft/resources/Identifier.fromNamespaceAndPath:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/resources/Identifier;
+        37: putstatic     #187                // Field FILTERS_SPRITE_DISABLED:Lnet/minecraft/resources/Identifier;
+        40: ldc_w         #760                // String modmenu
+        43: ldc_w         #1020               // String filters/focused
+        46: invokestatic  #1012               // Method net/minecraft/resources/Identifier.fromNamespaceAndPath:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/resources/Identifier;
+        49: putstatic     #190                // Field FILTERS_SPRITE_FOCUSED:Lnet/minecraft/resources/Identifier;
+        52: ldc_w         #760                // String modmenu
+        55: ldc_w         #1022               // String configure/enabled
+        58: invokestatic  #1012               // Method net/minecraft/resources/Identifier.fromNamespaceAndPath:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/resources/Identifier;
+        61: putstatic     #247                // Field CONFIGURE_SPRITE_ENABLED:Lnet/minecraft/resources/Identifier;
+        64: ldc_w         #760                // String modmenu
+        67: ldc_w         #1024               // String configure/disabled
+        70: invokestatic  #1012               // Method net/minecraft/resources/Identifier.fromNamespaceAndPath:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/resources/Identifier;
+        73: putstatic     #250                // Field CONFIGURE_SPRITE_DISABLED:Lnet/minecraft/resources/Identifier;
+        76: ldc_w         #760                // String modmenu
+        79: ldc_w         #1026               // String configure/focused
+        82: invokestatic  #1012               // Method net/minecraft/resources/Identifier.fromNamespaceAndPath:(Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/resources/Identifier;
+        85: putstatic     #253                // Field CONFIGURE_SPRITE_FOCUSED:Lnet/minecraft/resources/Identifier;
+        88: ldc_w         #1028               // String Mod Menu | ModsScreen
+        91: invokestatic  #1030               // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+        94: putstatic     #820                // Field LOGGER:Lorg/slf4j/Logger;
+        97: ldc_w         #1036               // String menu.sendFeedback
+       100: invokestatic  #1038               // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       103: putstatic     #670                // Field SEND_FEEDBACK_TEXT:Lnet/minecraft/network/chat/Component;
+       106: ldc_w         #1041               // String menu.reportBugs
+       109: invokestatic  #1038               // InterfaceMethod net/minecraft/network/chat/Component.translatable:(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;
+       112: putstatic     #676                // Field REPORT_BUGS_TEXT:Lnet/minecraft/network/chat/Component;
+       115: return
+}

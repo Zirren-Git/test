@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "chatterbox",
+	"version": "${version}",
+	"name": "ChatterBox",
+	"description": "Chat folders, DM subfolders, mention sounds, search, logs, pins, repeat compression, emojis & shortcuts - keeping the vanilla look.",
+	"authors": [
+		"Zirren"
+	],
+	"contact": {
+		"homepage": "https://github.com/Zirren-Git/test",
+		"sources": "https://github.com/Zirren-Git/test"
+	},
+	"license": "MIT",
+	"icon": "assets/chatterbox/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"io.github.zirren.chatterbox.ChatterBoxClient"
+		],
+		"modmenu": [
+			"io.github.zirren.chatterbox.ChatterBoxModMenu"
+		]
+	},
+	"mixins": [
+		{
+			"config": "chatterbox.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "${minecraftDep}",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}

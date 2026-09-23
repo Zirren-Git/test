@@ -1,0 +1,45 @@
+Compiled from "TranslatableContents.java"
+public class net.minecraft.network.chat.contents.TranslatableContents implements net.minecraft.network.chat.ComponentContents {
+  public static final java.lang.Object[] NO_ARGS;
+  private static final com.mojang.serialization.Codec<java.lang.Object> PRIMITIVE_ARG_CODEC;
+  private static final com.mojang.serialization.Codec<java.lang.Object> ARG_CODEC;
+  public static final com.mojang.serialization.MapCodec<net.minecraft.network.chat.contents.TranslatableContents> MAP_CODEC;
+  private static final net.minecraft.network.chat.FormattedText TEXT_PERCENT;
+  private static final net.minecraft.network.chat.FormattedText TEXT_NULL;
+  private final java.lang.String key;
+  private final java.lang.String fallback;
+  private final java.lang.Object[] args;
+  private net.minecraft.locale.Language decomposedWith;
+  private java.util.List<net.minecraft.network.chat.FormattedText> decomposedParts;
+  private static final java.util.regex.Pattern FORMAT_PATTERN;
+  private static com.mojang.serialization.DataResult<java.lang.Object> filterAllowedArguments(java.lang.Object);
+  public static boolean isAllowedPrimitiveArgument(java.lang.Object);
+  private static java.util.Optional<java.util.List<java.lang.Object>> adjustArgs(java.lang.Object[]);
+  private static java.lang.Object[] adjustArgs(java.util.Optional<java.util.List<java.lang.Object>>);
+  private static net.minecraft.network.chat.contents.TranslatableContents create(java.lang.String, java.util.Optional<java.lang.String>, java.util.Optional<java.util.List<java.lang.Object>>);
+  public net.minecraft.network.chat.contents.TranslatableContents(java.lang.String, java.lang.String, java.lang.Object[]);
+  public com.mojang.serialization.MapCodec<net.minecraft.network.chat.contents.TranslatableContents> codec();
+  private void decompose();
+  private void decomposeTemplate(java.lang.String, java.util.function.Consumer<net.minecraft.network.chat.FormattedText>);
+  private net.minecraft.network.chat.FormattedText getArgument(int);
+  public <T> java.util.Optional<T> visit(net.minecraft.network.chat.FormattedText$StyledContentConsumer<T>, net.minecraft.network.chat.Style);
+  public <T> java.util.Optional<T> visit(net.minecraft.network.chat.FormattedText$ContentConsumer<T>);
+  public net.minecraft.network.chat.MutableComponent resolve(net.minecraft.network.chat.ResolutionContext, int) throws com.mojang.brigadier.exceptions.CommandSyntaxException;
+  public boolean equals(java.lang.Object);
+  public int hashCode();
+  public java.lang.String toString();
+  public java.lang.String getKey();
+  public java.lang.String getFallback();
+  public java.lang.Object[] getArgs();
+  private static java.lang.Object[] lambda$adjustArgs$0(java.util.List);
+  private static com.mojang.datafixers.kinds.App lambda$static$4(com.mojang.serialization.codecs.RecordCodecBuilder$Instance);
+  private static java.util.Optional lambda$static$7(net.minecraft.network.chat.contents.TranslatableContents);
+  private static java.util.Optional lambda$static$6(net.minecraft.network.chat.contents.TranslatableContents);
+  private static java.lang.String lambda$static$5(net.minecraft.network.chat.contents.TranslatableContents);
+  private static com.mojang.datafixers.util.Either lambda$static$3(java.lang.Object);
+  private static java.lang.Object lambda$static$0(com.mojang.datafixers.util.Either);
+  private static java.lang.Object lambda$static$2(net.minecraft.network.chat.Component);
+  private static java.lang.Object lambda$static$1(java.lang.Object);
+  private static java.lang.String lambda$filterAllowedArguments$0();
+  static {};
+}

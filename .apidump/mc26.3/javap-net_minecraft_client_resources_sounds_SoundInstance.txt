@@ -1,0 +1,20 @@
+Compiled from "SoundInstance.java"
+public interface net.minecraft.client.resources.sounds.SoundInstance {
+  public abstract net.minecraft.resources.Identifier getIdentifier();
+  public abstract net.minecraft.client.sounds.WeighedSoundEvents getOrResolve(net.minecraft.client.sounds.SoundManager);
+  public abstract net.minecraft.client.resources.sounds.Sound getSound();
+  public abstract net.minecraft.client.sounds.WeighedSoundEvents getSoundEvent();
+  public abstract net.minecraft.sounds.SoundSource getSource();
+  public abstract boolean isLooping();
+  public abstract boolean isRelative();
+  public abstract int getDelay();
+  public abstract float getVolume();
+  public abstract float getPitch();
+  public abstract double getX();
+  public abstract double getY();
+  public abstract double getZ();
+  public abstract net.minecraft.client.resources.sounds.SoundInstance$Attenuation getAttenuation();
+  public default boolean canStartSilent();
+  public default boolean canPlaySound();
+  public static net.minecraft.util.RandomSource createUnseededRandom();
+}

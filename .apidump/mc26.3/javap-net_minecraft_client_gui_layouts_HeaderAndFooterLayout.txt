@@ -1,0 +1,36 @@
+Compiled from "HeaderAndFooterLayout.java"
+public class net.minecraft.client.gui.layouts.HeaderAndFooterLayout implements net.minecraft.client.gui.layouts.Layout {
+  public static final int MAGIC_PADDING;
+  public static final int DEFAULT_HEADER_AND_FOOTER_HEIGHT;
+  private static final int CONTENT_MARGIN_TOP;
+  private final net.minecraft.client.gui.layouts.FrameLayout headerFrame;
+  private final net.minecraft.client.gui.layouts.FrameLayout footerFrame;
+  private final net.minecraft.client.gui.layouts.FrameLayout contentsFrame;
+  private final net.minecraft.client.gui.screens.Screen screen;
+  private int headerHeight;
+  private int footerHeight;
+  public net.minecraft.client.gui.layouts.HeaderAndFooterLayout(net.minecraft.client.gui.screens.Screen);
+  public net.minecraft.client.gui.layouts.HeaderAndFooterLayout(net.minecraft.client.gui.screens.Screen, int);
+  public net.minecraft.client.gui.layouts.HeaderAndFooterLayout(net.minecraft.client.gui.screens.Screen, int, int);
+  public void setX(int);
+  public void setY(int);
+  public int getX();
+  public int getY();
+  public int getWidth();
+  public int getHeight();
+  public int getFooterHeight();
+  public void setFooterHeight(int);
+  public void setHeaderHeight(int);
+  public int getHeaderHeight();
+  public int getContentHeight();
+  public void visitChildren(java.util.function.Consumer<net.minecraft.client.gui.layouts.LayoutElement>);
+  public void removeChildren();
+  public void arrangeElements();
+  public <T extends net.minecraft.client.gui.layouts.LayoutElement> T addToHeader(T);
+  public <T extends net.minecraft.client.gui.layouts.LayoutElement> T addToHeader(T, java.util.function.Consumer<net.minecraft.client.gui.layouts.LayoutSettings>);
+  public void addTitleHeader(net.minecraft.network.chat.Component, net.minecraft.client.gui.Font);
+  public <T extends net.minecraft.client.gui.layouts.LayoutElement> T addToFooter(T);
+  public <T extends net.minecraft.client.gui.layouts.LayoutElement> T addToFooter(T, java.util.function.Consumer<net.minecraft.client.gui.layouts.LayoutSettings>);
+  public <T extends net.minecraft.client.gui.layouts.LayoutElement> T addToContents(T);
+  public <T extends net.minecraft.client.gui.layouts.LayoutElement> T addToContents(T, java.util.function.Consumer<net.minecraft.client.gui.layouts.LayoutSettings>);
+}

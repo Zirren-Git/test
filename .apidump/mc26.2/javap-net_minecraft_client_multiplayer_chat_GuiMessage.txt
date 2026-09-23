@@ -1,0 +1,19 @@
+Compiled from "GuiMessage.java"
+public final class net.minecraft.client.multiplayer.chat.GuiMessage extends java.lang.Record {
+  private final int addedTime;
+  private final net.minecraft.network.chat.Component content;
+  private final net.minecraft.network.chat.MessageSignature signature;
+  private final net.minecraft.client.multiplayer.chat.GuiMessageSource source;
+  private final net.minecraft.client.multiplayer.chat.GuiMessageTag tag;
+  private static final int MESSAGE_TAG_MARGIN_LEFT;
+  public net.minecraft.client.multiplayer.chat.GuiMessage(int, net.minecraft.network.chat.Component, net.minecraft.network.chat.MessageSignature, net.minecraft.client.multiplayer.chat.GuiMessageSource, net.minecraft.client.multiplayer.chat.GuiMessageTag);
+  public java.util.List<net.minecraft.util.FormattedCharSequence> splitLines(net.minecraft.client.gui.Font, int);
+  public final java.lang.String toString();
+  public final int hashCode();
+  public final boolean equals(java.lang.Object);
+  public int addedTime();
+  public net.minecraft.network.chat.Component content();
+  public net.minecraft.network.chat.MessageSignature signature();
+  public net.minecraft.client.multiplayer.chat.GuiMessageSource source();
+  public net.minecraft.client.multiplayer.chat.GuiMessageTag tag();
+}

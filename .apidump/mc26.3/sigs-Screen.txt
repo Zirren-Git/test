@@ -1,0 +1,86 @@
+	private static final Logger LOGGER = LogUtils.getLogger();
+	private static final Component SCREEN_USAGE_NARRATION = Component.translatable("narrator.screen.usage");
+	public static final Identifier MENU_BACKGROUND = Identifier.withDefaultNamespace("textures/gui/menu_background.png");
+	public static final Identifier HEADER_SEPARATOR = Identifier.withDefaultNamespace("textures/gui/header_separator.png");
+	public static final Identifier FOOTER_SEPARATOR = Identifier.withDefaultNamespace("textures/gui/footer_separator.png");
+	private static final Identifier INWORLD_MENU_BACKGROUND = Identifier.withDefaultNamespace("textures/gui/inworld_menu_background.png");
+	public static final Identifier INWORLD_HEADER_SEPARATOR = Identifier.withDefaultNamespace("textures/gui/inworld_header_separator.png");
+	public static final Identifier INWORLD_FOOTER_SEPARATOR = Identifier.withDefaultNamespace("textures/gui/inworld_footer_separator.png");
+	private final List<GuiEventListener> children = Lists.newArrayList();
+	private final List<NarratableEntry> narratables = Lists.newArrayList();
+	private final List<Renderable> renderables = Lists.newArrayList();
+	private static final long NARRATE_SUPPRESS_AFTER_INIT_TIME = TimeUnit.SECONDS.toMillis(2L);
+	private final ScreenNarrationCollector narrationState = new ScreenNarrationCollector();
+	protected Screen(final Component title) {
+	protected Screen(final Minecraft minecraft, final Font font, final Component title) {
+	public Component getTitle() {
+	public Component getNarrationMessage() {
+	public final void extractRenderStateWithTooltipAndSubtitles(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+	public void extractRenderState(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+	public boolean keyPressed(final KeyEvent event) {
+	private FocusNavigationEvent.TabNavigation createTabEvent(final boolean forward) {
+	private FocusNavigationEvent.ArrowNavigation createArrowEvent(final ScreenDirection direction) {
+	protected void setInitialFocus() {
+	protected void setInitialFocus(final GuiEventListener target) {
+	public void clearFocus() {
+	public boolean isInputCaptured() {
+	protected void changeFocus(final ComponentPath componentPath) {
+	public boolean shouldCloseOnEsc() {
+	public void onClose() {
+	protected <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(final T widget) {
+	protected <T extends Renderable> T addRenderableOnly(final T renderable) {
+	protected <T extends GuiEventListener & NarratableEntry> T addWidget(final T widget) {
+	protected void removeWidget(final GuiEventListener widget) {
+	protected void clearWidgets() {
+	public static List<Component> getTooltipFromItem(final Minecraft minecraft, final ItemStack itemStack) {
+	protected void insertText(final String text, final boolean replace) {
+	protected static void defaultHandleGameClickEvent(final ClickEvent event, final Minecraft minecraft, final @Nullable Screen activeScreen) {
+	protected static void defaultHandleClickEvent(final ClickEvent event, final Minecraft minecraft, final @Nullable Screen activeScreen) {
+	protected static boolean clickUrlAction(final Minecraft minecraft, final @Nullable Screen screen, final URI uri) {
+	protected static void clickCommandAction(final LocalPlayer player, final String command, final @Nullable Screen screenAfterCommand) {
+	public final void init(final int width, final int height) {
+	protected void rebuildWidgets() {
+	protected void fadeWidgets(final float widgetFade) {
+	public List<? extends GuiEventListener> children() {
+	protected void init() {
+	public void tick() {
+	public void removed() {
+	public void added() {
+	public void extractBackground(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+	protected void extractBlurredBackground(final GuiGraphicsExtractor graphics) {
+	protected void extractPanorama(final GuiGraphicsExtractor graphics, final float a) {
+	protected void extractMenuBackground(final GuiGraphicsExtractor graphics) {
+	protected void extractMenuBackground(final GuiGraphicsExtractor graphics, final int x, final int y, final int width, final int height) {
+	public static void extractMenuBackgroundTexture(
+	public void extractTransparentBackground(final GuiGraphicsExtractor graphics) {
+	public boolean isPauseScreen() {
+	public boolean isInGameUi() {
+	public boolean isAllowedInPortal() {
+	protected void repositionElements() {
+	public void resize(final int width, final int height) {
+	protected boolean isValidCharacterForName(final String currentName, final int newChar, final int cursorPos) {
+	public boolean isMouseOver(final double mouseX, final double mouseY) {
+	public void onFilesDrop(final List<Path> files) {
+	private void scheduleNarration(final long delay, final boolean ignoreSuppression, final NarrationTrigger narrationTrigger) {
+	private void suppressNarration(final long duration) {
+	private void setNarrationSuppressTime(final long narrationSuppressTime) {
+	public void scheduleNarration() {
+	public void afterMouseMove() {
+	public void afterMouseAction() {
+	public void afterKeyboardAction() {
+	private boolean shouldRunNarration() {
+	public void handleDelayedNarration() {
+	public void triggerImmediateNarration(final boolean onlyChanged) {
+	private void runNarration(final boolean onlyChanged, final NarrationTrigger narrationTrigger) {
+	protected boolean shouldNarrateNavigation() {
+	protected void updateNarrationState(final NarrationElementOutput output) {
+	protected void updateNarratedWidget(final NarrationElementOutput output) {
+	protected Component getUsageNarration() {
+	public static Screen.@Nullable NarratableSearchResult findNarratableWidget(
+	public void updateNarratorStatus(final boolean wasDisabled, final NarrationTrigger narrationTrigger) {
+	public Font getFont() {
+	public boolean showsActiveEffects() {
+	public boolean canInterruptWithAnotherScreen() {
+	public ScreenRectangle getRectangle() {
+	public @Nullable Music getBackgroundMusic() {
+	public record NarratableSearchResult(NarratableEntry entry, int index, NarratableEntry.NarrationPriority priority) {

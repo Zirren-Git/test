@@ -1,0 +1,10 @@
+Compiled from "ContainerObjectSelectionList.java"
+public abstract class net.minecraft.client.gui.components.ContainerObjectSelectionList<E extends net.minecraft.client.gui.components.ContainerObjectSelectionList$Entry<E>> extends net.minecraft.client.gui.components.AbstractSelectionList<E> {
+  public net.minecraft.client.gui.components.ContainerObjectSelectionList(net.minecraft.client.Minecraft, int, int, int, int);
+  public net.minecraft.client.gui.ComponentPath nextFocusPath(net.minecraft.client.gui.navigation.FocusNavigationEvent);
+  public void setFocused(net.minecraft.client.gui.components.events.GuiEventListener);
+  public net.minecraft.client.gui.narration.NarratableEntry$NarrationPriority narrationPriority();
+  protected boolean entriesCanBeSelected();
+  public void updateWidgetNarration(net.minecraft.client.gui.narration.NarrationElementOutput);
+  private static boolean lambda$nextFocusPath$0(net.minecraft.client.gui.components.ContainerObjectSelectionList$Entry);
+}

@@ -1,0 +1,14 @@
+Compiled from "GameProfile.java"
+public final class com.mojang.authlib.GameProfile extends java.lang.Record {
+  private final java.util.UUID id;
+  private final java.lang.String name;
+  private final com.mojang.authlib.properties.PropertyMap properties;
+  public com.mojang.authlib.GameProfile(java.util.UUID, java.lang.String, com.mojang.authlib.properties.PropertyMap);
+  public com.mojang.authlib.GameProfile(java.util.UUID, java.lang.String);
+  public final java.lang.String toString();
+  public final int hashCode();
+  public final boolean equals(java.lang.Object);
+  public java.util.UUID id();
+  public java.lang.String name();
+  public com.mojang.authlib.properties.PropertyMap properties();
+}

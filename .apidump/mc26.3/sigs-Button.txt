@@ -1,0 +1,16 @@
+	protected static final Button.CreateNarration DEFAULT_NARRATION = defaultNarrationSupplier -> defaultNarrationSupplier.get();
+	public static Button.Builder builder(final Component message, final Button.OnPress onPress) {
+	protected Button(
+	public void onPress(final InputWithModifiers input) {
+	protected MutableComponent createNarrationMessage() {
+	public void updateWidgetNarration(final NarrationElementOutput output) {
+		public Builder(final Component message, final Button.OnPress onPress) {
+		public Button.Builder pos(final int x, final int y) {
+		public Button.Builder width(final int width) {
+		public Button.Builder size(final int width, final int height) {
+		public Button.Builder bounds(final int x, final int y, final int width, final int height) {
+		public Button.Builder tooltip(final @Nullable Tooltip tooltip) {
+		public Button.Builder createNarration(final Button.CreateNarration createNarration) {
+		public Button build() {
+		protected Plain(
+		protected void extractContents(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {

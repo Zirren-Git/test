@@ -1,0 +1,110 @@
+	private static final Identifier CROSSHAIR_SPRITE = Identifier.withDefaultNamespace("hud/crosshair");
+	private static final Identifier CROSSHAIR_ATTACK_INDICATOR_FULL_SPRITE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_full");
+	private static final Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_SPRITE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_background");
+	private static final Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_SPRITE = Identifier.withDefaultNamespace("hud/crosshair_attack_indicator_progress");
+	private static final Identifier EFFECT_BACKGROUND_AMBIENT_SPRITE = Identifier.withDefaultNamespace("hud/effect_background_ambient");
+	private static final Identifier EFFECT_BACKGROUND_SPRITE = Identifier.withDefaultNamespace("hud/effect_background");
+	private static final Identifier HOTBAR_SPRITE = Identifier.withDefaultNamespace("hud/hotbar");
+	private static final Identifier HOTBAR_SELECTION_SPRITE = Identifier.withDefaultNamespace("hud/hotbar_selection");
+	private static final Identifier HOTBAR_OFFHAND_LEFT_SPRITE = Identifier.withDefaultNamespace("hud/hotbar_offhand_left");
+	private static final Identifier HOTBAR_OFFHAND_RIGHT_SPRITE = Identifier.withDefaultNamespace("hud/hotbar_offhand_right");
+	private static final Identifier HOTBAR_ATTACK_INDICATOR_BACKGROUND_SPRITE = Identifier.withDefaultNamespace("hud/hotbar_attack_indicator_background");
+	private static final Identifier HOTBAR_ATTACK_INDICATOR_PROGRESS_SPRITE = Identifier.withDefaultNamespace("hud/hotbar_attack_indicator_progress");
+	private static final Identifier ARMOR_EMPTY_SPRITE = Identifier.withDefaultNamespace("hud/armor_empty");
+	private static final Identifier ARMOR_HALF_SPRITE = Identifier.withDefaultNamespace("hud/armor_half");
+	private static final Identifier ARMOR_FULL_SPRITE = Identifier.withDefaultNamespace("hud/armor_full");
+	private static final Identifier FOOD_EMPTY_HUNGER_SPRITE = Identifier.withDefaultNamespace("hud/food_empty_hunger");
+	private static final Identifier FOOD_HALF_HUNGER_SPRITE = Identifier.withDefaultNamespace("hud/food_half_hunger");
+	private static final Identifier FOOD_FULL_HUNGER_SPRITE = Identifier.withDefaultNamespace("hud/food_full_hunger");
+	private static final Identifier FOOD_EMPTY_SPRITE = Identifier.withDefaultNamespace("hud/food_empty");
+	private static final Identifier FOOD_HALF_SPRITE = Identifier.withDefaultNamespace("hud/food_half");
+	private static final Identifier FOOD_FULL_SPRITE = Identifier.withDefaultNamespace("hud/food_full");
+	private static final Identifier AIR_SPRITE = Identifier.withDefaultNamespace("hud/air");
+	private static final Identifier AIR_POPPING_SPRITE = Identifier.withDefaultNamespace("hud/air_bursting");
+	private static final Identifier AIR_EMPTY_SPRITE = Identifier.withDefaultNamespace("hud/air_empty");
+	private static final Identifier HEART_VEHICLE_CONTAINER_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_container");
+	private static final Identifier HEART_VEHICLE_FULL_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_full");
+	private static final Identifier HEART_VEHICLE_HALF_SPRITE = Identifier.withDefaultNamespace("hud/heart/vehicle_half");
+	private static final Identifier VIGNETTE_LOCATION = Identifier.withDefaultNamespace("textures/misc/vignette.png");
+	public static final Identifier NAUSEA_LOCATION = Identifier.withDefaultNamespace("textures/misc/nausea.png");
+	private static final Identifier SPYGLASS_SCOPE_LOCATION = Identifier.withDefaultNamespace("textures/misc/spyglass_scope.png");
+	private static final Identifier POWDER_SNOW_OUTLINE_LOCATION = Identifier.withDefaultNamespace("textures/misc/powder_snow_outline.png");
+	private static final Comparator<PlayerScoreEntry> SCORE_DISPLAY_ORDER = Comparator.comparing(PlayerScoreEntry::value)
+	private static final Component DEMO_EXPIRED_TEXT = Component.translatable("demo.demoExpired");
+	private static final Component SAVING_TEXT = Component.translatable("menu.savingLevel");
+	private final RandomSource random = RandomSource.create();
+	private final WaypointStyleManager waypointStyles = new WaypointStyleManager();
+	private Pair<Hud.ContextualInfo, ContextualBar> contextualInfoBar = Pair.of(Hud.ContextualInfo.EMPTY, ContextualBar.EMPTY);
+	public Hud(final Minecraft minecraft) {
+	public void registerReloadListeners(final ReloadableResourceManager resourceManager) {
+	public void toggle() {
+	public boolean isHidden() {
+	public void resetTitleTimes() {
+	public void extractRenderState(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractBossOverlay(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	public void extractDebugOverlay(final GuiGraphicsExtractor graphics) {
+	private void extractSubtitleOverlay(final GuiGraphicsExtractor graphics, final boolean deferRendering) {
+	public void extractDeferredSubtitles() {
+	private void extractCameraOverlays(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractSleepOverlay(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractOverlayMessage(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractTitle(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractChat(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractScoreboardSidebar(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractTabList(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractCrosshair(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private boolean canRenderCrosshairForSpectator(final @Nullable HitResult hitResult) {
+	private void extractEffects(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	public static Identifier getMobEffectSprite(final Holder<MobEffect> effect) {
+	private void extractHotbarAndDecorations(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractItemHotbar(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void extractSelectedItemName(final GuiGraphicsExtractor graphics) {
+	private void extractDemoOverlay(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private void displayScoreboardSidebar(final GuiGraphicsExtractor graphics, final Objective objective) {
+	private @Nullable Player getCameraPlayer() {
+	private @Nullable LivingEntity getPlayerVehicleWithHealth() {
+	private int getVehicleMaxHearts(final @Nullable LivingEntity vehicle) {
+	private int getVisibleVehicleHeartRows(final int hearts) {
+	private void extractPlayerHealth(final GuiGraphicsExtractor graphics) {
+	private static void extractArmor(
+	private void extractHearts(
+	private void extractHeart(
+	private void extractAirBubbles(final GuiGraphicsExtractor graphics, final Player player, final int vehicleHearts, int yLineAir, final int xRight) {
+	private int getAirBubbleYLine(final int vehicleHearts, int yLineAir) {
+	private static int getCurrentAirSupplyBubble(final int currentAirSupplyTicks, final int maxAirSupplyTicks, final int tickOffset) {
+	private static int getEmptyBubbleDelayDuration(final int currentAirSupplyTicks, final boolean isUnderWater) {
+	private void playAirBubblePoppedSound(final int bubble, final Player player, final int emptyAirBubbles) {
+	private void extractFood(final GuiGraphicsExtractor graphics, final Player player, final int yLineBase, final int xRight) {
+	private void extractVehicleHealth(final GuiGraphicsExtractor graphics) {
+	private void extractTextureOverlay(final GuiGraphicsExtractor graphics, final Identifier texture, final float alpha) {
+	private void extractSpyglassOverlay(final GuiGraphicsExtractor graphics, final float scale) {
+	private void updateVignetteBrightness(final Entity camera) {
+	private void extractVignette(final GuiGraphicsExtractor graphics, final @Nullable Entity camera) {
+	private void extractPortalOverlay(final GuiGraphicsExtractor graphics, float alpha) {
+	private void extractConfusionOverlay(final GuiGraphicsExtractor graphics, final float strength) {
+	private void extractSlot(
+	public void tick(final boolean pause) {
+	private void tick() {
+	private void tickAutosaveIndicator() {
+	public void setNowPlaying(final Component string) {
+	public void setOverlayMessage(final Component string, final boolean animate) {
+	public void setTimes(final int fadeInTime, final int stayTime, final int fadeOutTime) {
+	public void setSubtitle(final Component subtitle) {
+	public void setTitle(final Component title) {
+	public void clearTitles() {
+	public ChatComponent getChat() {
+	public WaypointStyleManager getWaypointStyles() {
+	public int getGuiTicks() {
+	public Font getFont() {
+	public SpectatorGui getSpectatorGui() {
+	public PlayerTabOverlay getTabList() {
+	public void onDisconnected() {
+	public BossHealthOverlay getBossOverlay() {
+	public DebugScreenOverlay getDebugOverlay() {
+	public void clearCache() {
+	public void extractSavingIndicator(final GuiGraphicsExtractor graphics, final DeltaTracker deltaTracker) {
+	private boolean willPrioritizeExperienceInfo() {
+	private boolean willPrioritizeJumpInfo() {
+	private Hud.ContextualInfo nextContextualInfoState() {
+		public Identifier getSprite(final boolean isHardcore, final boolean isHalf, final boolean isBlink) {
+		private static Hud.HeartType forPlayer(final Player player) {
