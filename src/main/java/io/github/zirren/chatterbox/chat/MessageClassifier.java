@@ -217,7 +217,7 @@ public final class MessageClassifier {
 			if (connection == null) return false;
 			for (PlayerInfo info : connection.getOnlinePlayers()) {
 				if (info != null && info.getProfile() != null
-						&& name.equalsIgnoreCase(info.getProfile().getName())) {
+						&& name.equalsIgnoreCase(info.getProfile().name())) {
 					return true;
 				}
 			}
