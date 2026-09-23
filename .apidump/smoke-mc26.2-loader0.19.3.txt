@@ -17,15 +17,15 @@ Starting a Gradle Daemon (subsequent builds will be faster)
 Fabric Loom: 1.17.21
 
 > Task :compileJava
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:31: error: cannot find symbol
-	private Row selected;
-	        ^
-  symbol:   class Row
-  location: class MentionRulesScreen
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:220: error: cannot find symbol
+						&& name.equalsIgnoreCase(info.getProfile().getName())) {
+						                                          ^
+  symbol:   method getName()
+  location: class GameProfile
 1 error
 
 > Task :compileJava FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1790007771356.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1790184657797.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/test/test/build/reports/problems/problems-report.html
 
@@ -34,16 +34,16 @@ FAILURE: Build failed with an exception.
 * What went wrong:
 Execution failed for task ':compileJava' (registered by plugin class 'org.gradle.api.plugins.JavaBasePlugin').
 > Compilation failed; see the compiler output below.
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:31: error: cannot find symbol
-  	private Row selected;
-  	        ^
-    symbol:   class Row
-    location: class MentionRulesScreen
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:220: error: cannot find symbol
+  						&& name.equalsIgnoreCase(info.getProfile().getName())) {
+  						                                          ^
+    symbol:   method getName()
+    location: class GameProfile
   1 error
 
 * Try:
 > Check your code and dependencies to fix the compilation error(s)
 > Run with --scan to get full insights from a Build Scan (powered by Develocity).
 
-BUILD FAILED in 42s
+BUILD FAILED in 35s
 1 actionable task: 1 executed
