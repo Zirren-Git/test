@@ -5,7 +5,7 @@ c2me-fabric.jar
 centered-crosshair.jar
 chat-heads.jar
 chatanimation.jar
-chatterbox-1.1.6+mc26.2.jar
+chatterbox-1.1.7+mc26.2.jar
 cloth-config.jar
 continuity.jar
 controlling.jar
@@ -43,47 +43,47 @@ xaeros-world-map.jar
 yacl.jar
 --- chatterbox markers ---
 --- errors ---
-220:[16:49:59] [main/WARN]: Error loading class: mezz/jei/fabric/platform/RenderHelper (java.lang.ClassNotFoundException: mezz/jei/fabric/platform/RenderHelper)
-222:[16:49:59] [main/WARN]: Error loading class: net/vulkanmod/config/option/Options (java.lang.ClassNotFoundException: net/vulkanmod/config/option/Options)
-226:[16:50:01] [main/WARN]: Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [NO_ERROR_CONTEXT_UNSUPPORTED]
-230:[16:50:03] [main/ERROR]: Minecraft has crashed!
+220:[17:47:46] [main/WARN]: Error loading class: mezz/jei/fabric/platform/RenderHelper (java.lang.ClassNotFoundException: mezz/jei/fabric/platform/RenderHelper)
+222:[17:47:46] [main/WARN]: Error loading class: net/vulkanmod/config/option/Options (java.lang.ClassNotFoundException: net/vulkanmod/config/option/Options)
+226:[17:47:47] [main/WARN]: Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [NO_ERROR_CONTEXT_UNSUPPORTED]
+230:[17:47:50] [main/ERROR]: Minecraft has crashed!
 231:net.fabricmc.loader.impl.FormattedException: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
 232:	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:63)
 236:Caused by: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
 271:Caused by: java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class org.objectweb.asm.tree.AnnotationNode (java.util.ArrayList is in module java.base of loader 'bootstrap'; org.objectweb.asm.tree.AnnotationNode is in unnamed module of loader 'app')
 --- game output tail ---
-[16:49:59] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.bettermipmaps.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.compat.sodium.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.fixes.maxfpscrash.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/INFO]: Loaded configuration file for Lithium: 171 options available, 0 override(s) found.
-[16:49:59] [main/WARN]: Reference map 'raised.refmap.json' for raised.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'reeses-sodium-options.refmap.json' for reeses-sodium-options.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'searchables.refmap.json' for searchables.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'searchables.refmap.json' for searchables.fabric.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/INFO]: Loaded configuration file for Sodium: 37 options available, 1 override(s) found
-[16:49:59] [main/WARN]: Reference map 'subtle_effects.refmap.json' for subtle_effects.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'subtle_effects.refmap.json' for subtle_effects.fabric.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/INFO]: Successfully started async appender with [SysOut, ServerGuiConsole, Tracy, File]
-[16:49:59] [main/WARN]: Reference map 'xaerolib.refmap.json' for xaerolib.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'xaeroworldmap.refmap.json' for xaeroworldmap.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'yet_another_config_lib_v3.refmap.json' for yacl.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Reference map 'yet_another_config_lib_v3.refmap.json' for yacl-fabric.mixins.json could not be read. If this is a development environment you can ignore this message
-[16:49:59] [main/WARN]: Error loading class: mezz/jei/fabric/platform/RenderHelper (java.lang.ClassNotFoundException: mezz/jei/fabric/platform/RenderHelper)
-[16:49:59] [main/WARN]: @Mixin target mezz.jei.fabric.platform.RenderHelper was not found appleskin.jei.mixins.json:JEIRenderHelperMixin from mod appleskin
-[16:49:59] [main/WARN]: Error loading class: net/vulkanmod/config/option/Options (java.lang.ClassNotFoundException: net/vulkanmod/config/option/Options)
-[16:50:00] [main/WARN]: Force-disabling mixin 'features.render.world.sky.LevelRendererMixin' as rule 'mixin.features.render.world.sky' (added by mods [iris]) disables it and children
-[16:50:01] [main/INFO]: Searching for graphics cards...
-[16:50:01] [main/WARN]: Could not find any graphics adapters! Probably the device is not on a bus we can probe, or there are no devices supporting 3D acceleration.
-[16:50:01] [main/WARN]: Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [NO_ERROR_CONTEXT_UNSUPPORTED]
-[16:50:01] [main/WARN]: This is not necessarily an issue, but it may result in certain features or optimizations being disabled. You can sometimes fix these issues by upgrading your graphics driver.
-[16:50:01] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.4).
+[17:47:46] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.bettermipmaps.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.compat.sodium.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'iris.refmap.json' for mixins.iris.fixes.maxfpscrash.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/INFO]: Loaded configuration file for Lithium: 171 options available, 0 override(s) found.
+[17:47:46] [main/WARN]: Reference map 'raised.refmap.json' for raised.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'reeses-sodium-options.refmap.json' for reeses-sodium-options.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'searchables.refmap.json' for searchables.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'searchables.refmap.json' for searchables.fabric.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/INFO]: Loaded configuration file for Sodium: 37 options available, 1 override(s) found
+[17:47:46] [main/WARN]: Reference map 'subtle_effects.refmap.json' for subtle_effects.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'subtle_effects.refmap.json' for subtle_effects.fabric.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/INFO]: Successfully started async appender with [SysOut, ServerGuiConsole, Tracy, File]
+[17:47:46] [main/WARN]: Reference map 'xaerolib.refmap.json' for xaerolib.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'xaeroworldmap.refmap.json' for xaeroworldmap.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'yet_another_config_lib_v3.refmap.json' for yacl.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Reference map 'yet_another_config_lib_v3.refmap.json' for yacl-fabric.mixins.json could not be read. If this is a development environment you can ignore this message
+[17:47:46] [main/WARN]: Error loading class: mezz/jei/fabric/platform/RenderHelper (java.lang.ClassNotFoundException: mezz/jei/fabric/platform/RenderHelper)
+[17:47:46] [main/WARN]: @Mixin target mezz.jei.fabric.platform.RenderHelper was not found appleskin.jei.mixins.json:JEIRenderHelperMixin from mod appleskin
+[17:47:46] [main/WARN]: Error loading class: net/vulkanmod/config/option/Options (java.lang.ClassNotFoundException: net/vulkanmod/config/option/Options)
+[17:47:47] [main/WARN]: Force-disabling mixin 'features.render.world.sky.LevelRendererMixin' as rule 'mixin.features.render.world.sky' (added by mods [iris]) disables it and children
+[17:47:47] [main/INFO]: Searching for graphics cards...
+[17:47:47] [main/WARN]: Could not find any graphics adapters! Probably the device is not on a bus we can probe, or there are no devices supporting 3D acceleration.
+[17:47:47] [main/WARN]: Sodium has applied one or more workarounds to prevent crashes or other issues on your system: [NO_ERROR_CONTEXT_UNSUPPORTED]
+[17:47:47] [main/WARN]: This is not necessarily an issue, but it may result in certain features or optimizations being disabled. You can sometimes fix these issues by upgrading your graphics driver.
+[17:47:47] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.4).
 Screenshot Viewer sets 'java.awt.headless' to false!
 WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
 WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.lwjgl.system.MemoryUtil (file:/home/runner/work/test/test/instance/libraries-mc/org/lwjgl/lwjgl/3.4.1/lwjgl-3.4.1-unsafe.jar)
 WARNING: Please consider reporting this to the maintainers of class org.lwjgl.system.MemoryUtil
 WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
-[16:50:03] [Datafixer Bootstrap #0/INFO]: 295 Datafixer optimizations took 664 milliseconds
-[16:50:03] [main/ERROR]: Minecraft has crashed!
+[17:47:49] [Datafixer Bootstrap #0/INFO]: 295 Datafixer optimizations took 674 milliseconds
+[17:47:50] [main/ERROR]: Minecraft has crashed!
 net.fabricmc.loader.impl.FormattedException: java.lang.RuntimeException: Mixin transformation of net.minecraft.client.gui.components.events.ContainerEventHandler failed
 	at net.fabricmc.loader.impl.FormattedException.ofLocalized(FormattedException.java:63)
 	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:516)
