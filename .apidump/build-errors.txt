@@ -1,7 +1,7 @@
-=== build errors: MC 26.2 loader 0.19.5 ===
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:31: error: cannot find symbol
-  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:31: error: cannot find symbol
-/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/screen/MentionRulesScreen.java:31: error: cannot find symbol
+=== build errors: MC 26.3 loader 0.19.5 ===
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:220: error: cannot find symbol
+  /home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:220: error: cannot find symbol
+/home/runner/work/test/test/src/main/java/io/github/zirren/chatterbox/chat/MessageClassifier.java:220: error: cannot find symbol
 === tail ===
 	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
 	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
@@ -121,5 +121,5 @@
 	... 30 more
 
 
-BUILD FAILED in 29s
+BUILD FAILED in 37s
 1 actionable task: 1 executed
