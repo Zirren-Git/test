@@ -25,6 +25,7 @@ import io.github.zirren.chatterbox.chat.ChatStore;
 import io.github.zirren.chatterbox.chat.Folder;
 import io.github.zirren.chatterbox.chat.Sounds;
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.config.GroupChat;
 import io.github.zirren.chatterbox.Lang;
 import io.github.zirren.chatterbox.mixin.ChatScreenAccessor;
 
@@ -186,12 +187,23 @@ public class ChatterBoxChatScreen extends ChatScreen {
 		Config cfg = Config.get();
 		ChatStore store = ChatStore.INSTANCE;
 		boolean join = cfg.joinQueuedLines && lines.size() > 1;
+
+		String failed = null;
 		if (join) {
-			sendLine(String.join("\n", lines));
+			String joined = String.join("\n", lines);
+			if (!sendLine(joined)) failed = joined;
 		} else {
 			for (String line : lines) {
-				sendLine(line);
+				if (!sendLine(line)) {
+					failed = line;
+					break;
+				}
 			}
+		}
+		if (failed != null) {
+			// a group send failed (group deleted / nobody in it) - keep the text
+			input.setValue(failed);
+			return;
 		}
 
 		if (cfg.drafts) {
@@ -201,10 +213,11 @@ public class ChatterBoxChatScreen extends ChatScreen {
 		minecraft.gui.setScreen(null);
 	}
 
-	private void sendLine(String raw) {
+	/** @return true when the line was sent (or deliberately ignored), false when it should be kept. */
+	private boolean sendLine(String raw) {
 		Config cfg = Config.get();
 		String msg = raw.trim();
-		if (msg.isEmpty()) return;
+		if (msg.isEmpty()) return true;
 
 		boolean isCommand = msg.startsWith("/");
 		if (!isCommand || cfg.expandShortcutsInCommands) {
@@ -214,12 +227,18 @@ public class ChatterBoxChatScreen extends ChatScreen {
 		// Typing in a DM sub-folder auto-whispers to that person.
 		if (!isCommand && ChatStore.INSTANCE.isInDmSubfolder()) {
 			String partner = ChatStore.INSTANCE.activeDmPartner();
+			if (partner.startsWith("#")) {
+				// group chat: whisper every member, tagged for ChatterBox clients
+				return ChatStore.INSTANCE.sendToGroup(partner.substring(1), msg,
+						line -> handleChatInput("/" + line, true));
+			}
 			String cmd = cfg.whisperCommand + " " + partner + " " + msg;
 			handleChatInput("/" + cmd, true);
-			return;
+			return true;
 		}
 
 		handleChatInput(msg, true);
+		return true;
 	}
 
 	// ------------------------------------------------------------------
@@ -340,6 +359,18 @@ public class ChatterBoxChatScreen extends ChatScreen {
 				boolean active = !allActive && partner.equalsIgnoreCase(store.activeDmPartner());
 				drawTab(g, font, dx, dy, dx + w, dy + 11, label, active);
 				tabs.add(new Tab(dx, dx + w, dy, dy + 11, Folder.DM, partner, false, false));
+				dx += w + 1;
+			}
+			// group chats appear as "#name" tabs
+			for (GroupChat group : store.groups()) {
+				if (group == null || group.name.isEmpty()) continue;
+				int unread = badges ? store.dmUnread("#" + group.name) : 0;
+				String label = tabLabel("#" + group.name, unread);
+				w = font.width(label) + 8;
+				if (dx + w > this.width - 20) break;
+				boolean active = !allActive && ("#" + group.name).equalsIgnoreCase(store.activeDmPartner());
+				drawTab(g, font, dx, dy, dx + w, dy + 11, label, active);
+				tabs.add(new Tab(dx, dx + w, dy, dy + 11, Folder.DM, "#" + group.name, false, false));
 				dx += w + 1;
 			}
 			if (dx + 14 <= this.width - 2) {

@@ -19,6 +19,7 @@ import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import net.minecraft.network.chat.Component;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.config.GroupChat;
 
 /**
  * Client-side chat store: keeps all messages with metadata, tracks the active
@@ -41,6 +42,9 @@ public final class ChatStore {
 	private final Map<String, String> dmPartners = new java.util.LinkedHashMap<>();
 	private final Map<String, String> drafts = new ConcurrentHashMap<>();
 	private final Map<String, List<String>> queuedLines = new ConcurrentHashMap<>();
+	/** "[~group] text" whispers we sent ourselves recently — their server echoes are dropped. */
+	private final Map<String, Long> recentGroupSends = new ConcurrentHashMap<>();
+	private static final long GROUP_ECHO_MS = 5000L;
 
 	private long sessionId = 1;
 	private long lastCommandSentAt;
@@ -108,20 +112,24 @@ public final class ChatStore {
 
 	private void handleIncoming(Component message, boolean chatMessage, boolean playerSource, GameProfile sender,
 			String chatSenderName, GuiMessageSource source, @Nullable GuiMessageTag tag) {
-		String localName = null;
-		try {
-			if (Minecraft.getInstance().getUser() != null) {
-				localName = Minecraft.getInstance().getUser().getName();
-			}
-		} catch (Throwable ignored) {
-			// username unavailable (title screen etc.) - bracket whispers just
-			// won't be recognised until we join a world
-		}
+		String localName = localName();
 		MessageClassifier.Result result = MessageClassifier.classify(message, chatMessage, playerSource, sender,
 				chatSenderName, localName, lastCommandSentAt, Config.get().commandFeedbackFolder);
 
 		if (result.folder() == Folder.DM && result.dmPartner() != null) {
-			addDmPartner(result.dmPartner());
+			GroupChat.Tag groupTag = GroupChat.parseTag(result.dmContent());
+			if (groupTag != null) {
+				// A group-chat message from another ChatterBox player (or the
+				// server's echo of our own send).
+				if (result.outgoing() && isRecentGroupSend(groupTag.name(), groupTag.text())) {
+					return; // our own send - already stored locally
+				}
+				syncGroupFromTag(groupTag, result.sender(), localName);
+				result = new MessageClassifier.Result(Folder.DM, "#" + groupTag.name(),
+						result.sender(), groupTag.text(), result.outgoing());
+			} else {
+				addDmPartner(result.dmPartner());
+			}
 		}
 
 		ChatEntry entry = new ChatEntry(message, result.folder(), result.dmPartner(), Instant.now(),
@@ -307,6 +315,88 @@ public final class ChatStore {
 	}
 
 	// ------------------------------------------------------------------
+	// Group chats
+	// ------------------------------------------------------------------
+
+	/** All known group chats (live view of the config). */
+	public List<GroupChat> groups() {
+		return Config.get().groups;
+	}
+
+	/** The local player's username, or null when not available (menus etc.). */
+	private @Nullable String localName() {
+		try {
+			if (Minecraft.getInstance().getUser() != null) {
+				return Minecraft.getInstance().getUser().getName();
+			}
+		} catch (Throwable ignored) {
+		}
+		return null;
+	}
+
+	private static String groupKey(String group, String text) {
+		return GroupChat.normalizeName(group) + "|" + text.toLowerCase(Locale.ROOT);
+	}
+
+	private boolean isRecentGroupSend(String group, String text) {
+		Long at = recentGroupSends.get(groupKey(group, text));
+		return at != null && System.currentTimeMillis() - at < GROUP_ECHO_MS;
+	}
+
+	/** Creates/joins the group from an incoming tagged message and syncs its roster. */
+	private void syncGroupFromTag(GroupChat.Tag tag, @Nullable String sender, @Nullable String self) {
+		try {
+			List<String> roster = new ArrayList<>(tag.roster());
+			if (self != null) {
+				roster.removeIf(m -> m.equalsIgnoreCase(self));
+			}
+			Config.get().syncGroup(tag.name(), roster, sender);
+		} catch (Throwable t) {
+			io.github.zirren.chatterbox.ChatterBoxClient.LOGGER
+					.warn("ChatterBox: could not sync group chat '{}'", tag.name(), t);
+		}
+	}
+
+	/**
+	 * Sends one message to every member of a group: a whisper per member, each
+	 * carrying the {@code [~name|roster]} tag so other ChatterBox clients
+	 * thread it into the same group. The outgoing line is stored once locally;
+	 * the server's whisper echoes are dropped.
+	 *
+	 * @param commandSender receives full commands without the leading slash
+	 * @return false when the group does not exist or has no other members
+	 */
+	public boolean sendToGroup(String groupName, String text, java.util.function.Consumer<String> commandSender) {
+		GroupChat group = Config.get().group(groupName);
+		if (group == null) return false;
+		String self = localName();
+		List<String> targets = new ArrayList<>();
+		for (String member : group.members) {
+			if (member == null || member.isBlank()) continue;
+			if (self != null && member.equalsIgnoreCase(self)) continue;
+			targets.add(member);
+		}
+		if (targets.isEmpty()) return false;
+
+		List<String> roster = new ArrayList<>(targets);
+		if (self != null) roster.add(self);
+		String tagged = GroupChat.buildTag(group.name, roster) + " " + text;
+		for (String member : targets) {
+			commandSender.accept(Config.get().whisperCommand + " " + member + " " + tagged);
+		}
+
+		recentGroupSends.put(groupKey(group.name, text), System.currentTimeMillis());
+		String display = "[" + (self == null ? "?" : self) + " → #" + group.name + "] " + text;
+		ChatEntry entry = new ChatEntry(Component.literal(display), Folder.DM, "#" + group.name, Instant.now(),
+				null, display, text, true, sessionId, GuiMessageSource.SYSTEM_CLIENT, null);
+		entries.add(entry);
+		trim();
+		if (Config.get().chatLog) fileLogger.append(entry);
+		notifyUi(entry, null);
+		return true;
+	}
+
+	// ------------------------------------------------------------------
 	// Drafts & queued lines
 	// ------------------------------------------------------------------
 
@@ -386,6 +476,7 @@ public final class ChatStore {
 		dmUnread.clear();
 		drafts.clear();
 		queuedLines.clear();
+		recentGroupSends.clear();
 		ChatDisplay.clear();
 	}
 

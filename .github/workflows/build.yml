@@ -907,7 +907,7 @@ jobs:
           # release notes with the checksum table visible on the release page
           NOTES=$(mktemp --suffix=.md)
           {
-            echo "ChatterBox $TAG - chat folders, DMs, mention sounds + Tune Maker + rule options, search, logs, pins, compression, drafts, queue, timestamps, ModMenu config. For Minecraft 26.2 & 26.3, Fabric Loader 0.19.3-0.19.5, Java 25."
+            echo "ChatterBox $TAG - chat folders, DMs, group chats, mention sounds + Tune Maker + rule options, search, logs, pins, compression, drafts, queue, timestamps, ModMenu config. For Minecraft 26.2 & 26.3, Fabric Loader 0.19.3-0.19.5, Java 25."
             echo ""
             echo "## Download integrity"
             echo ""

@@ -23,6 +23,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.FormattedText;
 
 import io.github.zirren.chatterbox.config.Config;
+import io.github.zirren.chatterbox.config.GroupChat;
 import io.github.zirren.chatterbox.mixin.ChatComponentAccessor;
 import io.github.zirren.chatterbox.mixin.ChatComponentInvoker;
 
@@ -212,7 +213,7 @@ public final class ChatDisplay {
 			MutableComponent header = Component.literal(time + "<" + entry.sender + "> ")
 					.withStyle(ChatFormatting.GRAY);
 			out.append(header);
-			out.append(buildBody(font, entry.original, entry, maxWidth));
+			out.append(buildBody(font, displayComponent(entry), entry, maxWidth));
 			return out;
 		}
 
@@ -220,11 +221,24 @@ public final class ChatDisplay {
 		if (!time.isEmpty()) {
 			out.append(Component.literal(time).withStyle(ChatFormatting.GRAY));
 		}
-		out.append(entry.original);
+		out.append(displayComponent(entry));
 		if (entry.repeatCount > 1) {
 			out.append(Component.literal(" (" + entry.repeatCount + ")").withStyle(ChatFormatting.GRAY));
 		}
 		return out;
+	}
+
+	/**
+	 * The message as shown in non-DM views. Group-chat whispers carry a
+	 * {@code [~name|roster]} tag; it is rendered as a compact "#name" so the
+	 * tag machinery stays invisible.
+	 */
+	private static Component displayComponent(ChatEntry entry) {
+		if (entry.folder == Folder.DM && entry.dmContent != null && GroupChat.hasTag(entry.text)) {
+			return Component.literal(GroupChat.replaceTags(entry.original.getString()))
+					.withStyle(entry.original.getStyle());
+		}
+		return entry.original;
 	}
 
 	/** Colored prefix tag shown in the All folder for non-chat messages. */

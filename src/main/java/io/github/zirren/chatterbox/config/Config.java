@@ -13,6 +13,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import org.jspecify.annotations.Nullable;
 
 /**
  * ChatterBox configuration, stored as JSON in {@code config/chatterbox.json}.
@@ -68,6 +69,10 @@ public final class Config {
 	/** Known DM partners (auto-added on whispers, or manually). Order preserved. */
 	public List<String> dmPartners = new ArrayList<>();
 
+	// --- Group chats ---
+	/** Group chats with other ChatterBox players (see {@link GroupChat}). */
+	public List<GroupChat> groups = new ArrayList<>();
+
 	// --- Sound picker ---
 	/** Whether the sound picker lists all sounds instead of just note block instruments. */
 	public boolean soundPickerAllSounds = false;
@@ -115,6 +120,25 @@ public final class Config {
 		if (shortcuts == null) shortcuts = ShortcutsDefaults.staticShortcuts();
 		if (dynamicShortcuts == null) dynamicShortcuts = ShortcutsDefaults.dynamicDefaults();
 		if (dmPartners == null) dmPartners = new ArrayList<>();
+		if (groups == null) groups = new ArrayList<>();
+		// normalize + dedupe groups by name (first one wins)
+		List<GroupChat> cleanGroups = new ArrayList<>();
+		for (GroupChat group : groups) {
+			if (group == null) continue;
+			group.name = GroupChat.normalizeName(group.name);
+			if (group.name.isEmpty()) continue;
+			if (group.members == null) group.members = new ArrayList<>();
+			group.members.removeIf(m -> m == null || m.isBlank() || m.contains(","));
+			boolean dup = false;
+			for (GroupChat kept : cleanGroups) {
+				if (kept.name.equals(group.name)) {
+					dup = true;
+					break;
+				}
+			}
+			if (!dup) cleanGroups.add(group);
+		}
+		groups = cleanGroups;
 		if (whisperCommand == null) whisperCommand = "msg";
 		whisperCommand = switch (whisperCommand.toLowerCase()) {
 			case "w", "tell" -> whisperCommand.toLowerCase();
@@ -157,6 +181,87 @@ public final class Config {
 
 	public boolean isDynamicShortcutEnabled(String token) {
 		return dynamicShortcuts.getOrDefault(token, Boolean.TRUE);
+	}
+
+	// ------------------------------------------------------------------
+	// Group chats
+	// ------------------------------------------------------------------
+
+	/** Finds a group by name (case-insensitive), or null. */
+	public @Nullable GroupChat group(String name) {
+		String key = GroupChat.normalizeName(name);
+		for (GroupChat g : groups) {
+			if (g.name.equals(key)) return g;
+		}
+		return null;
+	}
+
+	/** Inserts a group, or replaces the existing one with the same name. */
+	public void putGroup(GroupChat group) {
+		group.name = GroupChat.normalizeName(group.name);
+		group.members.removeIf(m -> m == null || m.isBlank() || m.contains(","));
+		for (int i = 0; i < groups.size(); i++) {
+			if (groups.get(i).name.equals(group.name)) {
+				groups.set(i, group);
+				save();
+				return;
+			}
+		}
+		groups.add(group);
+		save();
+	}
+
+	public void removeGroup(String name) {
+		String key = GroupChat.normalizeName(name);
+		groups.removeIf(g -> g.name.equals(key));
+		save();
+	}
+
+	/**
+	 * Makes sure a group with this name exists and has at least the sender as
+	 * a member; when the incoming tag carried a roster, the roster wins (the
+	 * sender's member list is the most recent one).
+	 *
+	 * @param roster member names without yourself (already filtered by the caller)
+	 * @param sender who sent the tagged message (fallback when there is no roster)
+	 */
+	public GroupChat syncGroup(String name, List<String> roster, @Nullable String sender) {
+		GroupChat group = group(name);
+		if (group == null) {
+			group = new GroupChat(name);
+			groups.add(group);
+		}
+		List<String> wanted = new ArrayList<>();
+		if (roster != null) {
+			for (String m : roster) {
+				if (m == null || m.isBlank()) continue;
+				boolean dup = false;
+				for (String w : wanted) {
+					if (w.equalsIgnoreCase(m)) {
+						dup = true;
+						break;
+					}
+				}
+				if (!dup) wanted.add(m);
+			}
+		}
+		if (sender != null && !sender.isBlank()) {
+			boolean has = false;
+			for (String w : wanted) {
+				if (w.equalsIgnoreCase(sender)) {
+					has = true;
+					break;
+				}
+			}
+			if (!has) wanted.add(sender);
+		}
+		if (!wanted.isEmpty()) {
+			group.members = wanted;
+		} else if (group.members.isEmpty() && sender != null && !sender.isBlank()) {
+			group.members.add(sender);
+		}
+		save();
+		return group;
 	}
 
 	private static final class ChatterBoxLog {
